@@ -6,8 +6,9 @@ module.exports = (sequelize, DataTypes) => {
     address: DataTypes.STRING,
     UserId: DataTypes.INTEGER
   }, {});
-  ShippingAddress.associate = function(models) {
+  ShippingAddress.associate = function (models) {
     // associations can be defined here
+    ShippingAddress.belongsTo(models.User)
   };
   return ShippingAddress;
 };

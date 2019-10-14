@@ -9,8 +9,15 @@ module.exports = (sequelize, DataTypes) => {
     address: DataTypes.STRING,
     birthday: DataTypes.DATE
   }, {});
-  User.associate = function(models) {
+  User.associate = function (models) {
     // associations can be defined here
+    User.hasMany(models.ShippingAddress)
+    User.hasMany(models.Order)
+    User.belongsToMany(models.Coupon, {
+      through: models.UserCoupon,
+      foreignKey: 'UserId',
+      as: 'OwnCoupons'
+    })
   };
   return User;
 };

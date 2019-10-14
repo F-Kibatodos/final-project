@@ -13,8 +13,9 @@ module.exports = (sequelize, DataTypes) => {
     UserId: DataTypes.INTEGER,
     CouponId: DataTypes.INTEGER
   }, {});
-  Order.associate = function(models) {
+  Order.associate = function (models) {
     // associations can be defined here
+    Order.belongsTo(models.User)
   };
   return Order;
 };
