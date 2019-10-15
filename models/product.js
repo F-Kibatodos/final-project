@@ -15,17 +15,17 @@ module.exports = (sequelize, DataTypes) => {
   )
   Product.associate = function(models) {
     Product.belongsTo(models.Category)
-    Product.belongsToMany(mdoels.User, {
+    Product.belongsToMany(models.User, {
       through: models.WishItem,
       foreignKey: 'ProductId',
       as: WishedUsers
     })
-    Product.belongsToMany(mdoels.Order, {
-      through: models.WishItem,
+    Product.belongsToMany(models.Order, {
+      through: models.OrderItem,
       foreignKey: 'ProductId',
       as: OfOrders
     })
-    Product.belongsToMany(mdoels.Cart, {
+    Product.belongsToMany(models.Cart, {
       through: models.CartItem,
       foreignKey: 'ProductId',
       as: OfCarts
