@@ -54,7 +54,7 @@ module.exports = app => {
   app.get('/admin/products/edit', adminProductController.editProduct)
   app.post('/admin/products', adminProductController.createProduct)
   app.put('/admin/products/:id', adminProductController.putProduct)
-  app.delete('/admin/products', adminProductController.deleteProduct)
+  app.delete('/admin/products/:id', adminProductController.deleteProduct)
   // 移除不當評論
   app.put('/admin/comments/:id', adminCommentController.putComment)
   // 聯絡資訊
@@ -64,12 +64,12 @@ module.exports = app => {
   app.get('/admin/coupons', adminCouponController.getCoupons)
   app.post('/admin/coupons', adminCouponController.createCoupon)
   app.put('/admin/coupons/:id', adminCouponController.putCoupon)
-  app.delete('/admin/coupons', adminCouponController.deleteCoupon)
+  app.delete('/admin/coupons/:id', adminCouponController.deleteCoupon)
   // 後台訂單
   app.get('/admin/orders', adminOrderController.getOrders)
   app.post('/admin/orders', adminOrderController.createOrder)
   app.put('/admin/orders/:id', adminOrderController.putOrder)
-  app.delete('/admin/orders', adminOrderController.deleteOrder)
+  app.delete('/admin/orders/:id', adminOrderController.deleteOrder)
   // reply
   app.post('/admin/replies/:id', adminReplyController.createreply)
   app.put('/admin/replies/:id', adminReplyController.putreply)
