@@ -1,8 +1,8 @@
 const cartController = {
-  getcart: (req, res) => {
+  getCart: (req, res) => {
     res.render('cart')
   },
-  putcart: (req, res) => {
+  putCart: (req, res) => {
     // 更新購物車
   }
 }
