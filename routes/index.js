@@ -40,8 +40,8 @@ module.exports = app => {
   app.post('/shipping-info/:userId', userController.createShippingInfo)
   app.put('/shipping-info/:userId/:id', userController.putShippingInfo)
   // 購物車
-  app.get('/cart', cartController.getcart)
-  app.put('/cart', cartController.putcart)
+  app.get('/cart', cartController.getCart)
+  app.put('/cart', cartController.putCart)
   //願望清單
   app.get('/wishlist/:userId', userController.getWishlist)
   app.put('/wishlist/:userId', userController.putWishlist)
@@ -58,7 +58,7 @@ module.exports = app => {
   // 移除不當評論
   app.put('/admin/comments/:id', adminCommentController.putComment)
   // 聯絡資訊
-  app.put('/admin/contact', adminContactController.putcontact)
+  app.put('/admin/contact', adminContactController.putContact)
   app.get('/admin/contact/edit', adminContactController.editContact)
   // 後台折價券
   app.get('/admin/coupons', adminCouponController.getCoupons)
@@ -71,7 +71,7 @@ module.exports = app => {
   app.put('/admin/orders/:id', adminOrderController.putOrder)
   app.delete('/admin/orders/:id', adminOrderController.deleteOrder)
   // reply
-  app.post('/admin/replies/:id', adminReplyController.createreply)
-  app.put('/admin/replies/:id', adminReplyController.putreply)
-  app.delete('/admin/replies/:id', adminReplyController.deletereply)
+  app.post('/admin/replies/:id', adminReplyController.createReply)
+  app.put('/admin/replies/:id', adminReplyController.putReply)
+  app.delete('/admin/replies/:id', adminReplyController.deleteReply)
 }
