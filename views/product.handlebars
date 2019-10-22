@@ -1,1 +1,107 @@
-<h2>單一商品</h2>
+<div class="container">
+  <div class="row mt-3">
+    <div class="image col-md-5">
+      <img src="https://via.placeholder.com/350" alt="" style="width: 80%">
+      <div class="buttons-and-rating d-flex justify-content-between mt-3" style="width: 80%">
+        <div class="ratings">
+          <div class="empty_star">★★★★★</div>
+          <div class="full_star" style="width: 83%">★★★★★</div>
+        </div>
+        <button class="btn btn-primary">分享</button>
+        <button class="btn btn-danger">喜歡</button>
+      </div>
+    </div>
+    <div class="col-md-7">
+      <h3 class="my-3">冰鎮紅茶</h3>
+      <section class="sugar mb-3">
+        <h4>甜度</h4>
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+          <label class="btn btn-outline-info">
+            <input type="radio" name="sugar" value="無糖" />無糖
+          </label>
+          <label class="btn btn-outline-info">
+            <input type="radio" name="sugar" value="微糖" />微糖
+          </label>
+          <label class="btn btn-outline-info">
+            <input type="radio" name="sugar" value="半糖" />半糖
+          </label>
+          <label class="btn btn-outline-info">
+            <input type="radio" name="sugar" value="少糖" />少糖
+          </label>
+          <label class="btn btn-outline-info active">
+            <input type="radio" name="sugar" value="正常甜" checked="checked" />正常甜
+          </label>
+        </div>
+      </section>
+
+      <section class="ice mb-3">
+        <h4>冰塊</h4>
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+          <label class="btn btn-outline-primary">
+            <input type="radio" name="ice" value="去冰" />去冰
+          </label>
+          <label class="btn btn-outline-primary">
+            <input type="radio" name="ice" value="少冰" />少冰
+          </label>
+          <label class="btn btn-outline-primary active">
+            <input type="radio" name="ice" value="正常" checked />正常
+          </label>
+        </div>
+      </section>
+      <div class="form-group row" style="width: 30%">
+        <label for="amount" class="col-md-5">
+          <h4>數量</h4>
+        </label>
+        <div class="col-md-6 pl-0">
+          <input type="number" class="form-control" name="amount" id="amount" placeholder="1">
+        </div>
+      </div>
+      <button class="btn btn-info">加入購物車</button>
+      <button class="btn btn-info">直接購買</button>
+    </div>
+  </div>
+  <div class="description">
+    <h2 class="mt-4">商品介紹</h2>
+    <hr>
+    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolorum temporibus vitae quod nostrum! Dolore assumenda
+      rerum mollitia voluptatem saepe fugiat, voluptatum sed commodi magnam debitis laudantium expedita id eos sit.</p>
+  </div>
+  <div class="feedback">
+    <h2 class="mt-4">評價</h2>
+    <hr>
+    <h5 class="mb-1">張OO</h5>
+    <div class="ratings">
+      <div class="empty_star" style="font-size: 20px">★★★★★</div>
+      <div class="full_star" style="width: 85%; font-size: 20px">★★★★★</div>
+    </div>
+    <p class="text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. In ducimus laudantium aliquid, fuga quam
+      quas libero quae? Reprehenderit, optio sapiente.</p>
+    <h6>店家</h6>
+    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cum, perferendis.</p>
+  </div>
+</div>
+
+<style>
+  .ratings {
+    position: relative;
+    vertical-align: middle;
+    display: inline-block;
+    color: #ddd;
+    /*背景星星顏色*/
+    overflow: hidden;
+    font-size: 30px;
+    /*調整字體大小可放大縮小星星*/
+    text-shadow: 0px 1px 0 #999;
+  }
+
+  .full_star {
+    /*調整寬度可變更星等*/
+    position: absolute;
+    left: 0;
+    top: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #d56a16;
+    /*前景星星顏色*/
+  }
+</style>
