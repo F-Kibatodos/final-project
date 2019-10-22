@@ -6,10 +6,13 @@ const orderController = {
     res.render('order')
   },
   createOrder: (req, res) => {
-    // 新增訂單
+    res.render('payment')
   },
   buyNow: (req, res) => {
     // 直接購買
+  },
+  checkCoupon: (req, res) => {
+    // 確認折扣券是否符合
   }
 }
 
