@@ -1,6 +1,6 @@
 const userController = {
   getUsers: (req, res) => {
-    res.render('admin/orders')
+    res.render('admin/users')
   }
 }
 
