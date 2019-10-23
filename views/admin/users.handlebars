@@ -1,1 +1,57 @@
-<h2>使用者清單</h2>
+<div class="container">
+  <h2>所有使用者列表</h2>
+  <form action="/admin/users/search" method="GET">
+    <div class="form-inline">
+      <input type="search" class="form-control" id="search" name="q" placeholder="查詢使用者..." style="width: 225px">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </form>
+
+  <br />
+  <a href="/admin/users">Users 使用者管理</a>
+  <span>|</span>
+  <a href="/admin/orders">Orders 訂單管理</a>
+  <span>|</span>
+  <a href="/admin/products">Products 商品管理</a>
+  <span>|</span>
+  <a href="/admin/coupons">Coupons 折扣券管理</a>
+  <span>|</span>
+  <a href="/admin/contact">Contact 編輯店家資訊</a>
+  <br />
+  <br />
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">編號</th>
+        <th scope="col">使用者名稱</th>
+        <th scope="col">Email</th>
+        <th scope="col">權限</th>
+        <th scope="col">操作選項</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each users}}
+      <tr>
+        <th scope="row">{{this.id}}</th>
+        <td>{{this.name}}</td>
+        <td>{{this.email}}</td>
+        {{#if this.isAdmin}}
+        <td>Admin</td>
+        <td>
+          <form action="#" method="POST" style="display: inline;">
+            <button type="submit" class="btn btn-outline-secondary">Set as User</button>
+          </form>
+        </td>
+        {{else}}
+        <td>User</td>
+        <td>
+          <form action="#" method="POST" style="display: inline;">
+            <button type="submit" class="btn btn-outline-primary">Set as Admin</button>
+          </form>
+        </td>
+        {{/if}}
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
