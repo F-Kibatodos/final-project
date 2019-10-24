@@ -48,7 +48,9 @@ module.exports = app => {
   app.get('/contact', contactController.getContact)
 
   // 後台
+  // 管理使用者操作
   app.get('/admin/users', adminUserController.getUsers)
+  app.put('/admin/users/:id', adminUserController.putUser)
   // 後台商品
   app.get('/admin/products', adminProductController.getProducts)
   app.get('/admin/products/edit', adminProductController.editProduct)

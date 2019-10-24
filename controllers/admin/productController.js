@@ -1,6 +1,18 @@
+const db = require('../../models')
+const Product = db.Product
+const Category = db.Category
+
 const productController = {
   getProducts: (req, res) => {
-    res.render('admin/products')
+    Product.findAll({ include: [Category] })
+      .then((products) => {
+        const data = products.map(product => {
+          return {
+            ...product.dataValues
+          }
+        })
+        return res.render('admin/products', { products: data })
+      })
   },
   createProducts: (req, res) => {
     res.render('admin/createProducts')

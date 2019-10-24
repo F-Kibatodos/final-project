@@ -1,57 +1,62 @@
-<div class="container">
-  <h2>所有使用者列表</h2>
-  <form action="/admin/users/search" method="GET">
-    <div class="form-inline">
-      <input type="search" class="form-control" id="search" name="q" placeholder="查詢使用者..." style="width: 225px">
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
-  </form>
+<h2>所有使用者列表</h2>
+<form action="/admin/users/search" method="GET">
+  <div class="form-inline">
+    <input type="search" class="form-control" id="search" name="q" placeholder="查詢使用者..." style="width: 225px">
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+</form>
 
-  <br />
-  <a href="/admin/users">Users 使用者管理</a>
-  <span>|</span>
-  <a href="/admin/orders">Orders 訂單管理</a>
-  <span>|</span>
-  <a href="/admin/products">Products 商品管理</a>
-  <span>|</span>
-  <a href="/admin/coupons">Coupons 折扣券管理</a>
-  <span>|</span>
-  <a href="/admin/contact">Contact 編輯店家資訊</a>
-  <br />
-  <br />
-  <table class="table">
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col">編號</th>
-        <th scope="col">使用者名稱</th>
-        <th scope="col">Email</th>
-        <th scope="col">權限</th>
-        <th scope="col">操作選項</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each users}}
-      <tr>
-        <th scope="row">{{this.id}}</th>
-        <td>{{this.name}}</td>
-        <td>{{this.email}}</td>
-        {{#if this.isAdmin}}
-        <td>Admin</td>
-        <td>
-          <form action="#" method="POST" style="display: inline;">
-            <button type="submit" class="btn btn-outline-secondary">Set as User</button>
-          </form>
-        </td>
-        {{else}}
-        <td>User</td>
-        <td>
-          <form action="#" method="POST" style="display: inline;">
-            <button type="submit" class="btn btn-outline-primary">Set as Admin</button>
-          </form>
-        </td>
-        {{/if}}
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
-</div>
+<br />
+<ul class="nav nav-tabs nav-fill">
+  <li class="nav-item">
+    <a class="nav-link active" href="/admin/users">Users 使用者管理</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/admin/orders">Orders 訂單管理</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/admin/products">Products 商品管理</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/admin/coupons">Coupons 折扣券管理</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/admin/contact/edit">Contact 編輯店家資訊</a>
+  </li>
+</ul>
+<br />
+<table class="table row mx-0 table-hover">
+  <thead class="thead-dark w-100">
+    <tr class="row mx-0">
+      <th class="col-1" scope="col">＃</th>
+      <th class="col-2" scope="col">名稱</th>
+      <th class="col-4" scope="col">Email</th>
+      <th class="col-2" scope="col">權限</th>
+      <th class="col-3" scope="col">操作選項</th>
+    </tr>
+  </thead>
+  <tbody class="w-100">
+    {{#each users}}
+    <tr class="row mx-0">
+      <th class="col-1" scope="row">{{this.id}}</th>
+      <td class="col-2">{{this.name}}</td>
+      <td class="col-4">{{this.email}}</td>
+      {{#if this.role}}
+      <td class="col-2">管理員</td>
+      <td class="col-3">
+        <form action="/admin/users/{{this.id}}?_method=PUT" method="POST" style="display: inline;">
+          <button type="submit" class="btn btn-outline-secondary">一般用戶</button>
+        </form>
+      </td>
+      {{else}}
+      <td class="col-2">用戶</td>
+      <td class="col-3">
+        <form action="/admin/users/{{this.id}}?_method=PUT" method="POST" style="display: inline;">
+          <button type="submit" class="btn btn-outline-primary">管理員</button>
+        </form>
+      </td>
+      {{/if}}
+    </tr>
+    {{/each}}
+  </tbody>
+</table>

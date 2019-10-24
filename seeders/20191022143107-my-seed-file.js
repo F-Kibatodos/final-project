@@ -152,12 +152,12 @@ module.exports = {
   down: (queryInterface, Sequelize) => {
     queryInterface.bulkDelete('Users', null, {})
     queryInterface.bulkDelete('ShippingAddresses', null, {})
-    queryInterface.bulkDelete('Products', null, {})
     queryInterface.bulkDelete('Categories', null, {})
     queryInterface.bulkDelete('Coupons', null, {})
     queryInterface.bulkDelete('Discounts', null, {})
     queryInterface.bulkDelete('Carts', null, {})
     queryInterface.bulkDelete('UserCoupons', null, {})
+    queryInterface.bulkDelete('Products', null, {})
     return queryInterface.bulkDelete('CartItems', null, {})
   }
 };
