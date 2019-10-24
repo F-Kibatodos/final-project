@@ -18,7 +18,8 @@ const contactController = require('../controllers/contactController')
 module.exports = app => {
   // 首頁
   app.get('/', (req, res) => {
-    res.render('index')
+    const rating = 90
+    res.render('index', { rating })
   })
   // 使用者
   app.get('/user/:id', userController.getUser)
@@ -58,6 +59,7 @@ module.exports = app => {
   app.get('/admin/users', adminUserController.getUsers)
   // 後台商品
   app.get('/admin/products', adminProductController.getProducts)
+  app.get('/admin/products/create', adminProductController.createProducts)
   app.get('/admin/products/edit', adminProductController.editProduct)
   app.post('/admin/products', adminProductController.createProduct)
   app.put('/admin/products/:id', adminProductController.putProduct)

@@ -1,1 +1,154 @@
-<h1>我是首頁</h1>
+<div class="container mb-3">
+  <div class="search d-flex justify-content-end">
+    <div class="dropdown mt-2">排序：
+      <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        價格(高到低)
+      </a>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <a class="dropdown-item" href="/?keyword={{keyword}}&month={{month}}&sortKey=date&sortValue=-1">價格(高到低)</a>
+        <a class="dropdown-item" href="/?keyword={{keyword}}&month={{month}}&sortKey=date&sortValue=1">價格(低到高)</a>
+        <a class="dropdown-item" href="/?keyword={{keyword}}&month={{month}}&sortKey=amount&sortValue=-1">評價(高到低))</a>
+        <a class="dropdown-item" href="/?keyword={{keyword}}&month={{month}}&sortKey=amount&sortValue=1">評價(低到高)</a>
+      </div>
+    </div>
+    <nav class="navbar navbar-light">
+      <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </nav>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+      <section class="category mt-3">
+        <h4>分類</h4>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+          <label class="form-check-label" for="inlineCheckbox1">基茶</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+          <label class="form-check-label" for="inlineCheckbox2">奶茶</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+          <label class="form-check-label" for="inlineCheckbox3">鮮奶茶</label>
+        </div>
+      </section>
+      <section class="category mt-3">
+        <h4>價格</h4>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+          <label class="form-check-label" for="inlineCheckbox1">30以下</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+          <label class="form-check-label" for="inlineCheckbox2">30-40</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+          <label class="form-check-label" for="inlineCheckbox3">40-50</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="option4">
+          <label class="form-check-label" for="inlineCheckbox4">50-60</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="option5">
+          <label class="form-check-label" for="inlineCheckbox5">60以上</label>
+        </div>
+      </section>
+    </div>
+    <div class="col-md-10">
+      <h3 class="mt-3">本月 Top 3</h3>
+      <hr>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card" style="width: 18rem;">
+            <div class=image>
+              <img src="https://via.placeholder.com/100" class="card-img-top" alt="...">
+              <button class="btn btn-danger float-left ml-1 mt-2" style="width: 48%">喜歡</button>
+              <button class="btn btn-danger float-right mr-1 mt-2" style="width: 48%">加入購物車</button>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">冰鎮紅茶</h5>
+              <div class="ratings">
+                <div class="empty_star">★★★★★</div>
+                <div class="full_star" style="width: {{rating}}%">★★★★★</div>
+              </div>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+                content.</p>
+              <p class="float-right">$25</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card" style="width: 18rem;">
+            <div class=image>
+              <img src="https://via.placeholder.com/100" class="card-img-top" alt="...">
+              <button class="btn btn-danger float-left ml-1 mt-2" style="width: 48%">喜歡</button>
+              <button class="btn btn-danger float-right mr-1 mt-2" style="width: 48%">加入購物車</button>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">抹茶拿鐵</h5>
+              <div class="ratings">
+                <div class="empty_star">★★★★★</div>
+                <div class="full_star" style="width: 80%">★★★★★</div>
+              </div>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+                content.</p>
+              <p class="float-right">$50</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card" style="width: 18rem;">
+            <div class=image>
+              <img src="https://via.placeholder.com/100" class="card-img-top" alt="...">
+              <button class="btn btn-danger float-left ml-1 mt-2" style="width: 48%">喜歡</button>
+              <button class="btn btn-danger float-right mr-1 mt-2" style="width: 48%">加入購物車</button>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">冰鎮紅茶</h5>
+              <div class="ratings">
+                <div class="empty_star">★★★★★</div>
+                <div class="full_star" style="width: {{rating}}%">★★★★★</div>
+              </div>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                card's
+                content.</p>
+              <p class="float-right">$25</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  <style>
+    .ratings {
+      position: relative;
+      vertical-align: middle;
+      display: inline-block;
+      color: #ddd;
+      /*背景星星顏色*/
+      overflow: hidden;
+      font-size: 20px;
+      /*調整字體大小可放大縮小星星*/
+      text-shadow: 0px 1px 0 #999;
+    }
+
+    .full_star {
+      /*調整寬度可變更星等*/
+      position: absolute;
+      left: 0;
+      top: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      color: #d56a16;
+      /*前景星星顏色*/
+    }
+  </style>
