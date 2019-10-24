@@ -1,1 +1,114 @@
-<h2>單一訂單</h2>
+<div class="container">
+  <h2>單一訂單</h2>
+  <div class="row">
+    <div class="col-md-9">
+      <h4 class="p-2" style="color: #EEE3D4; background-color:#023B4F;">訂單資訊</h4>
+      <div class="card">
+        <div class="card-header">
+          <span>訂單編號 XXXXXX</span>
+          <span>訂購日期 XXXX/XX/XX</span>
+        </div>
+        <table class="table">
+          <thead style="background-color: #013b4f; color: #bc955c">
+            <tr>
+              <th scope="col" style="width: 40%">Product</th>
+              <th scope="col" style="width: 20%">Price</th>
+              <th scope="col" style="width: 20%">Quantity</th>
+              <th scope="col" style="width: 20%">Total Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{!-- {{#each }} CartItems --}}
+            <tr>
+              <td>
+                <div class="row">
+                  <div class="col-4"><img
+                      src="https://images.pexels.com/photos/3090274/pexels-photo-3090274.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                      class="img-thumbnail img-sm"></div>
+                  <div class="col-8">
+                    <h4 class="title text-truncate">綠茶</h4>
+                    <div>
+                      半糖、少冰
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div>
+                  <h6>傳進來的單價</h6>
+                </div>
+              </td>
+              <td>
+                <div style="display: flex;">
+                  <span style="margin: 0 20px;">
+                    {{this.OrderItem.quantity}}傳進來的數量
+                  </span>
+                </div>
+              </td>
+              <td>
+                <div>
+                  <h6>傳進來的單價*quantity</h6>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="row">
+                  <div class="col-4"><img
+                      src="https://images.pexels.com/photos/3090274/pexels-photo-3090274.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                      class="img-thumbnail img-sm"></div>
+                  <div class="col-8">
+                    <h4 class="title text-truncate">綠茶</h4>
+                    <div>
+                      半糖、少冰
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div>
+                  <h6>傳進來的單價</h6>
+                </div>
+              </td>
+              <td>
+                <div style="display: flex;">
+                  <span style="margin: 0 20px;">
+                    {{this.OrderItem.quantity}}傳進來的數量
+                  </span>
+                </div>
+              </td>
+              <td>
+                <div>
+                  <h6>傳進來的單價*quantity</h6>
+                </div>
+              </td>
+            </tr>
+            {{!-- {{/each}} --}}
+
+          </tbody>
+        </table>
+        <div class="card-footer">
+          <h4>收件資訊</h4>
+          <div>自取 or 收件人資訊</div>
+        </div>
+      </div>
+    </div>
+    <nav class="col-md-3 bg-light sidebar pt-3">
+      <div class="sidebar-sticky">
+        <div>
+          <h4>Order Summary</h4>
+          <div>訂購價格: 30 {{totalPrice}}</div>
+          <div>折扣後價格: 20 {{discountPrice}}</div>
+        </div>
+        <hr>
+        <div>
+          運費: 0
+        </div>
+        <hr>
+        <div>
+          總價: 20 {{order.amount}}
+        </div>
+      </div>
+    </nav>
+  </div>
+</div>

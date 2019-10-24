@@ -1,1 +1,133 @@
-<h2>c購物車頁面</h2>
+<div class="container">
+  <h2 style="color: #023B4F">購物車</h2>
+  <h4>總共?杯</h4>
+  <div class="row">
+    <div class="col-md-9">
+      <div class="card">
+        <table class="table table-hover">
+          <thead style="background-color: #013b4f; color: #bc955c ">
+            <tr>
+              <th scope="col" style="width: 40%">Product</th>
+              <th scope="col" style="width: 20%">Price</th>
+              <th scope="col" style="width: 20%">Quantity</th>
+              <th scope="col" style="width: 20%">Total Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{!-- {{#each }} CartItems --}}
+            <tr>
+              <td>
+                <div class="row">
+                  <div class="col-4"><img
+                      src="https://images.pexels.com/photos/3090274/pexels-photo-3090274.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                      class="img-thumbnail img-sm"></div>
+                  <div class="col-8">
+                    <h4 class="title text-truncate">綠茶</h4>
+                    <div>
+                      半糖、少冰
+                    </div>
+                    <div class="mt-2">
+                      <form action="/cartItem/購物車Item的Id?_method=DELETE" method="POST" style="display: inline">
+                        <button type="submit" class="btn" name="id"
+                          style="background-color: #023B4F; color: white; font-size: small">Delete</button>
+                      </form>
+
+                      <a href="/product/產品的Id/">
+                        <button type="button" class="btn" name="wish"
+                          style="background-color:red; color: white; font-size: small"><i
+                            class="fa fa-heart mr-2"></i>加入願望清單</button>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div>
+                  <h6>傳進來的單價</h6>
+                </div>
+              </td>
+              <td>
+                <div style="display: flex;">
+                  <form action="/cartItem/{{this.CartItem.id}}/add" method="POST">
+                    <button type="submit" class="btn btn-sm btn-outline-secondary">+</button>
+                  </form>
+                  <span style="margin: 0 20px;">
+                    {{this.CartItem.quantity}}傳進來的數量
+                  </span>
+                  <form action="/cartItem/{{this.CartItem.id}}/sub" method="POST">
+                    <button type="submit" class="btn btn-sm btn-outline-secondary">-</button>
+                  </form>
+                </div>
+              </td>
+              <td>
+                <div>
+                  <h6>傳進來的單價*quantity</h6>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="row">
+                  <div class="col-4"><img
+                      src="https://images.pexels.com/photos/3090274/pexels-photo-3090274.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                      class="img-thumbnail img-sm"></div>
+                  <div class="col-8">
+                    <h4 class="title text-truncate">綠茶</h4>
+                    <div>
+                      半糖、少冰
+                    </div>
+                    <div class="mt-2">
+                      <form action="/cartItem/購物車Item的Id?_method=DELETE" method="POST" style="display: inline">
+                        <button type="submit" class="btn" name="id"
+                          style="background-color: #023B4F; color: white; font-size: small">Delete</button>
+                      </form>
+
+                      <a href="/product/產品的Id/">
+                        <button type="button" class="btn" name="wish"
+                          style="background-color:red; color: white; font-size: small"><i
+                            class="fa fa-heart mr-2"></i>加入願望清單</button>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div>
+                  <h6>傳進來的單價</h6>
+                </div>
+              </td>
+              <td>
+                <div style="display: flex;">
+                  <form action="/cartItem/{{this.CartItem.id}}/add" method="POST">
+                    <button type="submit" class="btn btn-sm btn-outline-secondary">+</button>
+                  </form>
+                  <span style="margin: 0 20px;">
+                    {{this.CartItem.quantity}}傳進來的數量
+                  </span>
+                  <form action="/cartItem/{{this.CartItem.id}}/sub" method="POST">
+                    <button type="submit" class="btn btn-sm btn-outline-secondary">-</button>
+                  </form>
+                </div>
+              </td>
+              <td>
+                <div>
+                  <h6>傳進來的單價*quantity</h6>
+                </div>
+              </td>
+            </tr>
+            {{!-- {{/each}} --}}
+
+          </tbody>
+        </table>
+        <div class="card-footer">
+          <h4>Total: </h4>
+        </div>
+
+      </div>
+      <div style="text-align:right" class="mt-2">
+        <a href="/shipping-info/:userId"><button class="btn"
+            style="background-color: #023B4F; color: white;">下一步</button></a>
+      </div>
+    </div>
+  </div>
+</div>

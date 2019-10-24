@@ -42,10 +42,17 @@ module.exports = app => {
   // 購物車
   app.get('/cart', cartController.getCart)
   app.put('/cart', cartController.putCart)
+  app.delete('/cartItem/:id', cartController.deleteCartItem)
   //願望清單
   app.get('/wishlist/:userId', userController.getWishlist)
-  app.put('/wishlist/:userId', userController.putWishlist)
+  // app.put('/wishlist/:userId', userController.putWishlist)
+  app.post('/product/:id/wish', userController.addWish)
+  app.post('/product/:id/unwish', userController.removeWish)
+
   app.get('/contact', contactController.getContact)
+  // 使用折扣券
+  app.post('/check-coupon', orderController.checkCoupon)
+
 
   // 後台
   app.get('/admin/users', adminUserController.getUsers)

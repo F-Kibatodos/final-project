@@ -1,1 +1,43 @@
-<h2>個人所有訂單</h2>
+<div class="container">
+  <h2>個人所有訂單</h2>
+  <div class="row">
+    <div class="input-group mb-3 col-md-4">
+      <div class="input-group-prepend">
+        <label class="input-group-text" for="orderPeriod">訂單時間</label>
+      </div>
+      <select class="custom-select" id="orderPeriod" name="orderPeriod">
+        <option value="0" selected>6個月內</option>
+        <option value="1">1年內</option>
+        <option value="2">全部</option>
+      </select>
+      <a href="/orders/:userId" class="ml-2"><button type="button" class="btn btn-primary">確認</button></a>
+    </div>
+    <table class="table table-hover shopping-cart-wrap col-md-10">
+      <thead style="background-color: #013b4f; color: #bc955c">
+        <tr>
+          <th scope="col" style="width: 40%">Order Number</th>
+          <th scope="col" style="width: 30%">Order Date</th>
+          <th scope="col" style="width: 30%">#</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{!-- {{#each }} Orders --}}
+        <tr>
+          <td>
+            訂單號碼XXXXXXX
+          </td>
+          <td>
+            2019/10/10
+          </td>
+          <td>
+            <a href="/orders/:userId/:orderId'"><button type="button" class="btn"
+                style="background-color: #023B4F; color: white;">訂單內容</button></a>
+          </td>
+        </tr>
+        {{!-- {{/each}} --}}
+      </tbody>
+    </table>
+
+  </div>
+
+</div>

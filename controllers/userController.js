@@ -25,7 +25,13 @@ const userController = {
   },
   putWishlist: (req, res) => {
     // 更改願望清單
-  }
+  },
+  addWish: (req, res) => {
+    // 新增願望清單品項
+  },
+  removeWish: (req, res) => {
+    // 移除願望清單品項
+  },
 }
 
 module.exports = userController
