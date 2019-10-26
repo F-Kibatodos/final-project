@@ -19,23 +19,27 @@ const Category = db.Category
 const Product = db.Product
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
+const displayCategory = require('../config/displayCategories')
+const displayPriceMenu = require('../config/displayPriceMenu')
 
 module.exports = app => {
   // 首頁
   app.get('/', (req, res) => {
-    const priceRange = [[0, 30], [31, 40], [41, 50], [51, 60], [60, 100]]
+    const priceRange = [[0, 30], [31, 40], [41, 50], [51, 60], [61, 100]]
     let sortKey = req.query.sortKey || 'price'
     let sortValue = req.query.sortValue || 'DESC'
     let categoryFilter = req.query.category
     let where = {}
     if (categoryFilter) where.CategoryId = categoryFilter
     let price = req.query.priceRange
+    let priceFilterMenu = displayPriceMenu(price)
     if (price) {
       price = JSON.parse('[' + price + ']')
       where.price = { [Op.between]: price }
     }
     let search = req.query.search
     if (search) where.name = { [Op.like]: '%' + search + '%' }
+    let categoryFilterMenu = displayCategory(categoryFilter)
     const rating = 90
     Product.findAll({
       include: [Category],
@@ -55,7 +59,9 @@ module.exports = app => {
           price,
           categoryFilter,
           priceRange,
-          search
+          search,
+          categoryFilterMenu: categoryFilterMenu || '所有分類',
+          priceFilterMenu: priceFilterMenu || '所有價格'
         })
       })
     })
