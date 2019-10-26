@@ -14,12 +14,51 @@ const orderController = require('../controllers/orderController')
 const commentController = require('../controllers/commentController')
 const productController = require('../controllers/productController')
 const contactController = require('../controllers/contactController')
+const db = require('../models')
+const Category = db.Category
+const Product = db.Product
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 
 module.exports = app => {
   // 首頁
   app.get('/', (req, res) => {
+    const priceRange = [[0, 30], [31, 40], [41, 50], [51, 60], [60, 100]]
+    let sortKey = req.query.sortKey || 'price'
+    let sortValue = req.query.sortValue || 'DESC'
+    let categoryFilter = req.query.category
+    let where = {}
+    if (categoryFilter) where.CategoryId = categoryFilter
+    let price = req.query.priceRange
+    if (price) {
+      price = JSON.parse('[' + price + ']')
+      where.price = { [Op.between]: price }
+    }
+    let search = req.query.search
+    if (search) where.name = { [Op.like]: '%' + search + '%' }
     const rating = 90
-    res.render('index', { rating })
+    Product.findAll({
+      include: [Category],
+      order: [[sortKey, sortValue]],
+      where
+    }).then(products => {
+      const drinks = products.map(drink => ({
+        ...drink.dataValues,
+        description: drink.dataValues.description
+          ? drink.dataValues.description.substring(0, 50)
+          : ''
+      }))
+      Category.findAll().then(category => {
+        res.render('index', {
+          drinks,
+          category,
+          price,
+          categoryFilter,
+          priceRange,
+          search
+        })
+      })
+    })
   })
   // 使用者
   app.get('/user/:id', userController.getUser)
@@ -53,7 +92,6 @@ module.exports = app => {
   app.get('/contact', contactController.getContact)
   // 使用折扣券
   app.post('/check-coupon', orderController.checkCoupon)
-
 
   // 後台
   app.get('/admin/users', adminUserController.getUsers)

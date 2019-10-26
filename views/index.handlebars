@@ -1,40 +1,75 @@
 <div class="container mb-3">
   <div class="search d-flex justify-content-end">
+    <div class="dropdown mr-3 mt-2">
+      <a class="btn btn-secondary dropdown-toggle month-sort-menu" href="#" role="button" id="dropdownMenuLink"
+        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        選擇分類
+      </a>
+      <div class="dropdown-menu month" aria-labelledby="dropdownMenuLink">
+        <a class="dropdown-item"
+          href="/?category=&priceRange={{price}}=&sortKey={{sortKey}}&sortValue={{sortValue}}">全部</a>
+        {{#each category}}
+        <a class="dropdown-item"
+          href="/?category={{this.id}}&priceRange={{../price}}&sortKey={{sortKey}}&sortValue={{sortValue}}">{{this.name}}</a>
+        {{/each}}
+      </div>
+    </div>
+    <!--        價格       -->
+    <div class="dropdown mr-3 mt-2">
+      <a class="btn btn-secondary dropdown-toggle month-sort-menu" href="#" role="button" id="dropdownMenuLink"
+        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        選擇價格範圍
+      </a>
+      <div class="dropdown-menu month" aria-labelledby="dropdownMenuLink">
+        <a class="dropdown-item"
+          href="/?category={{categoryFilter}}&priceRange=&sortKey={{sortKey}}&sortValue={{sortValue}}">全部</a>
+        {{#each priceRange}}
+        <a class="dropdown-item"
+          href="/?category={{../categoryFilter}}&priceRange={{this}}&sortKey={{sortKey}}&sortValue={{sortValue}}">{{this}}</a>
+        {{/each}}
+      </div>
+    </div>
     <div class="dropdown mt-2">排序：
       <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
         aria-haspopup="true" aria-expanded="false">
         價格(高到低)
       </a>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-        <a class="dropdown-item" href="/?keyword={{keyword}}&month={{month}}&sortKey=date&sortValue=-1">價格(高到低)</a>
-        <a class="dropdown-item" href="/?keyword={{keyword}}&month={{month}}&sortKey=date&sortValue=1">價格(低到高)</a>
-        <a class="dropdown-item" href="/?keyword={{keyword}}&month={{month}}&sortKey=amount&sortValue=-1">評價(高到低))</a>
-        <a class="dropdown-item" href="/?keyword={{keyword}}&month={{month}}&sortKey=amount&sortValue=1">評價(低到高)</a>
+        <a class="dropdown-item"
+          href="/?category={{categoryFilter}}&priceRange={{price}}&sortKey=price&sortValue=DESC">價格(高到低)</a>
+        <a class="dropdown-item"
+          href="/?category={{categoryFilter}}&priceRange={{price}}&sortKey=price&sortValue=ASC">價格(低到高)</a>
+        <a class="dropdown-item"
+          href="/?category={{categoryFilter}}&priceRange={{price}}&sortKey=rating&sortValue=-1">評價(高到低))</a>
+        <a class="dropdown-item"
+          href="/?category={{categoryFilter}}&priceRange={{price}}&sortKey=rating&sortValue=1">評價(低到高)</a>
       </div>
     </div>
-    <nav class="navbar navbar-light">
-      <form class="form-inline">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
-    </nav>
+    <div class="row" id="search-bar">
+      <div class="col-12">
+        <form action="/">
+          <div class="input-group mt-2 ml-3">
+            <input type="text" name="search" class="form-control" placeholder="請輸入關鍵字" aria-label="drinks"
+              aria-describedby="search-button">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="submit" id="search-button">Search</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
   <div class="row">
+    <!--
     <div class="col-md-2">
       <section class="category mt-3">
         <h4>分類</h4>
+        {{#each category}}
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-          <label class="form-check-label" for="inlineCheckbox1">基茶</label>
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="{{this.name}}">
+          <label class="form-check-label" for="inlineCheckbox1">{{this.name}}</label>
         </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-          <label class="form-check-label" for="inlineCheckbox2">奶茶</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
-          <label class="form-check-label" for="inlineCheckbox3">鮮奶茶</label>
-        </div>
+        {{/each}}
       </section>
       <section class="category mt-3">
         <h4>價格</h4>
@@ -60,73 +95,39 @@
         </div>
       </section>
     </div>
-    <div class="col-md-10">
-      <h3 class="mt-3">本月 Top 3</h3>
+    -->
+    <div class="col-md-12">
+      {{#each category}}
+      <h3 class="mt-3">{{this.name}}</h3>
       <hr>
       <div class="row">
-        <div class="col-md-4">
-          <div class="card" style="width: 18rem;">
+        {{#each ../drinks}}
+        {{#ifCond this.Category.name ../this.name}}
+        <div class="col-md-4 mb-2">
+          <div class="card">
             <div class=image>
-              <img src="https://via.placeholder.com/100" class="card-img-top" alt="...">
+              <a href="/product/{{this.id}}">
+                <img src={{this.image}} class="card-img-top" alt="{{this.name}}">
+              </a>
               <button class="btn btn-danger float-left ml-1 mt-2" style="width: 48%">喜歡</button>
               <button class="btn btn-danger float-right mr-1 mt-2" style="width: 48%">加入購物車</button>
             </div>
             <div class="card-body">
-              <h5 class="card-title">冰鎮紅茶</h5>
+              <h5 class="card-title">{{this.name}}</h5>
               <div class="ratings">
                 <div class="empty_star">★★★★★</div>
-                <div class="full_star" style="width: {{rating}}%">★★★★★</div>
+                <div class="full_star" style="width: {{this.rating}}%">★★★★★</div>
               </div>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                content.</p>
-              <p class="float-right">$25</p>
+              <p class="card-text">{{this.description}}</p>
+              <p class="float-right">${{this.price}}</p>
             </div>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="card" style="width: 18rem;">
-            <div class=image>
-              <img src="https://via.placeholder.com/100" class="card-img-top" alt="...">
-              <button class="btn btn-danger float-left ml-1 mt-2" style="width: 48%">喜歡</button>
-              <button class="btn btn-danger float-right mr-1 mt-2" style="width: 48%">加入購物車</button>
-            </div>
-            <div class="card-body">
-              <h5 class="card-title">抹茶拿鐵</h5>
-              <div class="ratings">
-                <div class="empty_star">★★★★★</div>
-                <div class="full_star" style="width: 80%">★★★★★</div>
-              </div>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                content.</p>
-              <p class="float-right">$50</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="card" style="width: 18rem;">
-            <div class=image>
-              <img src="https://via.placeholder.com/100" class="card-img-top" alt="...">
-              <button class="btn btn-danger float-left ml-1 mt-2" style="width: 48%">喜歡</button>
-              <button class="btn btn-danger float-right mr-1 mt-2" style="width: 48%">加入購物車</button>
-            </div>
-            <div class="card-body">
-              <h5 class="card-title">冰鎮紅茶</h5>
-              <div class="ratings">
-                <div class="empty_star">★★★★★</div>
-                <div class="full_star" style="width: {{rating}}%">★★★★★</div>
-              </div>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                card's
-                content.</p>
-              <p class="float-right">$25</p>
-            </div>
-          </div>
-        </div>
-
+        {{/ifCond}}
+        {{/each}}
       </div>
+      {{/each}}
     </div>
-
   </div>
   <style>
     .ratings {

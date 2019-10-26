@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     'Product',
     {
       name: DataTypes.STRING,
-      description: DataTypes.STRING,
+      description: DataTypes.TEXT,
       price: DataTypes.INTEGER,
       image: DataTypes.STRING,
       CategoryId: DataTypes.INTEGER,
@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   )
-  Product.associate = function (models) {
+  Product.associate = function(models) {
     Product.belongsTo(models.Category)
     Product.belongsToMany(models.User, {
       through: models.WishItem,
