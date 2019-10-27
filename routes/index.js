@@ -60,8 +60,8 @@ module.exports = app => {
   // 移除不當評論
   app.put('/admin/comments/:id', adminCommentController.putComment)
   // 聯絡資訊
-  app.put('/admin/contact', adminContactController.putContact)
   app.get('/admin/contact/edit', adminContactController.editContact)
+  app.put('/admin/contact/edit/:id', adminContactController.putContact)
   // 後台折價券
   app.get('/admin/coupons', adminCouponController.getCoupons)
   app.post('/admin/coupons', adminCouponController.createCoupon)

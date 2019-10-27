@@ -1,0 +1,42 @@
+h2{
+  margin:20px;
+  text-align: center;
+}
+
+h3{
+  margin: 10px 0px;
+}
+
+.address{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:300px;
+  font-size:24px;
+}
+
+.address span .fa-map-marker-alt{
+  font-size:24px;
+  color:#D4AF37;
+}
+
+.card-header{
+  background-color: transparent;
+}
+
+.fab,.fas{
+  margin:10px;
+  font-size:48px;
+}
+
+.fa-facebook-square{
+  color:#3b5998;
+}
+
+.fa-line{
+  color:#00c300;
+}
+
+.fa-envelope{
+  color:#023B4F;
+}

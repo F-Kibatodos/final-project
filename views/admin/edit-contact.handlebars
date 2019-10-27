@@ -1,9 +1,134 @@
-<h2>更改聯絡資訊頁面</h2>
+<h2>所有店面列表</h2>
+<form action="/admin/orders/search" method="GET">
+  <div class="form-inline">
+    <input type="search" class="form-control" id="search" name="q" placeholder="查詢店面..." style="width: 225px">
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+</form>
+
+<br />
+<ul class="nav nav-tabs nav-fill">
+  <li class="nav-item">
+    <a class="nav-link" href="/admin/users">Users 使用者管理</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/admin/orders">Orders 訂單管理</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/admin/products">Products 商品管理</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/admin/coupons">Coupons 折扣券管理</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="/admin/contact/edit">Contacts 編輯店面資訊</a>
+  </li>
+</ul>
+<br />
+<a href="/contact">
+  <button class="btn btn-lg btn-outline-info col-12" type="submit">前台聯絡頁面
+  </button>
+</a>
+{{#if oddOrEven}}
 <div class="row">
-  <div class="col-md-6">
-    <h3>left</h3>
+  {{#each branches}}
+  <div class="col-12">
+    <form action="/admin/contact/edit/{{this.id}}?_method=PUT" method="POST">
+      <br />
+      <div class="text-center mb-4">
+        <h2 class="h3 mb-3 font-weight-normal">{{this.name}} 門市</h2>
+      </div>
+      <br />
+      <div class="form-label-group">
+        <label for="inputName">門市名稱</label>
+        <input type="text" name="name" class="form-control" placeholder="Name" value="{{this.name}}" required autofocus>
+      </div>
+      <br />
+      <div class="form-label-group">
+        <label for="inputPhone">電話</label>
+        <input type="text" name="phone" class="form-control" placeholder="phone" value="{{this.phone}}" required
+          autofocus>
+      </div>
+      <br />
+      <div class="form-label-group">
+        <label for="inputAddress">地址</label>
+        <input type="text" name="address" class="form-control" placeholder="address" value="{{this.address}}" required
+          autofocus>
+      </div>
+      <br />
+      <div class="form-label-group">
+        <label for="inputFacebook">Facebook</label>
+        <input type="text" name="facebook" class="form-control" placeholder="Facebook" value="{{this.facebook_site}}"
+          required autofocus>
+      </div>
+      <br />
+      <div class="form-label-group">
+        <label for="inputEmail">Line</label>
+        <input type="text" name="line" class="form-control" placeholder="Line" value="{{this.line_site}}" required
+          autofocus>
+      </div>
+      <br />
+      <div class="form-label-group">
+        <label for="inputEmail">Email</label>
+        <input type="text" name="email" class="form-control" placeholder="Email" value="{{this.email_site}}" required
+          autofocus>
+      </div>
+      <br />
+      <button class="btn btn-lg btn-outline-success btn-block" type="submit">更新
+      </button>
+    </form>
   </div>
-  <div class="col-md-6">
-    <h3>right</h3>
-  </div>
+  {{/each}}
 </div>
+{{else}}
+<div class="row">
+  {{#each branches}}
+  <div class="col-6">
+    <form action="/admin/contact/edit/{{this.id}}?_method=PUT" method="POST">
+      <br />
+      <div class="text-center mb-4">
+        <h2 class="h3 mb-3 font-weight-normal">{{this.name}} 門市</h2>
+      </div>
+      <br />
+      <div class="form-label-group">
+        <label for="inputName">門市名稱</label>
+        <input type="text" name="name" class="form-control" placeholder="Name" value="{{this.name}}" required autofocus>
+      </div>
+      <br />
+      <div class="form-label-group">
+        <label for="inputPhone">電話</label>
+        <input type="text" name="phone" class="form-control" placeholder="phone" value="{{this.phone}}" required
+          autofocus>
+      </div>
+      <br />
+      <div class="form-label-group">
+        <label for="inputAddress">地址</label>
+        <input type="text" name="address" class="form-control" placeholder="address" value="{{this.address}}" required
+          autofocus>
+      </div>
+      <br />
+      <div class="form-label-group">
+        <label for="inputFacebook">Facebook</label>
+        <input type="text" name="facebook" class="form-control" placeholder="Facebook" value="{{this.facebook_site}}"
+          required autofocus>
+      </div>
+      <br />
+      <div class="form-label-group">
+        <label for="inputEmail">Line</label>
+        <input type="text" name="line" class="form-control" placeholder="Line" value="{{this.line_site}}" required
+          autofocus>
+      </div>
+      <br />
+      <div class="form-label-group">
+        <label for="inputEmail">Email</label>
+        <input type="text" name="email" class="form-control" placeholder="Email" value="{{this.email_site}}" required
+          autofocus>
+      </div>
+      <br />
+      <button class="btn btn-lg btn-outline-success btn-block" type="submit">更新
+      </button>
+    </form>
+  </div>
+  {{/each}}
+</div>
+{{/if}}
