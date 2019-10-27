@@ -62,7 +62,7 @@ module.exports = (app, passport) => {
   app.get('/orders/:userId/:orderId', authenticated, orderController.getOrder)
   app.post('/order/:userId', authenticated, orderController.createOrder)
   // 直接購買(query string)
-  app.post('/cart', orderController.buyNow)
+  // app.post('/cart', orderController.buyNow)
   // 出貨資訊
   app.get(
     '/shipping-info/:userId',
@@ -81,7 +81,9 @@ module.exports = (app, passport) => {
   )
   // 購物車
   app.get('/cart', cartController.getCart)
-  app.put('/cart', cartController.putCart)
+  app.post('/cart', cartController.postCart)
+  app.post('/cartItem/:id/add', cartController.addCartItem)
+  app.post('/cartItem/:id/sub', cartController.subCartItem)
   app.delete('/cartItem/:id', cartController.deleteCartItem)
   //願望清單
   app.get('/wishlist/:userId', authenticated, userController.getWishlist)
