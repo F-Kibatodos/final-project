@@ -19,6 +19,8 @@ const Category = db.Category
 const Product = db.Product
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
+const multer = require('multer')
+const upload = multer({ dest: 'temp/' })
 const displayCategory = require('../config/displayCategories')
 const displayPriceMenu = require('../config/displayPriceMenu')
 
@@ -104,9 +106,17 @@ module.exports = app => {
   // 後台商品
   app.get('/admin/products', adminProductController.getProducts)
   app.get('/admin/products/create', adminProductController.createProducts)
-  app.get('/admin/products/edit', adminProductController.editProduct)
-  app.post('/admin/products', adminProductController.createProduct)
-  app.put('/admin/products/:id', adminProductController.putProduct)
+  app.get('/admin/products/:id/edit', adminProductController.editProduct)
+  app.post(
+    '/admin/products',
+    upload.single('image'),
+    adminProductController.postProduct
+  )
+  app.put(
+    '/admin/products/:id',
+    upload.single('image'),
+    adminProductController.putProduct
+  )
   app.delete('/admin/products/:id', adminProductController.deleteProduct)
   // 移除不當評論
   app.put('/admin/comments/:id', adminCommentController.putComment)

@@ -1,10 +1,17 @@
+const db = require('../models')
+const User = db.User
+
 const userController = {
   // ========使用者========
   getUser: (req, res) => {
-    res.render('profile')
+    User.findByPk(req.params.id).then(user => {
+      res.render('profile', { user })
+    })
   },
   editUser: (req, res) => {
-    res.render('edit-profile')
+    User.findByPk(req.params.id).then(user => {
+      res.render('edit-profile', { user })
+    })
   },
   putUser: (req, res) => {
     // 修改使用者資訊
@@ -31,7 +38,7 @@ const userController = {
   },
   removeWish: (req, res) => {
     // 移除願望清單品項
-  },
+  }
 }
 
 module.exports = userController

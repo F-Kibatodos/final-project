@@ -1,33 +1,23 @@
 <div class="container">
-  <div class="search d-flex justify-content-center">
-    <nav class="navbar navbar-light">
-      <form class="form-inline">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
-    </nav>
-  </div>
-  <div class="row mt-3">
-    <div class="col-md-6">
-      <div class="image text-center">
-        <img src="https://via.placeholder.com/350" alt="">
-      </div>
-      <div class="birthday mt-3">
-        <h2 class="text-center">生日: 2000/01/01</h2>
-      </div>
-      <div class="buttons d-flex justify-content-around mt-3">
-        <form action="/admin/user/1" style="display: inline-block">
-          <button type="submit" class="btn btn-primary">更新</button>
-        </form>
-        <button class="btn btn-primary">上一頁</button>
-      </div>
-    </div>
-    <div class="col-md-6 d-flex flex-wrap align-items-center">
-      <h3 style="width: 100%">名稱: root</h3>
-      <h3 style="width: 100%">密碼: 12345678</h3>
-      <h3 style="width: 100%">E-mail: root@example.com</h3>
-      <h3 style="width: 100%">電話: 0912345678</h3>
-      <h3 style="width: 100%">聯絡地址: 臺北市中正區北平西路3號</h3>
-    </div>
+  <ul class="list-group mt-3">
+    <li class="list-group-item">
+      <h3>名稱: {{user.name}}</h3>
+    </li>
+    <li class="list-group-item">
+      <h3>生日: {{user.birthday}}</h3>
+    </li>
+    <li class="list-group-item">
+      <h3>E-mail: {{user.email}}</h3>
+    </li>
+    <li class="list-group-item">
+      <h3>電話: {{user.phone}}</h3>
+    </li>
+    <li class="list-group-item">
+      <h3>聯絡地址: {{user.address}}</h3>
+    </li>
+  </ul>
+  <div class="buttons d-flex justify-content-around mt-3">
+    <a href="/user/{{user.id}}/edit" class="btn btn-primary">編輯</a>
+    <a href="/" class="btn btn-primary">上一頁</a>
   </div>
 </div>
