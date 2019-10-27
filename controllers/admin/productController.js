@@ -1,12 +1,19 @@
 const imgur = require('imgur-node-api')
-const IMGUR_CLIENT_ID = 'your_client_id'
+const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const db = require('../../models')
 const Product = db.Product
 const Category = db.Category
 
 const productController = {
   getProducts: (req, res) => {
-    res.render('admin/products')
+    Product.findAll({ include: [Category] }).then(products => {
+      const data = products.map(product => {
+        return {
+          ...product.dataValues
+        }
+      })
+      return res.render('admin/products', { products: data })
+    })
   },
   createProducts: (req, res) => {
     Category.findAll().then(categories => {
@@ -33,14 +40,15 @@ const productController = {
     if (file) {
       imgur.setClientID(IMGUR_CLIENT_ID)
       imgur.upload(file.path, (err, img) => {
+        //console.log(err)
         return Product.create({
           name: name,
           description: description,
           price: price,
-          CategoryId: categoryId
-          //image: file ? img.data.link : null
+          CategoryId: categoryId,
+          image: file ? img.data.link : null
         })
-          .then(restaurant => {
+          .then(product => {
             console.log(categoryId)
             req.flash('success_messages', 'product was successfully created')
             return res.redirect('/admin/products')
@@ -54,10 +62,10 @@ const productController = {
         name: name,
         description: description,
         price: price,
-        CategoryId: categoryId
-        //image: null
+        CategoryId: categoryId,
+        image: null
       })
-        .then(restaurant => {
+        .then(product => {
           console.log(categoryId)
           req.flash('success_messages', 'product was successfully created')
           return res.redirect('/admin/products')
@@ -83,8 +91,8 @@ const productController = {
               name: name,
               description: description,
               price: price,
-              CategoryId: categoryId
-              //image: file ? img.data.link : product.image
+              CategoryId: categoryId,
+              image: file ? img.data.link : product.image
             })
             .then(product => {
               req.flash(
@@ -102,8 +110,8 @@ const productController = {
             name: name,
             description: description,
             price: price,
-            CategoryId: categoryId
-            //image: product.image
+            CategoryId: categoryId,
+            image: product.image
           })
           .then(product => {
             req.flash('success_messages', 'product was successfully to update')

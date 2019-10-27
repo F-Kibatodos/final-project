@@ -161,6 +161,7 @@ module.exports = {
     queryInterface.bulkDelete('Discounts', null, {})
     queryInterface.bulkDelete('Carts', null, {})
     queryInterface.bulkDelete('UserCoupons', null, {})
+    queryInterface.bulkDelete('Products', null, {})
     return queryInterface.bulkDelete('CartItems', null, {})
   }
 }
