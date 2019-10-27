@@ -6,6 +6,7 @@ const adminContactController = require('../controllers/admin/contactController')
 const adminCommentController = require('../controllers/admin/commentController')
 const adminProductController = require('../controllers/admin/productController')
 const adminUserController = require('../controllers/admin/userController')
+const adminCategoryController = require('../controllers/admin/categoryController')
 
 // 引進前台 controllers
 const userController = require('../controllers/userController')
@@ -200,4 +201,10 @@ module.exports = (app, passport) => {
     authenticatedAdmin,
     adminReplyController.deleteReply
   )
+  // 後台種類
+  app.get('/admin/categories', authenticatedAdmin, adminCategoryController.getCategories)
+  app.post('/admin/categories', authenticatedAdmin, adminCategoryController.postCategory)
+  app.get('/admin/categories/:id', authenticatedAdmin, adminCategoryController.getCategories)
+  app.put('/admin/categories/:id', authenticatedAdmin, adminCategoryController.putCategory)
+  app.delete('/admin/categories/:id', authenticatedAdmin, adminCategoryController.deleteCategory)
 }

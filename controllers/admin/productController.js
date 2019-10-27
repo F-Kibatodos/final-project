@@ -4,7 +4,7 @@ const Category = db.Category
 
 const productController = {
   getProducts: (req, res) => {
-    Product.findAll({ include: [Category] })
+    Product.findAll({ include: [Category], order: [['name', 'ASC']] })
       .then((products) => {
         const data = products.map(product => {
           return {
