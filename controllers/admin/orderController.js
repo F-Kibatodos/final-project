@@ -1,6 +1,18 @@
+const db = require('../../models')
+const User = db.User
+const Order = db.Order
+
 const orderController = {
   getOrders: (req, res) => {
-    res.render('admin/orders')
+    Order.findAll({ include: [User] })
+      .then((orders) => {
+        const data = orders.map(order => {
+          return {
+            ...order.dataValues
+          }
+        })
+        return res.render('admin/orders', { orders: data })
+      })
   },
   createOrder: (req, res) => {
     // 新增訂單

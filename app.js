@@ -4,12 +4,10 @@ const bodyParser = require('body-parser')
 const flash = require('connect-flash')
 const session = require('express-session')
 const passport = require('./config/passport')
-
 const app = express()
 const session = require('express-session')
 const methodOverride = require('method-override')
 const bodyParser = require('body-parser')
-
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('public'))

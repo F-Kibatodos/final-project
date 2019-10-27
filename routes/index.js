@@ -97,6 +97,7 @@ module.exports = (app, passport) => {
 
   // 後台
   app.get('/admin/users', authenticatedAdmin, adminUserController.getUsers)
+  app.put('/admin/users/:id', authenticatedAdmin, adminUserController.putUser)
   // 後台商品
   app.get(
     '/admin/products',

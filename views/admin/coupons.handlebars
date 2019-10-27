@@ -1,60 +1,53 @@
-<div class="container">
-  <h2>所有折扣券清單</h2>
-  <form action="/admin/coupons/search" method="GET">
-    <div class="form-inline">
-      <input type="search" class="form-control" id="search" name="q" placeholder="請輸入折扣券號碼..." style="width: 225px">
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
-  </form>
+<h2>所有折扣券清單</h2>
+<form action="/admin/coupons/search" method="GET">
+  <div class="form-inline">
+    <input type="search" class="form-control" id="search" name="q" placeholder="請輸入折扣券號碼..." style="width: 225px">
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+</form>
 
-  <br />
-  <a href="/admin/users">Users 使用者管理</a>
-  <span>|</span>
-  <a href="/admin/orders">Orders 訂單管理</a>
-  <span>|</span>
-  <a href="/admin/products">Products 商品管理</a>
-  <span>|</span>
-  <a href="/admin/coupons">Coupons 折扣券管理</a>
-  <span>|</span>
-  <a href="/admin/contact">Contact 編輯店家資訊</a>
-  <br />
-  <br />
-  <table class="table">
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col">編號</th>
-        <th scope="col">折扣碼</th>
-        <th scope="col">起始日期</th>
-        <th scope="col">結束日期</th>
-        <th scope="col">折扣種類</th>
-        <th scope="col">操作選項</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each coupons}}
-      <tr>
-        <th scope="row">{{this.id}}</th>
-        <td>{{this.code}}</td>
-        <td>{{this.start_date}}</td>
-        <td>{{this.end_date}}</td>
-        <td>{{this.Discount.description}}</td>
-        {{#if this.isAdmin}}
-        <td>Admin</td>
-        <td>
-          <form action="#" method="POST" style="display: inline;">
-            <button type="submit" class="btn btn-outline-secondary">Set as User</button>
-          </form>
-        </td>
-        {{else}}
-        <td>User</td>
-        <td>
-          <form action="#" method="POST" style="display: inline;">
-            <button type="submit" class="btn btn-outline-primary">Set as Admin</button>
-          </form>
-        </td>
-        {{/if}}
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
-</div>
+<br />
+<ul class="nav nav-tabs nav-fill">
+  <li class="nav-item">
+    <a class="nav-link" href="/admin/users">Users 使用者管理</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/admin/orders">Orders 訂單管理</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/admin/products">Products 商品管理</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="/admin/coupons">Coupons 折扣券管理</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/admin/contact/edit">Contact 編輯店家資訊</a>
+  </li>
+</ul>
+<br />
+<table class="table table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">編號</th>
+      <th scope="col">折扣碼</th>
+      <th scope="col">起始日期</th>
+      <th scope="col">結束日期</th>
+      <th scope="col">折扣種類</th>
+      <th scope="col">操作選項</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each coupons}}
+    <tr>
+      <th scope="row">{{this.id}}</th>
+      <td>{{this.code}}</td>
+      <td>{{moment this.start_date}}</td>
+      <td>{{moment this.end_date}}</td>
+      <td>{{this.Discount.description}}</td>
+      <td>
+        <button type="submit" class="btn btn-outline-secondary">詳情</button>
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
