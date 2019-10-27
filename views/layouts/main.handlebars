@@ -35,25 +35,7 @@
 
     <div class="banner"></div>
   </header>
-  <div class="container">
-    {{#if success_messages}}
-    <div class="alert alert-success" role="alert" style="margin: 30px 0 ;">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">×</span>
-      </button>
-      {{success_messages}}
-    </div>
-    {{/if}}
-    {{#if error_messages}}
-    <div class="alert alert-danger" role="alert" style="margin: 30px 0 ;">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">×</span>
-      </button>
-      {{error_messages}}
-    </div>
-    {{/if}}
-    {{{body}}}
-  </div>
+  {{{body}}}
   <!--Include JS files-->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
