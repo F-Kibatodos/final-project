@@ -4,24 +4,30 @@ const bodyParser = require('body-parser')
 const flash = require('connect-flash')
 const session = require('express-session')
 const passport = require('./config/passport')
-const app = express()
-const session = require('express-session')
 const methodOverride = require('method-override')
-const bodyParser = require('body-parser')
+const app = express()
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('public'))
-app.engine('handlebars', exphbs({ defaultLayout: 'main', helpers: require('./config/handlebars-helpers') }))
+app.engine(
+  'handlebars',
+  exphbs({
+    defaultLayout: 'main',
+    helpers: require('./config/handlebars-helpers')
+  })
+)
 app.set('view engine', 'handlebars')
 app.use(methodOverride('_method'))
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(session({
-  secret: 'drink',
-  name: 'acaaa',
-  cookie: { maxAge: 80000 },
-  resave: false,
-  saveUninitialized: true,
-}))
+app.use(
+  session({
+    secret: 'drink',
+    name: 'acaaa',
+    cookie: { maxAge: 80000 },
+    resave: false,
+    saveUninitialized: true
+  })
+)
 app.use(flash())
 app.use(passport.initialize())
 app.use(passport.session())
