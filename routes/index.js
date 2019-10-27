@@ -35,14 +35,16 @@ module.exports = app => {
   app.get('/orders/:userId/:orderId', orderController.getOrder)
   app.post('/order/:userId', orderController.createOrder)
   // 直接購買(query string)
-  app.post('/cart', orderController.buyNow)
+  // app.post('/cart', orderController.buyNow)
   // 出貨資訊
   app.get('/shipping-info/:userId', userController.getShippingInfos)
   app.post('/shipping-info/:userId', userController.createShippingInfo)
   app.put('/shipping-info/:userId/:id', userController.putShippingInfo)
   // 購物車
   app.get('/cart', cartController.getCart)
-  app.put('/cart', cartController.putCart)
+  app.post('/cart', cartController.postCart)
+  app.post('/cartItem/:id/add', cartController.addCartItem)
+  app.post('/cartItem/:id/sub', cartController.subCartItem)
   app.delete('/cartItem/:id', cartController.deleteCartItem)
   //願望清單
   app.get('/wishlist/:userId', userController.getWishlist)
