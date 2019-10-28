@@ -58,11 +58,12 @@ module.exports = (app, passport) => {
   app.post('/comment', authenticated, commentController.createComment)
   app.put('/comments/:id', authenticated, commentController.putComment)
   // 訂單
-  app.get('/orders/:userId', authenticated, orderController.getOrders)
-  app.get('/orders/:userId/:orderId', authenticated, orderController.getOrder)
-  app.post('/order/:userId', authenticated, orderController.createOrder)
+  app.get('/orders/:userId', orderController.getOrders)
+  app.get('/orders/:userId/:orderId', orderController.getOrder)
+  app.post('/order/:userId', orderController.createOrder)
+  app.get('/order/shipping-info', orderController.getOrderShippingInfo)
   // 直接購買(query string)
-  // app.post('/cart', orderController.buyNow)
+  app.post('/buynow', cartController.buyNow)
   // 出貨資訊
   app.get(
     '/shipping-info/:userId',
