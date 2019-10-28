@@ -97,9 +97,11 @@ module.exports = (app, passport) => {
   app.post('/check-coupon', authenticated, orderController.checkCoupon)
 
   // 後台
+  app.get('/admin/users/search', authenticatedAdmin, adminUserController.searchUsers)
   app.get('/admin/users', authenticatedAdmin, adminUserController.getUsers)
   app.put('/admin/users/:id', authenticatedAdmin, adminUserController.putUser)
   // 後台商品
+  app.get('/admin/products/search', authenticatedAdmin, adminProductController.searchProducts)
   app.get(
     '/admin/products',
     authenticatedAdmin,
@@ -148,6 +150,7 @@ module.exports = (app, passport) => {
     adminContactController.editContact
   )
   // 後台折價券
+  app.get('/admin/coupons/search', authenticatedAdmin, adminCouponController.searchCoupons)
   app.get(
     '/admin/coupons',
     authenticatedAdmin,
@@ -169,6 +172,7 @@ module.exports = (app, passport) => {
     adminCouponController.deleteCoupon
   )
   // 後台訂單
+  app.get('/admin/orders/search', authenticatedAdmin, adminOrderController.searchOrders)
   app.get('/admin/orders', authenticatedAdmin, adminOrderController.getOrders)
   app.post(
     '/admin/orders',
@@ -204,6 +208,7 @@ module.exports = (app, passport) => {
   // 後台種類
   app.get('/admin/categories', authenticatedAdmin, adminCategoryController.getCategories)
   app.post('/admin/categories', authenticatedAdmin, adminCategoryController.postCategory)
+  app.get('/admin/categories/search', authenticatedAdmin, adminCategoryController.searchCategories)
   app.get('/admin/categories/:id', authenticatedAdmin, adminCategoryController.getCategories)
   app.put('/admin/categories/:id', authenticatedAdmin, adminCategoryController.putCategory)
   app.delete('/admin/categories/:id', authenticatedAdmin, adminCategoryController.deleteCategory)
