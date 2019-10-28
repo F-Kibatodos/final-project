@@ -70,25 +70,8 @@
       <nav class="col-md-3 bg-light sidebar pt-3">
         <div class="sidebar-sticky">
           <div>
-            <input type="text" placeholder="請輸入折扣券碼" name="coupon-code" value="">
-            <button type="submit" class="btn btn-warning">使用</button>
-            {{#if order.CouponId}}
-            <div style="font-size: small">
-              {{!-- 提醒使用者折扣碼是否valid --}}
-              CouponXXXXXXX 有效
-            </div>
-            {{else}}
-            <div style="font-size: small">
-              {{!-- 提醒使用者折扣碼是否valid --}}
-              您輸入的折扣券無效
-            </div>
-            {{/if}}
-          </div>
-          <hr>
-          <div>
             <h4>Order Summary</h4>
             <div>訂購價格: {{totalPrice}}</div>
-            {{!-- <div>折扣後價格: 20 {{discountPrice}}</div> --}}
           </div>
           <hr>
           <div>

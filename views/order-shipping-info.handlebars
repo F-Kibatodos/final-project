@@ -5,7 +5,7 @@
   <h4 class="p-0" style="color: #013b4f">運送方式</h4>
   <hr style="border: 1px solid #023B4F; margin: 5px 0px">
   <hr style="border: 5px solid #023B4F; margin-top: 1px">
-  <form action="/order/1" method="POST" class="mb-3">
+  <form action="/order/userId" method="POST" class="mb-3">
     <div class="form-check form-check-inline">
       <input class="form-check-input" type="radio" name="shipping_method" id="shipping1" value="外送">
       <label class="form-check-label" for="shipping1">外送</label>
@@ -32,12 +32,7 @@
             <input type="text" class="form-control" id="address" name="address" aria-describedby="addressHelp"
               placeholder="請輸入收件人地址">
           </div>
-
-          {{!-- <button type="submit" class="btn m-2" style="background-color: #023B4F; color: white;"> 下一步
-          </button> --}}
-          {{!-- <a href="" class="m-2"><i class=" fas fa-plus-circle"></i> 新增外送地址</a> --}}
         </div>
-
       </div>
       <nav class="col-md-3 bg-light sidebar pt-3">
         <div class="sidebar-sticky">
@@ -47,7 +42,6 @@
             <hr style="border: 5px solid #023B4F; margin-top: 1px">
             <div>
               <span>訂購價格: </span><span id="total-price">{{totalPrice}}</span>
-              {{!-- <div>折扣後價格: </div> --}}
             </div>
             <hr>
             <div>
@@ -70,31 +64,3 @@
     <input type="hidden" name="payment_status" value="0">
   </form>
 </div>
-
-{{!-- <script>
-  $(function () {
-    function calFinalAmount() {
-      $("input[name=shipping_method]:checked").val()
-      const finalAmount = Number($("#total-price").text()) + Number($("#shipping-fee").text())
-      console.log(finalAmount)
-      $("#final-amount").text(finalAmount)
-      $("input[name=amount]").val(finalAmount)
-    }
-    $("input[name=shipping_method]").click(
-      function () {
-        let shippingMethod = $("input[name=shipping_method]:checked").val()
-        console.log('abc', shippingMethod)
-        if (shippingMethod === "自取") {
-          $("#shipping-fee").text("0")
-          console.log('1')
-        }
-        if (shippingMethod === "外送") {
-          $("#shipping-fee").text("60")
-          console.log('2')
-        }
-        calFinalAmount()
-      }
-    )
-    calFinalAmount()
-  })
-</script> --}}
