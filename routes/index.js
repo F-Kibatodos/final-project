@@ -108,7 +108,7 @@ module.exports = (app, passport) => {
   // 訂單
   app.get('/orders/', orderController.getOrders)
   app.get('/orders/:orderId', orderController.getOrder)
-  app.post('/order/:userId', orderController.createOrder)
+  app.post('/order', orderController.createOrder)
   app.get('/order/shipping-info', orderController.getOrderShippingInfo)
   // 直接購買(query string)
   app.post('/buynow', cartController.buyNow)
