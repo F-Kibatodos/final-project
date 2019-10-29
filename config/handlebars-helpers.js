@@ -8,5 +8,8 @@ module.exports = {
   },
   moment: function(time) {
     return moment(time).format('YYYY-MM-DD, HH:mm')
-  }
+  },
+  multiplication: function (a, b, options) {
+    return a * b
+  },
 }

@@ -1,23 +1,36 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
-const methodOverride = require('method-override')
-const session = require('express-session')
 const flash = require('connect-flash')
+const session = require('express-session')
+const passport = require('./config/passport')
+const methodOverride = require('method-override')
 const app = express()
 
-app.use(express.static('public'))
-app.engine('handlebars', exphbs({
-  defaultLayout: 'main',
-  helpers: require('./config/handlebars-helpers')
-}))
-app.set('view engine', 'handlebars')
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.static('public'))
+app.engine(
+  'handlebars',
+  exphbs({
+    defaultLayout: 'main',
+    helpers: require('./config/handlebars-helpers')
+  })
+)
+app.set('view engine', 'handlebars')
 app.use(methodOverride('_method'))
-app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(
+  session({
+    secret: 'drink',
+    name: 'acaaa',
+    cookie: { maxAge: 80000 },
+    resave: false,
+    saveUninitialized: true
+  })
+)
 app.use(flash())
-
-// load local variables
+app.use(passport.initialize())
+app.use(passport.session())
 app.use((req, res, next) => {
   res.locals.success_messages = req.flash('success_messages')
   res.locals.error_messages = req.flash('error_messages')
@@ -25,5 +38,5 @@ app.use((req, res, next) => {
   next()
 })
 
-require('./routes')(app)
+require('./routes')(app, passport)
 app.listen(3000)
