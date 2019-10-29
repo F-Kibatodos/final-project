@@ -66,21 +66,69 @@
   <div class="description">
     <h2 class="mt-4">商品介紹</h2>
     <hr>
-    <span><a href="">#{{product.Category.name}}</a></span>
+    <span><a
+        href="/?category={{product.Category.id}}&priceRange=&sortKey=&sortValue=">#{{product.Category.name}}</a></span>
     <p>{{product.description}}</p>
   </div>
   <div class="feedback">
-    <h2 class="mt-4">評價</h2>
+    <h2 class="mt-4">客戶評價</h2>
     <hr>
-    <h5 class="mb-1">張OO</h5>
+    {{#each modComments}}
+    <h5 class="mb-1">{{this.User.name}}</h5>
     <div class="ratings">
       <div class="empty_star" style="font-size: 20px">★★★★★</div>
-      <div class="full_star" style="width: 85%; font-size: 20px">★★★★★</div>
+      <div class="full_star" style="width: {{this.ranking}}%; font-size: 20px">★★★★★</div>
     </div>
-    <p class="text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. In ducimus laudantium aliquid, fuga quam
-      quas libero quae? Reprehenderit, optio sapiente.</p>
-    <h6>店家</h6>
-    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cum, perferendis.</p>
+    <p class="text">{{this.content}}</p>
+    {{#each this.Replies}}
+    <div class="pl-4">
+      <a href="">#{{this.User.name}}</a>
+      <p>{{this.content}}</p>
+      {{#if ../../user.role}}
+      <form action="/admin/replies/{{this.id}}?_method=PUT" method="POST">
+        <input type="hidden" name="productId" value="{{../../product.id}}" />
+        <button class="btn btn-info btn-sm" type="submit">修改</button>
+      </form>
+      <form action="/admin/replies/{{this.id}}?_method=DELETE" method="POST">
+        <input type="hidden" name="productId" value="{{../../product.id}}" />
+        <button class="btn btn-danger btn-sm" type="submit">刪除</button>
+      </form>
+      {{/if}}
+    </div>
+    {{/each}}
+    {{#if ../user.role}}
+    <form action="/admin/reply" method="POST" class="mb-2">
+      <div class="form-group">
+        <textarea class="form-control" id="adminReply" name="adminReply" rows="3"></textarea>
+      </div>
+      <input type="hidden" name="commentId" value="{{this.id}}">
+      <input type="hidden" name="productId" value="{{../product.id}}" />
+      <button class="btn btn-primary">送出</button>
+    </form>
+    {{/if}}
+    {{/each}}
+  </div>
+  <div class="write-comment">
+    <h2>留下評論</h2>
+    <hr>
+    <form action="/comment" method="POST">
+      <span>評分</span>
+      <span id="result">
+        <ul id="star" class="pl-0">
+          {{#each rank}}
+          <label>
+            <li>★</li>
+            <input type="radio" name="ranking" value='{{this}}' style="display: none">
+          </label>
+          {{/each}}
+        </ul>
+      </span>
+      <div class="form-group">
+        <textarea class="form-control" id="content" name="content" rows="3"></textarea>
+      </div>
+      <input type="hidden" name="productId" value="{{product.id}}" />
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
   </div>
 </div>
 
