@@ -1,5 +1,7 @@
 const db = require('../../models')
 const Category = db.Category
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 
 const categoryController = {
   getCategories: (req, res) => {
@@ -14,9 +16,16 @@ const categoryController = {
       }
     })
   },
-  postCategory: (req, res) => {
+  postCategory: async (req, res) => {
+    let temp = await Category.findAll({ attributes: ['name'], raw: true })
+    const categoryList = await temp.map(item => {
+      return Object.values(item)[0]
+    })
     if (!req.body.name) {
       req.flash('error_messages', '請輸入新名稱')
+      return res.redirect('back')
+    } else if (categoryList.includes(req.body.name)) {
+      req.flash('error_messages', '已有相同種類名稱，請重新輸入')
       return res.redirect('back')
     } else {
       return Category.create({
@@ -49,6 +58,17 @@ const categoryController = {
             res.redirect('/admin/categories')
           })
       })
+  },
+  searchCategories: (req, res) => {
+    Category.findAll({
+      order: [['id', 'ASC']],
+      where: {
+        name:
+          { [Op.like]: '%' + req.query.q + '%' }
+      }
+    }).then(categories => {
+      return res.render('admin/categories', { categories: categories })
+    })
   }
 }
 

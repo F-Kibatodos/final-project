@@ -1,5 +1,7 @@
 const db = require('../../models')
 const User = db.User
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 
 const userController = {
   getUsers: (req, res) => {
@@ -29,6 +31,25 @@ const userController = {
             return res.redirect('/admin/users')
           })
       }
+    })
+  },
+  searchUsers: (req, res) => {
+    User.findAll({
+      where: {
+        [Op.or]: {
+          name:
+            { [Op.like]: '%' + req.query.q + '%' },
+          email:
+            { [Op.like]: '%' + req.query.q + '%' }
+        }
+      }
+    }).then(users => {
+      const data = users.map(user => {
+        return {
+          ...user.dataValues
+        }
+      })
+      return res.render('admin/users', { style: 'admin_users.css', users: data })
     })
   }
 }
