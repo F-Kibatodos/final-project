@@ -1,10 +1,12 @@
-<h2>所有折扣券清單</h2>
-<form action="/admin/coupons/search" method="GET">
-  <div class="form-inline">
-    <input type="search" class="form-control" id="search" name="q" placeholder="請輸入折扣券號碼..." style="width: 225px">
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </div>
-</form>
+<div class="row justify-content-between">
+  <h2>所有折扣券列表</h2>
+  <form action="/admin/users/search" method="GET">
+    <div class="form-inline">
+      <input type="search" class="form-control" id="search" name="q" placeholder="折扣券號" style="width: 100px">
+      <button type="submit" class="btn btn-outline-primary">查詢</button>
+    </div>
+  </form>
+</div>
 
 <br />
 <ul class="nav nav-tabs nav-fill">
@@ -16,6 +18,9 @@
   </li>
   <li class="nav-item">
     <a class="nav-link" href="/admin/products">Products 商品管理</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/admin/categories">Categories 種類管理</a>
   </li>
   <li class="nav-item">
     <a class="nav-link active" href="/admin/coupons">Coupons 折扣券管理</a>

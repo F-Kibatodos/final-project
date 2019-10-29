@@ -6,13 +6,14 @@ const Category = db.Category
 
 const productController = {
   getProducts: (req, res) => {
-    Product.findAll({ include: [Category] }).then(products => {
-      const data = products.map(product => {
-        return {
-          ...product.dataValues
-        }
-      })
-      return res.render('admin/products', { products: data })
+    Product.findAll({ include: [Category], order: [['name', 'ASC']] })
+      .then((products) => {
+        const data = products.map(product => {
+          return {
+            ...product.dataValues
+          }
+        })
+        return res.render('admin/products', { products: data })
     })
   },
   createProducts: (req, res) => {

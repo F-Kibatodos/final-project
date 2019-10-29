@@ -1,0 +1,77 @@
+<div class="row justify-content-between">
+  <h2>所有商品種類列表</h2>
+  <form action="/admin/categories/search" method="GET">
+    <div class="form-inline">
+      <input type="search" class="form-control" id="search" name="q" placeholder="查詢種類" style="width: 100px">
+      <button type="submit" class="btn btn-outline-primary">查詢</button>
+    </div>
+  </form>
+</div>
+<br />
+<div class="row justify-content-center">
+  {{#if category}}
+  <form action="/admin/categories/{{category.id}}?_method=PUT" method="POST">
+    <div class="form-inline">
+      <input type="text" class="form-control" name="name" placeholder="請輸入種類..." value="{{category.name}}"
+        style="width: 225px" required autofocus>
+      <button type="submit" class="btn btn-outline-primary">更新</button>
+    </div>
+  </form>
+  {{else}}
+  <form action="/admin/categories/" method="POST">
+    <div class="form-inline">
+      <input type="text" class="form-control" name="name" placeholder="請輸入種類..." style="width: 350px" required
+        autofocus>
+      <button type="submit" class="btn btn-outline-primary">新增</button>
+    </div>
+  </form>
+  {{/if}}
+</div>
+
+<br />
+<ul class="nav nav-tabs nav-fill">
+  <li class="nav-item">
+    <a class="nav-link" href="/admin/users">Users 使用者管理</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/admin/orders">Orders 訂單管理</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/admin/products">Products 商品管理</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="/admin/categories">Categories 種類管理</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/admin/coupons">Coupons 折扣券管理</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/admin/contact/edit">Contact 編輯店家資訊</a>
+  </li>
+</ul>
+<br />
+<table class="table table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">種類</th>
+      <th scope="col">操作選項</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each categories}}
+    <tr>
+      <th scope="row">{{this.id}}</th>
+      <td>{{this.name}}</td>
+      <td>
+        <a href="/admin/categories/{{this.id}}">
+          <button type="submit" class="btn btn-outline-secondary">編輯</button>
+        </a>
+        <form action="/admin/categories/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
+          <button type="submit" class="btn btn-outline-danger">Delete</button>
+        </form>
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
