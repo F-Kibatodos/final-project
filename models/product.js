@@ -30,6 +30,8 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'ProductId',
       as: 'OfCarts'
     })
+    Product.hasMany(models.CartItem)
+    Product.hasMany(models.OrderItem)
   }
   return Product
 }

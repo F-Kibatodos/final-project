@@ -6,6 +6,11 @@ const session = require('express-session')
 const passport = require('./config/passport')
 const methodOverride = require('method-override')
 const app = express()
+const bodyParser = require('body-parser')
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
