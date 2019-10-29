@@ -35,7 +35,7 @@
                 </td>
                 <td>
                   <div>
-                    <h6>{{this.Product.price}}</h6>
+                    <h6>{{this.price}}</h6>
                   </div>
                 </td>
                 <td>
@@ -47,7 +47,7 @@
                 </td>
                 <td>
                   <div>
-                    <h6>{{#multiplication this.Product.price this.quantity}}{{/multiplication}}</h6>
+                    <h6>{{#multiplication this.price this.quantity}}{{/multiplication}}</h6>
                   </div>
                 </td>
               </tr>
@@ -56,21 +56,24 @@
             </tbody>
           </table>
           <hr>
-          <div>
+          <div class="pb-3">
             <hr style="border: 5px solid #023B4F; margin-bottom: 1px">
             <hr style="border: 1px solid #023B4F; margin: 5px 0px">
             <h4 class="p-0" style="color: #023B4F">收件資訊</h4>
             <hr style="border: 1px solid #023B4F; margin: 5px 0px">
             <hr style="border: 5px solid #023B4F; margin-top: 1px">
-            {{order.shipping_method}}
+            <span class="pl-2">{{order.shipping_method}}</span>
           </div>
         </div>
-
       </div>
-      <nav class="col-md-3 bg-light sidebar pt-3">
+      <nav class="col-md-3 bg-light sidebar">
         <div class="sidebar-sticky">
           <div>
+            <hr style="border: 5px solid #023B4F; margin-bottom: 1px">
+            <hr style="border: 1px solid #023B4F; margin: 5px 0px">
             <h4>Order Summary</h4>
+            <hr style="border: 1px solid #023B4F; margin: 5px 0px">
+            <hr style="border: 5px solid #023B4F; margin-top: 1px">
             <div>訂購價格: {{totalPrice}}</div>
           </div>
           <hr>

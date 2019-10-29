@@ -106,8 +106,8 @@ module.exports = (app, passport) => {
   app.post('/comment', authenticated, commentController.createComment)
   app.put('/comments/:id', authenticated, commentController.putComment)
   // 訂單
-  app.get('/orders/:userId', orderController.getOrders)
-  app.get('/orders/:userId/:orderId', orderController.getOrder)
+  app.get('/orders/', orderController.getOrders)
+  app.get('/orders/:orderId', orderController.getOrder)
   app.post('/order/:userId', orderController.createOrder)
   app.get('/order/shipping-info', orderController.getOrderShippingInfo)
   // 直接購買(query string)
@@ -128,6 +128,8 @@ module.exports = (app, passport) => {
     authenticated,
     userController.putShippingInfo
   )
+  // 第三方支付後callback
+  app.post('/spgateway/callback', orderController.spgatewayCallback)
   // 購物車
   app.get('/cart', cartController.getCart)
   app.post('/cart', cartController.postCart)

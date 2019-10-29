@@ -6,6 +6,7 @@ const crypto = require("crypto")
 const Order = db.Order
 const OrderItem = db.OrderItem
 
+
 // 第三方支付所需資料
 const URL = process.env.URL
 const MerchantID = process.env.MERCHANT_ID
@@ -99,7 +100,27 @@ const orderController = {
     res.render('orders')
   },
   getOrder: (req, res) => {
-    res.render('order')
+    Order.findByPk(req.params.orderId).then(
+      order => {
+        if (order.UserId !== req.user.id) {
+          req.flash('error_messages', '無權限查看')
+          return res.redirect('/')
+        }
+        OrderItem.sum('quantity', { where: { OrderId: order.id || 0 } }).then(totalQuantity => {
+          totalQuantity = totalQuantity || 0
+          OrderItem.findAll({ where: { OrderId: order.id || 0 }, include: 'Product' }).then(items => {
+            let totalPrice = items.length > 0 ? items.map(d => d.price * d.quantity).reduce((a, b) => a + b) : 0
+            return res.render('order', {
+              totalPrice,
+              items,
+              order,
+              totalQuantity
+            }
+            )
+          })
+        })
+      }
+    )
   },
   createOrder: (req, res) => {
     return CartItem.findAll({ where: { CartId: req.body.cartId || 0 }, include: 'Product' }).then(items => {
@@ -132,7 +153,8 @@ const orderController = {
           console.log('==========')
 
           return Order.findByPk(order.id, {}).then(order => {
-            const tradeInfo = getTradeInfo(order.amount, '飲料', order.email)
+            console.log('order is', order)
+            const tradeInfo = getTradeInfo(order.amount, '飲料', 'realumbrally@gmail.com')
             order.update({
               sn: tradeInfo.MerchantOrderNo,
             }).then(order => {
@@ -175,6 +197,32 @@ const orderController = {
         })
       })
     })
+  },
+  spgatewayCallback: (req, res) => {
+    console.log('===== spgatewayCallback =====')
+    console.log(req.method)
+    console.log(req.query)
+    console.log(req.body)
+    console.log('==========')
+
+    console.log('===== spgatewayCallback: TradeInfo =====')
+    console.log(req.body.TradeInfo)
+
+
+    const data = JSON.parse(create_mpg_aes_decrypt(req.body.TradeInfo))
+
+    console.log('===== spgatewayCallback: create_mpg_aes_decrypt、data =====')
+    console.log(data)
+
+    return Order.findOne({ where: { sn: data['Result']['MerchantOrderNo'] } }).then(order => {
+      order.update({
+        ...req.body,
+        payment_status: 1,
+      }).then(order => {
+        return res.redirect(`/orders/${order.id}`)
+      })
+    })
+
   }
 
 }
