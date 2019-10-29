@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 const bcrypt = require('bcrypt-nodejs')
 const faker = require('faker')
 
@@ -83,11 +83,13 @@ module.exports = {
     )
     queryInterface.bulkInsert(
       'Discounts',
-      [{
-        description: '% off',
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }],
+      [
+        {
+          description: '% off',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        }
+      ],
       {}
     )
     queryInterface.bulkInsert(
@@ -101,36 +103,37 @@ module.exports = {
     )
     queryInterface.bulkInsert(
       'UserCoupons',
-      [{
-        UserId: 1,
-        CouponId: 1,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        UserId: 2,
-        CouponId: 1,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        UserId: 2,
-        CouponId: 2,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        UserId: 3,
-        CouponId: 3,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        UserId: 4,
-        CouponId: 3,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }
+      [
+        {
+          UserId: 1,
+          CouponId: 1,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          UserId: 2,
+          CouponId: 1,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          UserId: 2,
+          CouponId: 2,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          UserId: 3,
+          CouponId: 3,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          UserId: 4,
+          CouponId: 3,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        }
       ],
       {}
     )
@@ -153,6 +156,7 @@ module.exports = {
     queryInterface.bulkDelete('Users', null, {})
     queryInterface.bulkDelete('ShippingAddresses', null, {})
     queryInterface.bulkDelete('Categories', null, {})
+    queryInterface.bulkDelete('Products', null, {})
     queryInterface.bulkDelete('Coupons', null, {})
     queryInterface.bulkDelete('Discounts', null, {})
     queryInterface.bulkDelete('Carts', null, {})
@@ -160,4 +164,4 @@ module.exports = {
     queryInterface.bulkDelete('Products', null, {})
     return queryInterface.bulkDelete('CartItems', null, {})
   }
-};
+}

@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   )
-  Product.associate = function (models) {
+  Product.associate = function(models) {
     Product.belongsTo(models.Category)
     Product.belongsToMany(models.User, {
       through: models.WishItem,
@@ -30,6 +30,8 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'ProductId',
       as: 'OfCarts'
     })
+    Product.hasMany(models.CartItem)
+    Product.hasMany(models.OrderItem)
   }
   return Product
 }

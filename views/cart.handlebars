@@ -1,38 +1,41 @@
 <div class="container">
-  <h2 style="color: #023B4F">購物車</h2>
+  <h2>購物車</h2>
   <div class="row">
     <div class="col-md-9">
       <div class="card">
         <table class="table table-hover">
-          <thead style="background-color: #013b4f; color: #bc955c ">
+          <thead>
             <tr>
+              <th scope="col" style="width: 5%"></th>
               <th scope="col" style="width: 40%">飲料</th>
-              <th scope="col" style="width: 20%">單價</th>
+              <th scope="col" style="width: 15%">單價</th>
               <th scope="col" style="width: 20%">數量</th>
               <th scope="col" style="width: 20%">單項總價</th>
             </tr>
           </thead>
           <tbody>
-            {{#each cart.CartProducts}}
+            {{#each items}}
             <tr>
               <td>
+                <input type="checkbox" class="check" name="check"
+                  data-price={{#multiplication this.Product.price this.quantity}}{{/multiplication}}
+                  data-quantity={{this.quantity}} {{#ifCond ../buyNowItem this.id}}checked{{/ifCond}}>
+              </td>
+              <td>
                 <div class="row">
-                  <div class="col-4"><img src={{this.image}} class="img-thumbnail img-sm"></div>
+                  <div class="col-4"><img src={{this.Product.image}} class="img-thumbnail img-sm"></div>
                   <div class="col-8">
-                    <h4 class="title text-truncate">{{this.name}}</h4>
+                    <h4 class="title text-truncate">{{this.Product.name}}</h4>
                     <div>
-                      <span>{{this.CartItem.sugar}}、{{this.CartItem.ice}}</span>
+                      <span>{{this.sugar}}、{{this.ice}}</span>
                     </div>
                     <div class="mt-2">
-                      <form action="/cartItem/{{this.CartItem.id}}?_method=DELETE" method="POST"
-                        style="display: inline">
-                        <button type="submit" class="btn" name="id"
-                          style="background-color: #023B4F; color: white; font-size: small">Delete</button>
+                      <form action="/cartItem/{{this.id}}?_method=DELETE" method="POST" style="display: inline">
+                        <button type="submit" class="btn" name="id" id="delete">Delete</button>
                       </form>
 
-                      <a href="/product/{{this.id}}/wish">
-                        <button type="button" class="btn" name="wish"
-                          style="background-color:red; color: white; font-size: small"><i
+                      <a href="/product/{{this.Product.id}}/wish">
+                        <button type="button" class="btn" name="wish" id="wish"><i
                             class="fa fa-heart mr-2"></i>加入願望清單</button>
                       </a>
                     </div>
@@ -41,25 +44,25 @@
               </td>
               <td>
                 <div>
-                  <h6>{{this.price}}</h6>
+                  <h6>{{this.Product.price}}</h6>
                 </div>
               </td>
               <td>
                 <div style="display: flex;">
-                  <form action="/cartItem/{{this.CartItem.id}}/sub" method="POST">
+                  <form action="/cartItem/{{this.id}}/sub" method="POST">
                     <button type="submit" class="btn btn-sm btn-outline-secondary">-</button>
                   </form>
                   <span style="margin: 0 20px;">
-                    {{this.CartItem.quantity}}
+                    {{this.quantity}}
                   </span>
-                  <form action="/cartItem/{{this.CartItem.id}}/add" method="POST">
+                  <form action="/cartItem/{{this.id}}/add" method="POST">
                     <button type="submit" class="btn btn-sm btn-outline-secondary">+</button>
                   </form>
                 </div>
               </td>
               <td>
                 <div>
-                  <h6>{{#multiplication this.price this.CartItem.quantity}}{{/multiplication}}</h6>
+                  <h6>{{#multiplication this.Product.price this.quantity}}{{/multiplication}}</h6>
                 </div>
               </td>
             </tr>
@@ -67,15 +70,15 @@
           </tbody>
         </table>
         <div class="card-footer">
-          <h4>總共{{totalQuantity}}杯</h4>
-          <h4>Total: {{totalPrice}}</h4>
+          <h4 id="total-quantity"></h4>
+          <h4 id="total-price"></h4>
         </div>
 
       </div>
       <div style="text-align:right" class="mt-2">
-        <a href="/shipping-info/:userId"><button class="btn"
-            style="background-color: #023B4F; color: white;">下一步</button></a>
+        <a href="/order/shipping-info/"><button class="btn">下一步</button></a>
       </div>
     </div>
   </div>
+  <div id="all" class={{buyNowItem}}></div>
 </div>

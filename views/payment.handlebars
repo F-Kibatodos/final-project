@@ -9,7 +9,7 @@
         <hr style="border: 1px solid #023B4F; margin: 5px 0px">
         <hr style="border: 5px solid #023B4F; margin-top: 1px">
         <div>
-          總共?項
+          總共{{totalQuantity}}杯
           <table class="table table-hover">
             <thead style="background-color: #013b4f; color: #bc955c">
               <tr>
@@ -20,72 +20,38 @@
               </tr>
             </thead>
             <tbody>
-              {{!-- {{#each }} CartItems --}}
+              {{#each items}}
               <tr>
                 <td>
                   <div class="row">
-                    <div class="col-4"><img
-                        src="https://images.pexels.com/photos/3090274/pexels-photo-3090274.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                        class="img-thumbnail img-sm"></div>
+                    <div class="col-4"><img src={{this.Product.image}} class="img-thumbnail img-sm"></div>
                     <div class="col-8">
-                      <h4 class="title text-truncate">綠茶</h4>
+                      <h4 class="title text-truncate">{{this.Product.name}}</h4>
                       <div>
-                        半糖、少冰
+                        <span>{{this.sugar}}、{{this.ice}}</span>
                       </div>
                     </div>
                   </div>
                 </td>
                 <td>
                   <div>
-                    <h6>傳進來的單價</h6>
+                    <h6>{{this.Product.price}}</h6>
                   </div>
                 </td>
                 <td>
                   <div style="display: flex;">
                     <span style="margin: 0 20px;">
-                      {{this.OrderItem.quantity}}傳進來的數量
+                      {{this.quantity}}
                     </span>
                   </div>
                 </td>
                 <td>
                   <div>
-                    <h6>傳進來的單價*quantity</h6>
+                    <h6>{{#multiplication this.Product.price this.quantity}}{{/multiplication}}</h6>
                   </div>
                 </td>
               </tr>
-              <tr>
-                <td>
-                  <div class="row">
-                    <div class="col-4"><img
-                        src="https://images.pexels.com/photos/3090274/pexels-photo-3090274.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                        class="img-thumbnail img-sm"></div>
-                    <div class="col-8">
-                      <h4 class="title text-truncate">綠茶</h4>
-                      <div>
-                        半糖、少冰
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <div>
-                    <h6>傳進來的單價</h6>
-                  </div>
-                </td>
-                <td>
-                  <div style="display: flex;">
-                    <span style="margin: 0 20px;">
-                      {{this.OrderItem.quantity}}傳進來的數量
-                    </span>
-                  </div>
-                </td>
-                <td>
-                  <div>
-                    <h6>傳進來的單價*quantity</h6>
-                  </div>
-                </td>
-              </tr>
-              {{!-- {{/each}} --}}
+              {{/each}}
 
             </tbody>
           </table>
@@ -96,7 +62,7 @@
             <h4 class="p-0" style="color: #023B4F">收件資訊</h4>
             <hr style="border: 1px solid #023B4F; margin: 5px 0px">
             <hr style="border: 5px solid #023B4F; margin-top: 1px">
-            自取 or 收件人資訊
+            {{order.shipping_method}}
           </div>
         </div>
 
@@ -104,33 +70,20 @@
       <nav class="col-md-3 bg-light sidebar pt-3">
         <div class="sidebar-sticky">
           <div>
-            <input type="text" placeholder="請輸入折扣券碼" name="coupon-code" value="">
-            <button type="submit" class="btn btn-warning">使用</button>
-            {{#if order.CouponId}}
-            <div style="font-size: small">
-              {{!-- 提醒使用者折扣碼是否valid --}}
-              CouponXXXXXXX 有效
-            </div>
-            {{else}}
-            <div style="font-size: small">
-              {{!-- 提醒使用者折扣碼是否valid --}}
-              您輸入的折扣券無效
-            </div>
-            {{/if}}
-          </div>
-          <hr>
-          <div>
             <h4>Order Summary</h4>
-            <div>訂購價格: 30 {{totalPrice}}</div>
-            <div>折扣後價格: 20 {{discountPrice}}</div>
+            <div>訂購價格: {{totalPrice}}</div>
           </div>
           <hr>
           <div>
+            {{#ifCond order.shipping_method '自取'}}
             運費: 0
+            {{else}}
+            運費: 60
+            {{/ifCond}}
           </div>
           <hr>
           <div>
-            總價: 20 {{order.amount}}
+            總價: {{order.amount}}
           </div>
         </div>
       </nav>

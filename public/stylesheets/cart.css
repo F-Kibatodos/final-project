@@ -1,0 +1,28 @@
+#all {
+  display: none;
+}
+.container{
+  margin-bottom: 10px
+}
+h2 {
+  color: #023B4F
+}
+thead {
+  background-color: #013b4f;
+  color: #bc955c
+}
+
+button#delete {
+  background-color: #023B4F; 
+  color: white; 
+  font-size: small
+}
+button#wish {
+  background-color:red; 
+  color: white; 
+  font-size: small
+}
+button.btn {
+  background-color: #013b4f; 
+  color: white;
+}

@@ -49,13 +49,44 @@ const userController = {
   },
   // ========使用者========
   getUser: (req, res) => {
-    res.render('profile')
+    User.findByPk(req.params.id).then(profile => {
+      res.render('profile', { profile })
+    })
   },
   editUser: (req, res) => {
-    res.render('edit-profile')
+    if (Number(req.params.id) !== req.user.id) {
+      req.flash('error_messages', '您無權編輯他人檔案')
+      return res.redirect(`/user/${req.params.id}`)
+    } else {
+      return User.findByPk(req.params.id).then(user => {
+        return res.render('edit-profile')
+      })
+    }
   },
   putUser: (req, res) => {
-    // 修改使用者資訊
+    if (Number(req.params.id) !== Number(req.user.id)) {
+      req.flash('error_messages', '您無權編輯他人檔案')
+      return res.redirect(`/user/${req.params.id}`)
+    }
+    if (!req.body.name) {
+      req.flash('error_messages', "name didn't exist")
+      return res.redirect('back')
+    }
+    User.findByPk(req.params.id).then(user => {
+      const { name, email, birthday, phone, address } = req.body
+      user
+        .update({
+          name,
+          email,
+          phone,
+          birthday,
+          address
+        })
+        .then(user => {
+          req.flash('success_messages', 'user was successfully to update')
+          res.redirect(`/user/${req.params.id}`)
+        })
+    })
   },
   // ========收件資訊========
   getShippingInfos: (req, res) => {

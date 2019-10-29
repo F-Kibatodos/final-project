@@ -15,6 +15,15 @@ const orderController = require('../controllers/orderController')
 const commentController = require('../controllers/commentController')
 const productController = require('../controllers/productController')
 const contactController = require('../controllers/contactController')
+const db = require('../models')
+const Category = db.Category
+const Product = db.Product
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
+const multer = require('multer')
+const upload = multer({ dest: 'temp/' })
+const displayCategory = require('../config/displayCategories')
+const displayPriceMenu = require('../config/displayPriceMenu')
 
 module.exports = (app, passport) => {
   const authenticated = (req, res, next) => {
@@ -45,8 +54,46 @@ module.exports = (app, passport) => {
   app.get('/logout', userController.logout)
   // 首頁
   app.get('/', authenticated, (req, res) => {
+    const priceRange = [[0, 30], [31, 40], [41, 50], [51, 60], [61, 100]]
+    let sortKey = req.query.sortKey || 'price'
+    let sortValue = req.query.sortValue || 'DESC'
+    let categoryFilter = req.query.category
+    let where = {}
+    if (categoryFilter) where.CategoryId = categoryFilter
+    let price = req.query.priceRange
+    let priceFilterMenu = displayPriceMenu(price)
+    if (price) {
+      price = JSON.parse('[' + price + ']')
+      where.price = { [Op.between]: price }
+    }
+    let search = req.query.search
+    if (search) where.name = { [Op.like]: '%' + search + '%' }
+    let categoryFilterMenu = displayCategory(categoryFilter)
     const rating = 90
-    res.render('index', { rating })
+    Product.findAll({
+      include: [Category],
+      order: [[sortKey, sortValue]],
+      where
+    }).then(products => {
+      const drinks = products.map(drink => ({
+        ...drink.dataValues,
+        description: drink.dataValues.description
+          ? drink.dataValues.description.substring(0, 50)
+          : ''
+      }))
+      Category.findAll().then(category => {
+        res.render('index', {
+          drinks,
+          category,
+          price,
+          categoryFilter,
+          priceRange,
+          search,
+          categoryFilterMenu: categoryFilterMenu || '所有分類',
+          priceFilterMenu: priceFilterMenu || '所有價格'
+        })
+      })
+    })
   })
   app.get('/signin', userController.signInPage)
   // 使用者
@@ -59,11 +106,12 @@ module.exports = (app, passport) => {
   app.post('/comment', authenticated, commentController.createComment)
   app.put('/comments/:id', authenticated, commentController.putComment)
   // 訂單
-  app.get('/orders/:userId', authenticated, orderController.getOrders)
-  app.get('/orders/:userId/:orderId', authenticated, orderController.getOrder)
-  app.post('/order/:userId', authenticated, orderController.createOrder)
+  app.get('/orders/:userId', orderController.getOrders)
+  app.get('/orders/:userId/:orderId', orderController.getOrder)
+  app.post('/order/:userId', orderController.createOrder)
+  app.get('/order/shipping-info', orderController.getOrderShippingInfo)
   // 直接購買(query string)
-  // app.post('/cart', orderController.buyNow)
+  app.post('/buynow', cartController.buyNow)
   // 出貨資訊
   app.get(
     '/shipping-info/:userId',
@@ -95,7 +143,6 @@ module.exports = (app, passport) => {
   app.get('/contact', authenticated, contactController.getContact)
   // 使用折扣券
   app.post('/check-coupon', authenticated, orderController.checkCoupon)
-
   // 後台
   app.get('/admin/users/search', authenticatedAdmin, adminUserController.searchUsers)
   app.get('/admin/users', authenticatedAdmin, adminUserController.getUsers)
@@ -119,19 +166,15 @@ module.exports = (app, passport) => {
   )
   app.post(
     '/admin/products',
-    authenticatedAdmin,
-    adminProductController.createProduct
+    upload.single('image'),
+    adminProductController.postProduct
   )
   app.put(
     '/admin/products/:id',
-    authenticatedAdmin,
+    upload.single('image'),
     adminProductController.putProduct
   )
-  app.delete(
-    '/admin/products/:id',
-    authenticatedAdmin,
-    adminProductController.deleteProduct
-  )
+  app.delete('/admin/products/:id', adminProductController.deleteProduct)
   // 移除不當評論
   app.put(
     '/admin/comments/:id',

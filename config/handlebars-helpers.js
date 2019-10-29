@@ -1,4 +1,5 @@
 const moment = require('moment')
+
 module.exports = {
   ifCond: function(a, b, options) {
     if (a === b) {
@@ -9,7 +10,10 @@ module.exports = {
   moment: function(time) {
     return moment(time).format('YYYY-MM-DD, HH:mm')
   },
-  multiplication: function (a, b, options) {
-    return a * b
+  birthday: function(time) {
+    return moment(time).format('YYYY-MM-DD')
   },
+  multiplication: function(a, b, options) {
+    return a * b
+  }
 }

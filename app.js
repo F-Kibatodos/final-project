@@ -6,6 +6,15 @@ const session = require('express-session')
 const passport = require('./config/passport')
 const methodOverride = require('method-override')
 const app = express()
+const bodyParser = require('body-parser')
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
+
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('public'))
@@ -16,14 +25,16 @@ app.engine(
     helpers: require('./config/handlebars-helpers')
   })
 )
+
 app.set('view engine', 'handlebars')
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(
   session({
     secret: 'drink',
     name: 'acaaa',
-    cookie: { maxAge: 80000 },
+    cookie: { maxAge: 86400000 },
     resave: false,
     saveUninitialized: true
   })

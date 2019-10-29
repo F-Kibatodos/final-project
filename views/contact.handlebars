@@ -1,1 +1,21 @@
 <h2>聯絡資訊</h2>
+<div class="col-md-12">
+  <h3 class="text-center">在 Google Map 找我們</h3>
+  <img class="mx-auto d-block" src="https://picsum.photos/300" alt="googleMap">
+</div>
+<br />
+<div class="row justify-content-center">
+  {{#each branches}}
+  <div class="col-sm-6">
+    <div class="address card border-0">
+      <div class="card-body">
+        <h5 class="card-title">{{this.name}}門市</h5>
+        <p class="text-center"><span><i class="fas fa-map-marker-alt"></i></span>{{this.address}}</p>
+        <a href={{this.facebook_site}}><i class="fab fa-facebook-square"></i></a>
+        <a href={{this.line_site}}><i class="fab fa-line"></i></a>
+        <a href="mailto:{{this.email_site}}"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+</div>

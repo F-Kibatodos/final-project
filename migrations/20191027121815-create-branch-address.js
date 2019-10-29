@@ -1,17 +1,11 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Orders', {
+    return queryInterface.createTable('BranchAddresses', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      sn: {
-        type: Sequelize.BIGINT
-      },
-      amount: {
         type: Sequelize.INTEGER
       },
       name: {
@@ -23,22 +17,16 @@ module.exports = {
       address: {
         type: Sequelize.STRING
       },
-      payment_status: {
+      facebook_site: {
         type: Sequelize.STRING
       },
-      shipping_status: {
+      line_site: {
         type: Sequelize.STRING
       },
-      shipping_method: {
-        type: Sequelize.STRING
-      },
-      payment_method: {
+      email_site: {
         type: Sequelize.STRING
       },
       UserId: {
-        type: Sequelize.INTEGER
-      },
-      CouponId: {
         type: Sequelize.INTEGER
       },
       createdAt: {
@@ -52,6 +40,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Orders');
+    return queryInterface.dropTable('BranchAddresses');
   }
 };
