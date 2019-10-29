@@ -1,31 +1,40 @@
 <div class="container">
-  <form action="/admin/restaurants" method="POST" enctype="multipart/form-data">
-    <div class="form-group">
-      <label for="name">名稱</label>
-      <input type="text" class="form-control" name="name" id="name" placeholder="Enter name">
-    </div>
+  {{#if product}}
+  <form action="/admin/products/{{product.id}}?_method=PUT" method="POST" enctype="multipart/form-data">
+    {{else}}
+    <form action="/admin/products" method="POST" enctype="multipart/form-data">
+      {{/if}}
+      <div class="form-group">
+        <label for="name">飲料名</label>
+        <input type="text" class="form-control" name="name" id="name" placeholder="Enter name" value="{{product.name}}">
+      </div>
 
-    <div class="form-group">
-      <label for="categoryId">類別</label>
-      <select class="form-control" id="categoryId" name="categoryId">
-      </select>
-    </div>
+      <div class="form-group">
+        <label for="categoryId">飲料類別</label>
+        <select class="form-control" id="categoryId" name="categoryId">
+          {{#each categories}}
+          <option value="{{this.id}}" {{#ifCond this.id ../product.CategoryId}} selected {{/ifCond}}>{{this.name}}
+          </option>
+          {{/each}}
+        </select>
+      </div>
 
-    <div class="form-group">
-      <label for="tel">價格</label>
-      <input type="number" class="form-control" name="price" id="price" placeholder="Enter price">
-    </div>
+      <div class="form-group">
+        <label for="price">定價</label>
+        <input type="number" class="form-control" name="price" id="price" placeholder="Enter price"
+          value="{{product.price}}">
+      </div>
 
-    <div class="form-group">
-      <label for="description">介紹</label>
-      <textarea class="form-control" id="description" name="description" rows="3"></textarea>
-    </div>
+      <div class="form-group">
+        <label for="description">飲料介紹</label>
+        <textarea class="form-control" id="description" name="description" rows="3">{{product.description}}</textarea>
+      </div>
 
-    <div class="form-group">
-      <label for="image">圖片</label>
-      <input type="file" class="form-control-file" id="image" name="image">
-    </div>
+      <div class="form-group">
+        <label for="image">Image</label>
+        <input type="file" class="form-control-file" id="image" name="image">
+      </div>
 
-    <button type="submit" class="btn btn-primary">新增</button>
-  </form>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 </div>

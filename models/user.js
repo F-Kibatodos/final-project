@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.Order)
     User.hasMany(models.Comment)
     User.hasMany(models.Reply)
+    User.hasMany(models.BranchAddress)
     User.belongsToMany(models.Coupon, {
       through: models.UserCoupon,
       foreignKey: 'UserId',
