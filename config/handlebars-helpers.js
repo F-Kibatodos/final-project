@@ -1,19 +1,19 @@
 const moment = require('moment')
 
 module.exports = {
-  ifCond: function(a, b, options) {
+  ifCond: function (a, b, options) {
     if (a === b) {
       return options.fn(this)
     }
     return options.inverse(this)
   },
-  moment: function(time) {
+  moment: function (time) {
     return moment(time).format('YYYY-MM-DD, HH:mm')
   },
-  birthday: function(time) {
+  birthday: function (time) {
     return moment(time).format('YYYY-MM-DD')
   },
-  multiplication: function(a, b, options) {
+  multiplication: function (a, b, options) {
     return a * b
   }
 }

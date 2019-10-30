@@ -19,6 +19,13 @@ const couponController = {
   createCoupon: (req, res) => {
     // 新增折價券
   },
+  getCoupon: (req, res) => {
+    Coupon.findByPk(req.params.id, { include: [Discount] })
+      .then(coupon => {
+        let type = coupon.Discount.description
+        return res.render('admin/edit-coupon', { coupon: coupon, js: 'admin-edit-coupon.js', type: type })
+      })
+  },
   putCoupon: (req, res) => {
     // 修改折價券
   },

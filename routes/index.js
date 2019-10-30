@@ -198,17 +198,18 @@ module.exports = (app, passport) => {
     '/admin/coupons',
     authenticatedAdmin,
     adminCouponController.getCoupons
-  )
-  app.post(
-    '/admin/coupons',
-    authenticatedAdmin,
-    adminCouponController.createCoupon
-  )
-  app.put(
-    '/admin/coupons/:id',
-    authenticatedAdmin,
-    adminCouponController.putCoupon
-  )
+  ),
+    app.post(
+      '/admin/coupons',
+      authenticatedAdmin,
+      adminCouponController.createCoupon
+    ),
+    app.get('/admin/coupons/:id', authenticatedAdmin, adminCouponController.getCoupon),
+    app.put(
+      '/admin/coupons/:id',
+      authenticatedAdmin,
+      adminCouponController.putCoupon
+    )
   app.delete(
     '/admin/coupons/:id',
     authenticatedAdmin,
