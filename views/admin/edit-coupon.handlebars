@@ -2,7 +2,8 @@
 <form action="/admin/coupons/:id?_method=PUT" method="POST">
   <div class="form-group">
     <label for="code">折扣碼代號</label>
-    <input type="text" class="form-control" name="code" id="code" placeholder="Enter code" value="{{coupon.code}}">
+    <input type="text" class="form-control" name="code" id="code" placeholder="Enter code" value="{{coupon.code}}"
+      required autofocus>
   </div>
 
   <div id="type" style="display:none">{{type}}</div>
@@ -17,13 +18,13 @@
   <div class="form-group">
     <label for="limit">最低啟用條件</label>
     <input type="number" class="form-control" name="limit" id="limit" placeholder="請輸入大於0的整數"
-      value="{{coupon.Discount.limit}}">
+      value="{{coupon.Discount.limit}}" required autofocus>
   </div>
 
   <div class="form-group">
     <label for="figure">折扣％或折扣金額</label>
     <input type="number" class="form-control" name="figure" id="figure" placeholder="請輸入大於0的整數"
-      value="{{coupon.Discount.figure}}">
+      value="{{coupon.Discount.figure}}" required autofocus>
   </div>
 
   <button type="submit" class="btn btn-primary">修改</button>

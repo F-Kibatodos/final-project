@@ -7,6 +7,12 @@ module.exports = {
     }
     return options.inverse(this)
   },
+  ifExist: function (a, options) {
+    if (!a) {
+      return options.fn(this)
+    }
+    return options.inverse(this)
+  },
   moment: function (time) {
     return moment(time).format('YYYY-MM-DD, HH:mm')
   },

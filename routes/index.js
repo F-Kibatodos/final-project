@@ -53,7 +53,7 @@ module.exports = (app, passport) => {
   )
   app.get('/logout', userController.logout)
   // 首頁
-  app.get('/', authenticated, (req, res) => {
+  app.get('/', (req, res) => {
     const priceRange = [[0, 30], [31, 40], [41, 50], [51, 60], [61, 100]]
     let sortKey = req.query.sortKey || 'price'
     let sortValue = req.query.sortValue || 'DESC'
@@ -101,7 +101,7 @@ module.exports = (app, passport) => {
   app.get('/user/:id/edit', authenticated, userController.editUser)
   app.put('/user/:id', authenticated, userController.putUser)
   // 單一商品詳情
-  app.get('/product/:id', authenticated, productController.getProduct)
+  app.get('/product/:id', productController.getProduct)
   // 評論
   app.post('/comment', authenticated, commentController.createComment)
   app.put('/comments/:id', authenticated, commentController.putComment)

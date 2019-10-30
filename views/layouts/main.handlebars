@@ -9,7 +9,9 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link href="/stylesheets/{{style}}" type="text/css">
+  {{#if style}}
+  <link rel="stylesheet" href="/stylesheets/{{style}}">
+  {{/if}}
 </head>
 
 <body>
@@ -27,6 +29,9 @@
         {{#if user.role}}
         <a href="/admin/products" style="color: white;margin-right: 10px;">Admin 後台</a>
         {{/if}}
+        {{#ifExist user}}
+        <a href="/signin"><button class="btn btn-outline-success my-2 my-sm-0">Sign In</button></a>
+        {{/ifExist}}
         {{#if user}}
         <span style="color: white;margin-right: 10px;">Hi, {{user.name}}</span>
         <a href="/user/{{user.id}}" style="color: white;margin-right: 10px;">Profile</a>
