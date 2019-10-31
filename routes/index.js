@@ -257,4 +257,9 @@ module.exports = (app, passport) => {
   app.get('/admin/categories/:id', authenticatedAdmin, adminCategoryController.getCategories)
   app.put('/admin/categories/:id', authenticatedAdmin, adminCategoryController.putCategory)
   app.delete('/admin/categories/:id', authenticatedAdmin, adminCategoryController.deleteCategory)
+
+  // 最後無法批配的，全部導向404畫面
+  app.get('*', function (req, res) {
+    res.send('what???', 404);
+  })
 }
