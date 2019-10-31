@@ -90,7 +90,8 @@ module.exports = (app, passport) => {
           priceRange,
           search,
           categoryFilterMenu: categoryFilterMenu || '所有分類',
-          priceFilterMenu: priceFilterMenu || '所有價格'
+          priceFilterMenu: priceFilterMenu || '所有價格',
+          js: 'indexPage.js'
         })
       })
     })
