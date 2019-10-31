@@ -1,112 +1,97 @@
 <div class="container">
-  <h2>單一訂單</h2>
   <div class="row">
     <div class="col-md-9">
-      <h4 class="p-2" style="color: #EEE3D4; background-color:#023B4F;">訂單資訊</h4>
-      <div class="card">
-        <div class="card-header">
-          <span>訂單編號 XXXXXX</span>
-          <span>訂購日期 XXXX/XX/XX</span>
-        </div>
-        <table class="table">
-          <thead style="background-color: #013b4f; color: #bc955c">
-            <tr>
-              <th scope="col" style="width: 40%">Product</th>
-              <th scope="col" style="width: 20%">Price</th>
-              <th scope="col" style="width: 20%">Quantity</th>
-              <th scope="col" style="width: 20%">Total Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            {{!-- {{#each }} CartItems --}}
-            <tr>
-              <td>
-                <div class="row">
-                  <div class="col-4"><img
-                      src="https://images.pexels.com/photos/3090274/pexels-photo-3090274.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                      class="img-thumbnail img-sm"></div>
-                  <div class="col-8">
-                    <h4 class="title text-truncate">綠茶</h4>
-                    <div>
-                      半糖、少冰
-                    </div>
+      <hr style="border: 5px solid #023B4F; margin-bottom: 1px">
+      <hr style="border: 1px solid #023B4F; margin: 5px 0px">
+      <h4 class="p" style="color: #023B4F">訂單資訊</h4>
+      <hr style="border: 1px solid #023B4F; margin: 5px 0px">
+      <hr style="border: 5px solid #023B4F; margin-top: 1px">
+      <div>
+        <span class="badge badge-info">訂單編號 </span>
+        {{order.sn}}
+      </div>
+      <div>
+        <span class="badge badge-info">訂購日期 </span>
+        {{moment order.createdAt}}
+      </div>
+      <table class="table">
+        <thead style="background-color: #013b4f; color: #bc955c">
+          <tr>
+            <th scope="col" style="width: 40%">Product</th>
+            <th scope="col" style="width: 20%">Price</th>
+            <th scope="col" style="width: 20%">Quantity</th>
+            <th scope="col" style="width: 20%">Total Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each items}}
+          <tr>
+            <td>
+              <div class="row">
+                <div class="col-4"><img src={{this.Product.image}} class="img-thumbnail img-sm"></div>
+                <div class="col-8">
+                  <h4 class="title text-truncate">{{this.Product.name}}</h4>
+                  <div>
+                    <span>{{this.sugar}}、{{this.ice}}</span>
                   </div>
                 </div>
-              </td>
-              <td>
-                <div>
-                  <h6>傳進來的單價</h6>
-                </div>
-              </td>
-              <td>
-                <div style="display: flex;">
-                  <span style="margin: 0 20px;">
-                    {{this.OrderItem.quantity}}傳進來的數量
-                  </span>
-                </div>
-              </td>
-              <td>
-                <div>
-                  <h6>傳進來的單價*quantity</h6>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="row">
-                  <div class="col-4"><img
-                      src="https://images.pexels.com/photos/3090274/pexels-photo-3090274.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                      class="img-thumbnail img-sm"></div>
-                  <div class="col-8">
-                    <h4 class="title text-truncate">綠茶</h4>
-                    <div>
-                      半糖、少冰
-                    </div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div>
-                  <h6>傳進來的單價</h6>
-                </div>
-              </td>
-              <td>
-                <div style="display: flex;">
-                  <span style="margin: 0 20px;">
-                    {{this.OrderItem.quantity}}傳進來的數量
-                  </span>
-                </div>
-              </td>
-              <td>
-                <div>
-                  <h6>傳進來的單價*quantity</h6>
-                </div>
-              </td>
-            </tr>
-            {{!-- {{/each}} --}}
-
-          </tbody>
-        </table>
-        <div class="card-footer">
-          <h4>收件資訊</h4>
-          <div>自取 or 收件人資訊</div>
-        </div>
+              </div>
+            </td>
+            <td>
+              <div>
+                <h6>{{this.price}}</h6>
+              </div>
+            </td>
+            <td>
+              <div style="display: flex;">
+                <span style="margin: 0 20px;">
+                  {{this.quantity}}
+                </span>
+              </div>
+            </td>
+            <td>
+              <div>
+                <h6>{{#multiplication this.price this.quantity}}{{/multiplication}}</h6>
+              </div>
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+      <div class="pb-3">
+        <hr style="border: 5px solid #023B4F; margin-bottom: 1px">
+        <hr style="border: 1px solid #023B4F; margin: 5px 0px">
+        <h4 class="p-0" style="color: #023B4F">收件資訊</h4>
+        <hr style="border: 1px solid #023B4F; margin: 5px 0px">
+        <hr style="border: 5px solid #023B4F; margin-top: 1px">
+        {{#ifCond order.shipping_method "自取"}}
+        <span class="pl-2">{{order.shipping_method}}</span>
+        {{else}}
+        <span class="pl-2">{{order.shipping_method}} 至 {{order.address}}</span>
+        {{/ifCond}}
       </div>
     </div>
-    <nav class="col-md-3 bg-light sidebar pt-3">
+    <nav class="col-md-3 bg-light sidebar">
       <div class="sidebar-sticky">
         <div>
+          <hr style="border: 5px solid #023B4F; margin-bottom: 1px">
+          <hr style="border: 1px solid #023B4F; margin: 5px 0px">
           <h4>Order Summary</h4>
-          <div>訂購價格: 30 {{totalPrice}}</div>
-          <div>折扣後價格: 20 {{discountPrice}}</div>
+          <hr style="border: 1px solid #023B4F; margin: 5px 0px">
+          <hr style="border: 5px solid #023B4F; margin-top: 1px">
+          <div>訂購價格: {{totalPrice}}</div>
         </div>
         <hr>
         <div>
+          {{#ifCond order.shipping_method '自取'}}
           運費: 0
+          {{else}}
+          運費: 60
+          {{/ifCond}}
         </div>
         <hr>
         <div>
-          總價: 20 {{order.amount}}
+          總價: {{order.amount}}
         </div>
       </div>
     </nav>
