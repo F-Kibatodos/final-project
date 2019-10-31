@@ -106,10 +106,10 @@ module.exports = (app, passport) => {
   app.post('/comment', authenticated, commentController.createComment)
   app.put('/comments/:id', authenticated, commentController.putComment)
   // 訂單
-  app.get('/orders/', orderController.getOrders)
-  app.get('/orders/:orderId', orderController.getOrder)
-  app.post('/order', orderController.createOrder)
-  app.get('/order/shipping-info', orderController.getOrderShippingInfo)
+  app.get('/orders/', authenticated, orderController.getOrders)
+  app.get('/orders/:orderId', authenticated, orderController.getOrder)
+  app.post('/order', authenticated, orderController.createOrder)
+  app.get('/order/shipping-info', authenticated, orderController.getOrderShippingInfo)
   // 直接購買(query string)
   app.post('/buynow', cartController.buyNow)
   // 出貨資訊

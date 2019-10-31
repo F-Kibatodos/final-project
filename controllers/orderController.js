@@ -131,7 +131,7 @@ const orderController = {
         shipping_method: req.body.shipping_method,
         payment_status: req.body.payment_status,
         amount: req.body.amount,
-        UserId: 1
+        UserId: req.user.id
       }).then(order => {
         var results = [];
         for (var i = 0; i < items.length; i++) {
