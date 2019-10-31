@@ -79,7 +79,7 @@ module.exports = (app, passport) => {
     }
 
     try {
-      buildWhere((categoryFilter, price, search)).then(where => {
+      buildWhere().then(where => {
         Product.findAll({
           include: [Category],
           order: [[sortKey, sortValue]],
