@@ -22,7 +22,6 @@ const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
-const displayCategory = require('../config/displayCategories')
 const displayPriceMenu = require('../config/displayPriceMenu')
 
 module.exports = (app, passport) => {
@@ -53,7 +52,7 @@ module.exports = (app, passport) => {
   )
   app.get('/logout', userController.logout)
   // 首頁
-  app.get('/', (req, res) => {
+  app.get('/', async (req, res) => {
     const priceRange = [
       { forQuery: [0, 30], forOption: '30元以下' },
       { forQuery: [31, 40], forOption: '31-40元' },
@@ -64,49 +63,67 @@ module.exports = (app, passport) => {
     let sortKey = req.query.sortKey || 'price'
     let sortValue = req.query.sortValue || 'DESC'
     let categoryFilter = req.query.category
-    let where = {}
-    if (categoryFilter) where.CategoryId = categoryFilter
     let price = req.query.priceRange
-    let priceFilterMenu = displayPriceMenu(price)
-    if (price) {
-      price = JSON.parse('[' + price + ']')
-      where.price = { [Op.between]: price }
-    }
     let search = req.query.search
-    if (search) where.name = { [Op.like]: '%' + search + '%' }
-    let categoryFilterMenu = displayCategory(categoryFilter)
-    const rating = 90
-    Product.findAll({
-      include: [Category],
-      order: [[sortKey, sortValue]],
-      where
-    }).then(products => {
-      const drinks = products.map(drink => ({
-        ...drink.dataValues,
-        description: drink.dataValues.description
-          ? drink.dataValues.description.substring(0, 50)
-          : ''
-      }))
-      if (categoryFilter) {
-        where = {}
-        where.id = categoryFilter
+    let where = {}
+    let priceFilterMenu = displayPriceMenu(price)
+
+    const buildWhere = async () => {
+      if (categoryFilter) where.CategoryId = categoryFilter
+      if (price) {
+        price = JSON.parse('[' + price + ']')
+        where.price = { [Op.between]: price }
       }
-      Category.findAll({ where }).then(category => {
-        Category.findAll().then(catMenu => {
-          res.render('index', {
-            drinks,
-            category,
-            price,
-            categoryFilter,
-            priceRange,
-            search,
-            categoryFilterMenu: categoryFilterMenu || '所有分類',
-            priceFilterMenu: priceFilterMenu || '所有價格',
-            catMenu
+      if (search) where.name = { [Op.like]: '%' + search + '%' }
+      return where
+    }
+
+    try {
+      buildWhere((categoryFilter, price, search)).then(where => {
+        Product.findAll({
+          include: [Category],
+          order: [[sortKey, sortValue]],
+          where
+        }).then(products => {
+          const drinks = products.map(drink => ({
+            ...drink.dataValues,
+            description: drink.dataValues.description
+              ? drink.dataValues.description.substring(0, 50)
+              : ''
+          }))
+          Category.findAll().then(category => {
+            if (req.query.category) {
+              Category.findByPk(req.query.category).then(select => {
+                categoryFilterMenu = select.name
+                res.render('index', {
+                  drinks,
+                  category,
+                  price,
+                  categoryFilter,
+                  priceRange,
+                  search,
+                  categoryFilterMenu: categoryFilterMenu,
+                  priceFilterMenu: priceFilterMenu || '所有價格'
+                })
+              })
+            } else {
+              res.render('index', {
+                drinks,
+                category,
+                price,
+                categoryFilter,
+                priceRange,
+                search,
+                categoryFilterMenu: '所有分類',
+                priceFilterMenu: priceFilterMenu || '所有價格'
+              })
+            }
           })
         })
       })
-    })
+    } catch (err) {
+      console.log(err)
+    }
   })
   app.get('/signin', userController.signInPage)
   // 使用者
