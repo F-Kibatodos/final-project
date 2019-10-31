@@ -8,7 +8,7 @@
       <div class="dropdown-menu month" aria-labelledby="dropdownMenuLink">
         <a class="dropdown-item"
           href="/?category=&priceRange={{price}}&sortKey={{sortKey}}&sortValue={{sortValue}}">全部</a>
-        {{#each catMenu}}
+        {{#each category}}
         <a class="dropdown-item"
           href="/?category={{this.id}}&priceRange={{../price}}&sortKey={{sortKey}}&sortValue={{sortValue}}">{{this.name}}</a>
         {{/each}}

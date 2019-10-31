@@ -87,21 +87,17 @@ module.exports = (app, passport) => {
           ? drink.dataValues.description.substring(0, 50)
           : ''
       }))
-
       Category.findAll().then(category => {
-        Category.findAll().then(catMenu => {
-          res.render('index', {
-            js: 'index.js',
-            drinks,
-            category,
-            price,
-            categoryFilter,
-            priceRange,
-            search,
-            categoryFilterMenu: categoryFilterMenu || '所有分類',
-            priceFilterMenu: priceFilterMenu || '所有價格',
-            catMenu
-          })
+        res.render('index', {
+          js: 'index.js',
+          drinks,
+          category,
+          price,
+          categoryFilter,
+          priceRange,
+          search,
+          categoryFilterMenu: categoryFilterMenu || '所有分類',
+          priceFilterMenu: priceFilterMenu || '所有價格'
         })
       })
     })
