@@ -1,12 +1,22 @@
+const db = require('../../models')
+const Reply = db.Reply
+
 const replyController = {
   createReply: (req, res) => {
-    // 新增回應
+    Reply.create({
+      content: req.body.adminReply,
+      UserId: req.user.id,
+      CommentId: req.body.commentId
+    })
+    res.redirect(`/product/${req.body.productId}`)
   },
   putReply: (req, res) => {
     // 修改回應
   },
   deleteReply: (req, res) => {
-    // 刪除回應
+    Reply.destroy({ where: { id: req.params.id } }).then(reply => {
+      res.redirect(`/product/${req.body.productId}`)
+    })
   }
 }
 

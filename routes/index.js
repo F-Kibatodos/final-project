@@ -53,8 +53,14 @@ module.exports = (app, passport) => {
   )
   app.get('/logout', userController.logout)
   // 首頁
-  app.get('/', authenticated, (req, res) => {
-    const priceRange = [[0, 30], [31, 40], [41, 50], [51, 60], [61, 100]]
+  app.get('/', (req, res) => {
+    const priceRange = [
+      { forQuery: [0, 30], forOption: '30元以下' },
+      { forQuery: [31, 40], forOption: '31-40元' },
+      { forQuery: [41, 50], forOption: '41-50元' },
+      { forQuery: [51, 60], forOption: '51-60元' },
+      { forQuery: [61, 100], forOption: '60元以上' }
+    ]
     let sortKey = req.query.sortKey || 'price'
     let sortValue = req.query.sortValue || 'DESC'
     let categoryFilter = req.query.category
@@ -81,16 +87,23 @@ module.exports = (app, passport) => {
           ? drink.dataValues.description.substring(0, 50)
           : ''
       }))
-      Category.findAll().then(category => {
-        res.render('index', {
-          drinks,
-          category,
-          price,
-          categoryFilter,
-          priceRange,
-          search,
-          categoryFilterMenu: categoryFilterMenu || '所有分類',
-          priceFilterMenu: priceFilterMenu || '所有價格'
+      if (categoryFilter) {
+        where = {}
+        where.id = categoryFilter
+      }
+      Category.findAll({ where }).then(category => {
+        Category.findAll().then(catMenu => {
+          res.render('index', {
+            drinks,
+            category,
+            price,
+            categoryFilter,
+            priceRange,
+            search,
+            categoryFilterMenu: categoryFilterMenu || '所有分類',
+            priceFilterMenu: priceFilterMenu || '所有價格',
+            catMenu
+          })
         })
       })
     })
@@ -101,7 +114,7 @@ module.exports = (app, passport) => {
   app.get('/user/:id/edit', authenticated, userController.editUser)
   app.put('/user/:id', authenticated, userController.putUser)
   // 單一商品詳情
-  app.get('/product/:id', authenticated, productController.getProduct)
+  app.get('/product/:id', productController.getProduct)
   // 評論
   app.post('/comment', authenticated, commentController.createComment)
   app.put('/comments/:id', authenticated, commentController.putComment)
@@ -146,11 +159,19 @@ module.exports = (app, passport) => {
   // 使用折扣券
   app.post('/check-coupon', authenticated, orderController.checkCoupon)
   // 後台
-  app.get('/admin/users/search', authenticatedAdmin, adminUserController.searchUsers)
+  app.get(
+    '/admin/users/search',
+    authenticatedAdmin,
+    adminUserController.searchUsers
+  )
   app.get('/admin/users', authenticatedAdmin, adminUserController.getUsers)
   app.put('/admin/users/:id', authenticatedAdmin, adminUserController.putUser)
   // 後台商品
-  app.get('/admin/products/search', authenticatedAdmin, adminProductController.searchProducts)
+  app.get(
+    '/admin/products/search',
+    authenticatedAdmin,
+    adminProductController.searchProducts
+  )
   app.get(
     '/admin/products',
     authenticatedAdmin,
@@ -195,7 +216,11 @@ module.exports = (app, passport) => {
     adminContactController.editContact
   )
   // 後台折價券
-  app.get('/admin/coupons/search', authenticatedAdmin, adminCouponController.searchCoupons)
+  app.get(
+    '/admin/coupons/search',
+    authenticatedAdmin,
+    adminCouponController.searchCoupons
+  )
   app.get(
     '/admin/coupons',
     authenticatedAdmin,
@@ -217,7 +242,11 @@ module.exports = (app, passport) => {
     adminCouponController.deleteCoupon
   )
   // 後台訂單
-  app.get('/admin/orders/search', authenticatedAdmin, adminOrderController.searchOrders)
+  app.get(
+    '/admin/orders/search',
+    authenticatedAdmin,
+    adminOrderController.searchOrders
+  )
   app.get('/admin/orders', authenticatedAdmin, adminOrderController.getOrders)
   app.post(
     '/admin/orders',
@@ -235,11 +264,7 @@ module.exports = (app, passport) => {
     adminOrderController.deleteOrder
   )
   // reply
-  app.post(
-    '/admin/replies/:id',
-    authenticatedAdmin,
-    adminReplyController.createReply
-  )
+  app.post('/admin/reply', authenticatedAdmin, adminReplyController.createReply)
   app.put(
     '/admin/replies/:id',
     authenticatedAdmin,
@@ -251,10 +276,34 @@ module.exports = (app, passport) => {
     adminReplyController.deleteReply
   )
   // 後台種類
-  app.get('/admin/categories', authenticatedAdmin, adminCategoryController.getCategories)
-  app.post('/admin/categories', authenticatedAdmin, adminCategoryController.postCategory)
-  app.get('/admin/categories/search', authenticatedAdmin, adminCategoryController.searchCategories)
-  app.get('/admin/categories/:id', authenticatedAdmin, adminCategoryController.getCategories)
-  app.put('/admin/categories/:id', authenticatedAdmin, adminCategoryController.putCategory)
-  app.delete('/admin/categories/:id', authenticatedAdmin, adminCategoryController.deleteCategory)
+  app.get(
+    '/admin/categories',
+    authenticatedAdmin,
+    adminCategoryController.getCategories
+  )
+  app.post(
+    '/admin/categories',
+    authenticatedAdmin,
+    adminCategoryController.postCategory
+  )
+  app.get(
+    '/admin/categories/search',
+    authenticatedAdmin,
+    adminCategoryController.searchCategories
+  )
+  app.get(
+    '/admin/categories/:id',
+    authenticatedAdmin,
+    adminCategoryController.getCategories
+  )
+  app.put(
+    '/admin/categories/:id',
+    authenticatedAdmin,
+    adminCategoryController.putCategory
+  )
+  app.delete(
+    '/admin/categories/:id',
+    authenticatedAdmin,
+    adminCategoryController.deleteCategory
+  )
 }

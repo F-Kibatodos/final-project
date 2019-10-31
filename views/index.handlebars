@@ -7,8 +7,8 @@
       </a>
       <div class="dropdown-menu month" aria-labelledby="dropdownMenuLink">
         <a class="dropdown-item"
-          href="/?category=&priceRange={{price}}=&sortKey={{sortKey}}&sortValue={{sortValue}}">全部</a>
-        {{#each category}}
+          href="/?category=&priceRange={{price}}&sortKey={{sortKey}}&sortValue={{sortValue}}">全部</a>
+        {{#each catMenu}}
         <a class="dropdown-item"
           href="/?category={{this.id}}&priceRange={{../price}}&sortKey={{sortKey}}&sortValue={{sortValue}}">{{this.name}}</a>
         {{/each}}
@@ -25,7 +25,7 @@
           href="/?category={{categoryFilter}}&priceRange=&sortKey={{sortKey}}&sortValue={{sortValue}}">全部</a>
         {{#each priceRange}}
         <a class="dropdown-item"
-          href="/?category={{../categoryFilter}}&priceRange={{this}}&sortKey={{sortKey}}&sortValue={{sortValue}}">{{this}}</a>
+          href="/?category={{../categoryFilter}}&priceRange={{this.forQuery}}&sortKey={{sortKey}}&sortValue={{sortValue}}">{{this.forOption}}</a>
         {{/each}}
       </div>
     </div>
