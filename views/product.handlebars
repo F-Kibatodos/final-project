@@ -12,55 +12,54 @@
       </div>
     </div>
     <div class="col-md-7">
-      <h3 class="my-3">{{product.name}}</h3>
-      <h4 style="color: rgb(202, 128, 31)">價格: {{product.price}}</h4>
-      <section class="sugar mb-3">
-        <h4>甜度</h4>
-        <div class="btn-group btn-group-toggle" data-toggle="buttons">
-          <label class="btn btn-outline-info">
-            <input type="radio" name="sugar" value="無糖" />無糖
-          </label>
-          <label class="btn btn-outline-info">
-            <input type="radio" name="sugar" value="微糖" />微糖
-          </label>
-          <label class="btn btn-outline-info">
-            <input type="radio" name="sugar" value="半糖" />半糖
-          </label>
-          <label class="btn btn-outline-info">
-            <input type="radio" name="sugar" value="少糖" />少糖
-          </label>
-          <label class="btn btn-outline-info active">
-            <input type="radio" name="sugar" value="正常甜" checked="checked" />正常甜
-          </label>
-        </div>
-      </section>
+      <form action="/buynow" method="POST" class="buy">
+        <h3 class="my-3">{{product.name}}</h3>
+        <h4 style="color: rgb(202, 128, 31)">價格: {{product.price}}</h4>
+        <section class="sugar mb-3">
+          <h4>甜度</h4>
+          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            {{#each sugar}}
+            <label class="btn btn-outline-info">
+              <p class="mb-0">{{this}}</p>
+              <input type="radio" name="sugar" value="{{this}}" style="display: none" />
+            </label>
+            {{/each}}
+            <label class="btn btn-outline-info active">
+              <p class="mb-0">正常甜</p>
+              <input type="radio" name="sugar" checked value="正常甜" style="display: none" />
+            </label>
+          </div>
+        </section>
 
-      <section class="ice mb-3">
-        <h4>冰塊</h4>
-        <div class="btn-group btn-group-toggle" data-toggle="buttons">
-          <label class="btn btn-outline-primary">
-            <input type="radio" name="ice" value="去冰" />去冰
-          </label>
-          <label class="btn btn-outline-primary">
-            <input type="radio" name="ice" value="少冰" />少冰
-          </label>
-          <label class="btn btn-outline-primary active">
-            <input type="radio" name="ice" value="正常" checked />正常
-          </label>
+        <section class="ice mb-3">
+          <h4>冰塊</h4>
+          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            {{#each ice}}
+            <label class="btn btn-outline-primary">
+              <p class="mb-0">{{this}}</p>
+              <input type="radio" name="ice" value="{{this}}" style="display: none" />
+            </label>
+            {{/each}}
+            <label class="btn btn-outline-primary active">
+              <p class="mb-0">正常</p>
+              <input type="radio" name="ice" value="正常" checked style="display: none" />
+            </label>
+          </div>
+        </section>
+        <div class="form-group">
+          <div style="display: inline-block">
+            <label for="amount" class="mr-2">
+              <h4>數量</h4>
+            </label>
+          </div>
+          <div style="display: inline-block; width: 10%">
+            <input type="number" class="form-control" name="amount" id="amount" value="1">
+          </div>
         </div>
-      </section>
-      <div class="form-group">
-        <div style="display: inline-block">
-          <label for="amount" class="mr-2">
-            <h4>數量</h4>
-          </label>
-        </div>
-        <div style="display: inline-block; width: 10%">
-          <input type="number" class="form-control" name="amount" id="amount" value="1">
-        </div>
-      </div>
-      <button class="btn btn-info">加入購物車</button>
-      <button class="btn btn-info">直接購買</button>
+        <input type="hidden" name="productId" value="{{product.id}}" />
+        <button type="submit" class="btn btn-info to-cart">加入購物車</button>
+        <button type="submit" class="btn btn-info">直接購買</button>
+      </form>
     </div>
   </div>
   <div class="description">
