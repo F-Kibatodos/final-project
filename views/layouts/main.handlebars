@@ -29,9 +29,6 @@
         {{#if user.role}}
         <a href="/admin/products" style="color: white;margin-right: 10px;">Admin 後台</a>
         {{/if}}
-        {{#ifExist user}}
-        <a href="/signin"><button class="btn btn-outline-success my-2 my-sm-0">Sign In</button></a>
-        {{/ifExist}}
         {{#if user}}
         <span style="color: white;margin-right: 10px;">Hi, {{user.name}}</span>
         <a href="/user/{{user.id}}" style="color: white;margin-right: 10px;">Profile</a>
