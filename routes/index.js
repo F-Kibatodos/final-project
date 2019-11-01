@@ -116,7 +116,11 @@ module.exports = (app, passport) => {
   app.get('/orders/', authenticated, orderController.getOrders)
   app.get('/orders/:orderId', authenticated, orderController.getOrder)
   app.post('/order', authenticated, orderController.createOrder)
-  app.get('/order/shipping-info', authenticated, orderController.getOrderShippingInfo)
+  app.get(
+    '/order/shipping-info',
+    authenticated,
+    orderController.getOrderShippingInfo
+  )
   // 直接購買(query string)
   app.post('/buynow', cartController.buyNow)
   // 出貨資訊
@@ -225,7 +229,11 @@ module.exports = (app, passport) => {
       authenticatedAdmin,
       adminCouponController.createCoupon
     ),
-    app.get('/admin/coupons/:id', authenticatedAdmin, adminCouponController.getCoupon),
+    app.get(
+      '/admin/coupons/:id',
+      authenticatedAdmin,
+      adminCouponController.getCoupon
+    ),
     app.put(
       '/admin/coupons/:id',
       authenticatedAdmin,
@@ -271,15 +279,39 @@ module.exports = (app, passport) => {
     adminReplyController.deleteReply
   )
   // 後台種類
-  app.get('/admin/categories', authenticatedAdmin, adminCategoryController.getCategories)
-  app.post('/admin/categories', authenticatedAdmin, adminCategoryController.postCategory)
-  app.get('/admin/categories/search', authenticatedAdmin, adminCategoryController.searchCategories)
-  app.get('/admin/categories/:id', authenticatedAdmin, adminCategoryController.getCategories)
-  app.put('/admin/categories/:id', authenticatedAdmin, adminCategoryController.putCategory)
-  app.delete('/admin/categories/:id', authenticatedAdmin, adminCategoryController.deleteCategory)
+  app.get(
+    '/admin/categories',
+    authenticatedAdmin,
+    adminCategoryController.getCategories
+  )
+  app.post(
+    '/admin/categories',
+    authenticatedAdmin,
+    adminCategoryController.postCategory
+  )
+  app.get(
+    '/admin/categories/search',
+    authenticatedAdmin,
+    adminCategoryController.searchCategories
+  )
+  app.get(
+    '/admin/categories/:id',
+    authenticatedAdmin,
+    adminCategoryController.getCategories
+  )
+  app.put(
+    '/admin/categories/:id',
+    authenticatedAdmin,
+    adminCategoryController.putCategory
+  )
+  app.delete(
+    '/admin/categories/:id',
+    authenticatedAdmin,
+    adminCategoryController.deleteCategory
+  )
 
   // 最後無法批配的，全部導向404畫面
-  app.get('*', function (req, res) {
-    res.send('what???', 404);
+  app.get('*', function(req, res) {
+    res.send('what???', 404)
   })
-
+}
