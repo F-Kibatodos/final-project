@@ -12,7 +12,8 @@ const userController = {
             ...user.dataValues
           }
         })
-        return res.render('admin/users', { style: 'admin_users.css', users: data })
+        let loginUser = req.user.id
+        return res.render('admin/users', { style: 'admin_users.css', users: data, loginUser: loginUser, js: 'adminUsers.js' })
       })
   },
   putUser: (req, res) => {

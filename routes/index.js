@@ -87,23 +87,17 @@ module.exports = (app, passport) => {
           ? drink.dataValues.description.substring(0, 50)
           : ''
       }))
-      if (categoryFilter) {
-        where = {}
-        where.id = categoryFilter
-      }
-      Category.findAll({ where }).then(category => {
-        Category.findAll().then(catMenu => {
-          res.render('index', {
-            drinks,
-            category,
-            price,
-            categoryFilter,
-            priceRange,
-            search,
-            categoryFilterMenu: categoryFilterMenu || '所有分類',
-            priceFilterMenu: priceFilterMenu || '所有價格',
-            catMenu
-          })
+      Category.findAll().then(category => {
+        res.render('index', {
+          drinks,
+          category,
+          price,
+          categoryFilter,
+          priceRange,
+          search,
+          categoryFilterMenu: categoryFilterMenu || '所有分類',
+          priceFilterMenu: priceFilterMenu || '所有價格',
+          js: 'indexPage.js'
         })
       })
     })
@@ -225,17 +219,18 @@ module.exports = (app, passport) => {
     '/admin/coupons',
     authenticatedAdmin,
     adminCouponController.getCoupons
-  )
-  app.post(
-    '/admin/coupons',
-    authenticatedAdmin,
-    adminCouponController.createCoupon
-  )
-  app.put(
-    '/admin/coupons/:id',
-    authenticatedAdmin,
-    adminCouponController.putCoupon
-  )
+  ),
+    app.post(
+      '/admin/coupons',
+      authenticatedAdmin,
+      adminCouponController.createCoupon
+    ),
+    app.get('/admin/coupons/:id', authenticatedAdmin, adminCouponController.getCoupon),
+    app.put(
+      '/admin/coupons/:id',
+      authenticatedAdmin,
+      adminCouponController.putCoupon
+    )
   app.delete(
     '/admin/coupons/:id',
     authenticatedAdmin,
@@ -276,34 +271,15 @@ module.exports = (app, passport) => {
     adminReplyController.deleteReply
   )
   // 後台種類
-  app.get(
-    '/admin/categories',
-    authenticatedAdmin,
-    adminCategoryController.getCategories
-  )
-  app.post(
-    '/admin/categories',
-    authenticatedAdmin,
-    adminCategoryController.postCategory
-  )
-  app.get(
-    '/admin/categories/search',
-    authenticatedAdmin,
-    adminCategoryController.searchCategories
-  )
-  app.get(
-    '/admin/categories/:id',
-    authenticatedAdmin,
-    adminCategoryController.getCategories
-  )
-  app.put(
-    '/admin/categories/:id',
-    authenticatedAdmin,
-    adminCategoryController.putCategory
-  )
-  app.delete(
-    '/admin/categories/:id',
-    authenticatedAdmin,
-    adminCategoryController.deleteCategory
-  )
-}
+  app.get('/admin/categories', authenticatedAdmin, adminCategoryController.getCategories)
+  app.post('/admin/categories', authenticatedAdmin, adminCategoryController.postCategory)
+  app.get('/admin/categories/search', authenticatedAdmin, adminCategoryController.searchCategories)
+  app.get('/admin/categories/:id', authenticatedAdmin, adminCategoryController.getCategories)
+  app.put('/admin/categories/:id', authenticatedAdmin, adminCategoryController.putCategory)
+  app.delete('/admin/categories/:id', authenticatedAdmin, adminCategoryController.deleteCategory)
+
+  // 最後無法批配的，全部導向404畫面
+  app.get('*', function (req, res) {
+    res.send('what???', 404);
+  })
+

@@ -98,33 +98,35 @@
     -->
     <div class="col-md-12">
       {{#each category}}
-      <h3 class="mt-3">{{this.name}}</h3>
-      <hr>
-      <div class="row">
-        {{#each ../drinks}}
-        {{#ifCond this.Category.name ../this.name}}
-        <div class="col-md-4 mb-2">
-          <div class="card">
-            <div class=image>
-              <a href="/product/{{this.id}}">
-                <img src={{this.image}} class="card-img-top" alt="{{this.name}}">
-              </a>
-              <button class="btn btn-danger float-left ml-1 mt-2" style="width: 48%">喜歡</button>
-              <button class="btn btn-danger float-right mr-1 mt-2" style="width: 48%">加入購物車</button>
-            </div>
-            <div class="card-body">
-              <h5 class="card-title">{{this.name}}</h5>
-              <div class="ratings">
-                <div class="empty_star">★★★★★</div>
-                <div class="full_star" style="width: {{this.rating}}%">★★★★★</div>
+      <div id={{this.id}}>
+        <h3 class="mt-3">{{this.name}}</h3>
+        <hr>
+        <div class="row">
+          {{#each ../drinks}}
+          {{#ifCond this.Category.name ../this.name}}
+          <div class="col-md-4 mb-2">
+            <div class="card">
+              <div class=image>
+                <a href="/product/{{this.id}}">
+                  <img src={{this.image}} class="card-img-top" alt="{{this.name}}">
+                </a>
+                <button class="btn btn-danger float-left ml-1 mt-2" style="width: 48%">喜歡</button>
+                <button class="btn btn-danger float-right mr-1 mt-2" style="width: 48%">加入購物車</button>
               </div>
-              <p class="card-text">{{this.description}}</p>
-              <p class="float-right">${{this.price}}</p>
+              <div class="card-body">
+                <h5 class="card-title">{{this.name}}</h5>
+                <div class="ratings">
+                  <div class="empty_star">★★★★★</div>
+                  <div class="full_star" style="width: {{this.rating}}%">★★★★★</div>
+                </div>
+                <p class="card-text">{{this.description}}</p>
+                <p class="float-right">${{this.price}}</p>
+              </div>
             </div>
           </div>
+          {{/ifCond}}
+          {{/each}}
         </div>
-        {{/ifCond}}
-        {{/each}}
       </div>
       {{/each}}
     </div>
