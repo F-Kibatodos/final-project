@@ -45,7 +45,7 @@ const userController = {
   logout: (req, res) => {
     req.flash('success_messages', '登出成功！')
     req.logout()
-    res.redirect('/')
+    res.redirect('back')
   },
   // ========使用者========
   getUser: (req, res) => {

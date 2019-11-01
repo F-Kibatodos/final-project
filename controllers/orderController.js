@@ -6,6 +6,7 @@ const crypto = require("crypto")
 const Order = db.Order
 const OrderItem = db.OrderItem
 
+
 // 第三方支付所需資料
 const URL = process.env.URL
 const MerchantID = process.env.MERCHANT_ID
@@ -14,7 +15,7 @@ const HashIV = process.env.HASH_IV
 const PayGateWay = "https://ccore.spgateway.com/MPG/mpg_gateway"
 const ReturnURL = URL + "/spgateway/callback?from=ReturnURL"
 const NotifyURL = URL + "/spgateway/callback?from=NotifyURL"
-const ClientBackURL = URL + "/orders/1"
+const ClientBackURL = URL + "/order/shipping-info/"
 
 function genDataChain(TradeInfo) {
   let results = [];
@@ -59,7 +60,6 @@ function getTradeInfo(Amt, Desc, email) {
     'Version': 1.5, // 串接程式版本
     'MerchantOrderNo': Date.now(), // 商店訂單編號
     'LoginType': 0, // 智付通會員
-    'OrderComment': 'OrderComment', // 商店備註
     'Amt': Amt, // 訂單金額
     'ItemDesc': Desc, // 產品名稱
     'Email': email, // 付款人電子信箱
@@ -99,7 +99,27 @@ const orderController = {
     res.render('orders')
   },
   getOrder: (req, res) => {
-    res.render('order')
+    Order.findByPk(req.params.orderId).then(
+      order => {
+        if (order.UserId !== req.user.id) {
+          req.flash('error_messages', '無權限查看')
+          return res.redirect('/')
+        }
+        return OrderItem.sum('quantity', { where: { OrderId: order.id || 0 } }).then(totalQuantity => {
+          totalQuantity = totalQuantity || 0
+          OrderItem.findAll({ where: { OrderId: order.id || 0 }, include: 'Product' }).then(items => {
+            let totalPrice = items.length > 0 ? items.map(d => d.price * d.quantity).reduce((a, b) => a + b) : 0
+            return res.render('order', {
+              totalPrice,
+              items,
+              order,
+              totalQuantity
+            }
+            )
+          })
+        })
+      }
+    )
   },
   createOrder: (req, res) => {
     return CartItem.findAll({ where: { CartId: req.body.cartId || 0 }, include: 'Product' }).then(items => {
@@ -111,6 +131,7 @@ const orderController = {
         shipping_method: req.body.shipping_method,
         payment_status: req.body.payment_status,
         amount: req.body.amount,
+        UserId: req.user.id
       }).then(order => {
         var results = [];
         for (var i = 0; i < items.length; i++) {
@@ -131,8 +152,8 @@ const orderController = {
           console.log(order.id)
           console.log('==========')
 
-          return Order.findByPk(order.id, {}).then(order => {
-            const tradeInfo = getTradeInfo(order.amount, '飲料', order.email)
+          return Order.findByPk(order.id, { include: 'User' }).then(order => {
+            const tradeInfo = getTradeInfo(order.amount, '飲料', order.User.email)
             order.update({
               sn: tradeInfo.MerchantOrderNo,
             }).then(order => {
@@ -161,7 +182,6 @@ const orderController = {
     // 確認折扣券是否符合
   },
   getOrderShippingInfo: (req, res) => {
-    req.session.cartId = 9
     return CartItem.findAll({ where: { CartId: req.session.cartId || 0 }, include: [{ model: Product }] }).then(items => {
       let totalPrice = items.length > 0 ? items.map(d => d.Product.price * d.quantity).reduce((a, b) => a + b) : 0
       CartItem.sum('quantity', { where: { CartId: req.session.cartId || 0 } }).then(totalQuantity => {
@@ -175,8 +195,32 @@ const orderController = {
         })
       })
     })
-  }
+  },
+  spgatewayCallback: (req, res) => {
+    console.log('===== spgatewayCallback =====')
+    console.log(req.method)
+    console.log(req.query)
+    console.log(req.body)
+    console.log('==========')
 
+    console.log('===== spgatewayCallback: TradeInfo =====')
+    console.log(req.body.TradeInfo)
+
+
+    const data = JSON.parse(create_mpg_aes_decrypt(req.body.TradeInfo))
+
+    console.log('===== spgatewayCallback: create_mpg_aes_decrypt、data =====')
+    console.log(data)
+
+    return Order.findOne({ where: { sn: data['Result']['MerchantOrderNo'] } }).then(order => {
+      order.update({
+        ...req.body,
+        payment_status: 1,
+      }).then(order => {
+        return res.redirect(`/orders/${order.id}`)
+      })
+    })
+  }
 }
 
 module.exports = orderController
