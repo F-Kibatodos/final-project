@@ -7,7 +7,6 @@ const Product = db.Product
 const cartController = {
   getCart: (req, res) => {
     let buyNowItem = Number(req.query.item) || 'all'
-    console.log(buyNowItem)
     return CartItem.findAll({ where: { CartId: req.session.cartId || 0 }, include: [{ model: Product }] }).then(items => {
       let totalPrice = items.length > 0 ? items.map(d => d.Product.price * d.quantity).reduce((a, b) => a + b) : 0
       CartItem.sum('quantity', { where: { CartId: req.session.cartId || 0 } }).then(totalQuantity => {
@@ -52,9 +51,13 @@ const cartController = {
           quantity: (cartItem.quantity || 0) + 1,
         })
           .then((cartItem) => {
-            req.session.cartId = cart.id
-            return req.session.save(() => {
-              return res.redirect('back')
+            CartItem.sum('quantity', { where: { CartId: req.session.cartId || 0 } }).then(totalQuantity => {
+              totalQuantity = totalQuantity || 0
+              req.session.cartId = cart.id
+              req.session.cart_number = totalQuantity
+              return req.session.save(() => {
+                return res.redirect('back')
+              })
             })
           })
       })
@@ -116,9 +119,13 @@ const cartController = {
           quantity: (cartItem.quantity || 0) + 1,
         })
           .then((cartItem) => {
-            req.session.cartId = cart.id
-            return req.session.save(() => {
-              return res.redirect(`/cart?item=${cartItem.id}`)
+            CartItem.sum('quantity', { where: { CartId: req.session.cartId || 0 } }).then(totalQuantity => {
+              totalQuantity = totalQuantity || 0
+              req.session.cartId = cart.id
+              req.session.cart_number = totalQuantity
+              return req.session.save(() => {
+                return res.redirect(`/cart?item=${cartItem.id}`)
+              })
             })
           })
       })

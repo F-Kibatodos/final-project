@@ -10,6 +10,9 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 
+const db = require('./models')
+const CartItem = db.CartItem
+
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('public'))
 app.engine(
@@ -37,6 +40,12 @@ app.use((req, res, next) => {
   res.locals.success_messages = req.flash('success_messages')
   res.locals.error_messages = req.flash('error_messages')
   res.locals.user = req.user
+  CartItem.sum('quantity', { where: { CartId: req.session.cartId || 0 } }).then(
+    quantity => {
+      quantity = quantity || 0
+      res.locals.cart_number = quantity || 0
+    }
+  )
   next()
 })
 

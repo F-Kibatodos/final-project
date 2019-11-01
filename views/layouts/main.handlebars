@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="/stylesheets/main.css">
   {{#if style}}
   <link rel="stylesheet" href="/stylesheets/{{style}}">
   {{/if}}
@@ -26,6 +27,9 @@
       <ul class="navbar-nav mr-auto">
       </ul>
       <div>
+        <span class="fa-stack fa-1x mr-2" data-count={{#if cart_number}}{{cart_number}}{{else}}0{{/if}}>
+          <a href="/cart"><i style="" class="fas fa-shopping-cart fa-stack-2x cart"></i></a>
+        </span>
         {{#if user.role}}
         <a href="/admin/products" style="color: white;margin-right: 10px;">Admin 後台</a>
         {{/if}}
