@@ -164,6 +164,7 @@ module.exports = (app, passport) => {
   )
   app.get('/admin/users', authenticatedAdmin, adminUserController.getUsers)
   app.put('/admin/users/:id', authenticatedAdmin, adminUserController.putUser)
+
   // 後台商品
   app.get(
     '/admin/products/search',
@@ -197,121 +198,41 @@ module.exports = (app, passport) => {
   )
   app.delete('/admin/products/:id', adminProductController.deleteProduct)
   // 移除不當評論
-  app.put(
-    '/admin/comments/:id',
-    authenticatedAdmin,
-    adminCommentController.putComment
-  )
+  app.put('/admin/comments/:id', authenticatedAdmin, adminCommentController.putComment)
   // 聯絡資訊
-  app.put(
-    '/admin/contact',
-    authenticatedAdmin,
-    adminContactController.putContact
-  )
-  app.get(
-    '/admin/contact/edit',
-    authenticatedAdmin,
-    adminContactController.editContact
-  )
+  app.put('/admin/contact', authenticatedAdmin, adminContactController.putContact)
+  app.get('/admin/contact/edit', authenticatedAdmin, adminContactController.editContact)
   // 後台折價券
-  app.get(
-    '/admin/coupons/search',
-    authenticatedAdmin,
-    adminCouponController.searchCoupons
-  )
-  app.get(
-    '/admin/coupons',
-    authenticatedAdmin,
-    adminCouponController.getCoupons
-  ),
-    app.post(
-      '/admin/coupons',
-      authenticatedAdmin,
-      adminCouponController.createCoupon
-    ),
-    app.get(
-      '/admin/coupons/:id',
-      authenticatedAdmin,
-      adminCouponController.getCoupon
-    ),
-    app.put(
-      '/admin/coupons/:id',
-      authenticatedAdmin,
-      adminCouponController.putCoupon
-    )
-  app.delete(
-    '/admin/coupons/:id',
-    authenticatedAdmin,
-    adminCouponController.deleteCoupon
-  )
+  app.get('/admin/coupons/search', authenticatedAdmin, adminCouponController.searchCoupons)
+  app.get('/admin/coupons', authenticatedAdmin, adminCouponController.getCoupons)
+  app.get('/admin/coupons/create', authenticatedAdmin, adminCouponController.createCoupon)
+  app.post('/admin/coupons', authenticatedAdmin, adminCouponController.postCoupon)
+  app.get('/admin/coupons/:id', authenticatedAdmin, adminCouponController.getCoupon)
+  app.put('/admin/coupons/:id', authenticatedAdmin, adminCouponController.putCoupon)
+  app.delete('/admin/coupons/:id', authenticatedAdmin, adminCouponController.deleteCoupon)
+
   // 後台訂單
-  app.get(
-    '/admin/orders/search',
-    authenticatedAdmin,
-    adminOrderController.searchOrders
-  )
+  app.get('/admin/orders/search', authenticatedAdmin, adminOrderController.searchOrders)
   app.get('/admin/orders', authenticatedAdmin, adminOrderController.getOrders)
-  app.post(
-    '/admin/orders',
-    authenticatedAdmin,
-    adminOrderController.createOrder
-  )
-  app.put(
-    '/admin/orders/:id',
-    authenticatedAdmin,
-    adminOrderController.putOrder
-  )
-  app.delete(
-    '/admin/orders/:id',
-    authenticatedAdmin,
-    adminOrderController.deleteOrder
-  )
+  app.post('/admin/orders', authenticatedAdmin, adminOrderController.createOrder)
+  app.put('/admin/orders/:id', authenticatedAdmin, adminOrderController.putOrder)
+  app.delete('/admin/orders/:id', authenticatedAdmin, adminOrderController.deleteOrder)
+
   // reply
   app.post('/admin/reply', authenticatedAdmin, adminReplyController.createReply)
-  app.put(
-    '/admin/replies/:id',
-    authenticatedAdmin,
-    adminReplyController.putReply
-  )
-  app.delete(
-    '/admin/replies/:id',
-    authenticatedAdmin,
-    adminReplyController.deleteReply
-  )
+  app.put('/admin/replies/:id', authenticatedAdmin, adminReplyController.putReply)
+  app.delete('/admin/replies/:id', authenticatedAdmin, adminReplyController.deleteReply)
+
   // 後台種類
-  app.get(
-    '/admin/categories',
-    authenticatedAdmin,
-    adminCategoryController.getCategories
-  )
-  app.post(
-    '/admin/categories',
-    authenticatedAdmin,
-    adminCategoryController.postCategory
-  )
-  app.get(
-    '/admin/categories/search',
-    authenticatedAdmin,
-    adminCategoryController.searchCategories
-  )
-  app.get(
-    '/admin/categories/:id',
-    authenticatedAdmin,
-    adminCategoryController.getCategories
-  )
-  app.put(
-    '/admin/categories/:id',
-    authenticatedAdmin,
-    adminCategoryController.putCategory
-  )
-  app.delete(
-    '/admin/categories/:id',
-    authenticatedAdmin,
-    adminCategoryController.deleteCategory
-  )
+  app.get('/admin/categories', authenticatedAdmin, adminCategoryController.getCategories)
+  app.post('/admin/categories', authenticatedAdmin, adminCategoryController.postCategory)
+  app.get('/admin/categories/search', authenticatedAdmin, adminCategoryController.searchCategories)
+  app.get('/admin/categories/:id', authenticatedAdmin, adminCategoryController.getCategories)
+  app.put('/admin/categories/:id', authenticatedAdmin, adminCategoryController.putCategory)
+  app.delete('/admin/categories/:id', authenticatedAdmin, adminCategoryController.deleteCategory)
 
   // 最後無法批配的，全部導向404畫面
-  app.get('*', function(req, res) {
+  app.get('*', function (req, res) {
     res.send('what???', 404)
   })
 }
