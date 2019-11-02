@@ -21,10 +21,8 @@ window.onload = function() {
 const buy = document.querySelector('.buy')
 const toCart = document.querySelector('.to-cart')
 const buyNow = document.querySelector('.buy-now')
-console.log(toCart)
 
 buy.addEventListener('mouseover', function(e) {
   if (e.target === toCart) buy.setAttribute('action', '/cart')
   if (e.target === buyNow) buy.setAttribute('action', '/buynow')
 })
-console.log(buy)
