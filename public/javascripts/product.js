@@ -26,3 +26,15 @@ buy.addEventListener('mouseover', function(e) {
   if (e.target === toCart) buy.setAttribute('action', '/cart')
   if (e.target === buyNow) buy.setAttribute('action', '/buynow')
 })
+
+const customComments = document.getElementsByClassName('custom-comment')
+const editComments = document.getElementsByClassName('edit-comment')
+const commentWrappers = document.getElementsByClassName('comment-wrapper')
+
+for (let editComment of editComments) {
+  editComment.addEventListener('click', e => {
+    editComment.previousElementSibling.previousElementSibling.innerHTML = `<input name="content" class="content form-control" type="text" value=${editComment.previousElementSibling.previousElementSibling.firstElementChild.innerHTML}>`
+    editComment.classList.add('d-none')
+    editComment.nextElementSibling.classList.remove('d-none')
+  })
+}
