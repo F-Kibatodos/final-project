@@ -7,6 +7,8 @@ const Reply = db.Reply
 
 const productController = {
   getProduct: (req, res) => {
+    const sugar = ['無糖', '微糖', '半糖', '少糖']
+    const ice = ['去冰', '少冰']
     const rank = [1, 2, 3, 4, 5]
     Product.findByPk(req.params.id, { include: [Category] }).then(product => {
       Comment.findAll({
@@ -23,7 +25,9 @@ const productController = {
           rank,
           style: 'product.css',
           js: 'product.js',
-          modComments
+          modComments,
+          sugar,
+          ice
         })
       })
     })
