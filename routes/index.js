@@ -181,7 +181,7 @@ module.exports = (app, passport) => {
     adminProductController.createProducts
   )
   app.get(
-    '/admin/products/edit',
+    '/admin/products/:id/edit',
     authenticatedAdmin,
     adminProductController.editProduct
   )

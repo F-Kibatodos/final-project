@@ -57,8 +57,12 @@
           </div>
         </div>
         <input type="hidden" name="productId" value="{{product.id}}" />
+        {{#if product.available}}
         <button type="submit" class="btn btn-info to-cart">加入購物車</button>
         <button type="submit" class="btn btn-info buy-now">直接購買</button>
+        {{else}}
+        <p>目前無法購買</p>
+        {{/if}}
       </form>
     </div>
   </div>
