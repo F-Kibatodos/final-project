@@ -33,9 +33,6 @@
         {{#if user.role}}
         <a href="/admin/products" style="color: white;margin-right: 10px;">Admin 後台</a>
         {{/if}}
-        {{#ifExist user}}
-        <a href="/signin"><button class="btn btn-outline-success my-2 my-sm-0">Sign In</button></a>
-        {{/ifExist}}
         {{#if user}}
         <span style="color: white;margin-right: 10px;">Hi, {{user.name}}</span>
         <a href="/user/{{user.id}}" style="color: white;margin-right: 10px;">Profile</a>
@@ -79,7 +76,7 @@
   integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
 {{#if js}}
-<script type="text/javascript" src="/javascript/{{js}}"></script>
+<script type="text/javascript" src="/javascripts/{{js}}"></script>
 {{/if}}
 
 </html>
