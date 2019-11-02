@@ -68,6 +68,7 @@ const cartController = {
           .then(cartItem => {
             req.session.cartId = cart.id
             return req.session.save(() => {
+              req.flash('success_messages', '已加入購物車')
               return res.redirect('back')
             })
           })

@@ -55,11 +55,11 @@ module.exports = (app, passport) => {
   // 首頁
   app.get('/', (req, res) => {
     const priceRange = [
-      { forQuery: [0, 30], forOption: '30元以下' },
-      { forQuery: [31, 40], forOption: '31-40元' },
-      { forQuery: [41, 50], forOption: '41-50元' },
-      { forQuery: [51, 60], forOption: '51-60元' },
-      { forQuery: [61, 100], forOption: '60元以上' }
+      { forQuery: '0,30', forOption: '30元以下' },
+      { forQuery: '31,40', forOption: '31-40元' },
+      { forQuery: '41,50', forOption: '41-50元' },
+      { forQuery: '51,60', forOption: '51-60元' },
+      { forQuery: '61,100', forOption: '60元以上' }
     ]
     let sortKey = req.query.sortKey || 'price'
     let sortValue = req.query.sortValue || 'DESC'
@@ -87,23 +87,17 @@ module.exports = (app, passport) => {
           ? drink.dataValues.description.substring(0, 50)
           : ''
       }))
-      if (categoryFilter) {
-        where = {}
-        where.id = categoryFilter
-      }
-      Category.findAll({ where }).then(category => {
-        Category.findAll().then(catMenu => {
-          res.render('index', {
-            drinks,
-            category,
-            price,
-            categoryFilter,
-            priceRange,
-            search,
-            categoryFilterMenu: categoryFilterMenu || '所有分類',
-            priceFilterMenu: priceFilterMenu || '所有價格',
-            catMenu
-          })
+      Category.findAll().then(category => {
+        res.render('index', {
+          drinks,
+          category,
+          price,
+          categoryFilter,
+          priceRange,
+          search,
+          categoryFilterMenu: categoryFilterMenu || '所有分類',
+          priceFilterMenu: priceFilterMenu || '所有價格',
+          js: 'indexPage.js'
         })
       })
     })
@@ -122,7 +116,11 @@ module.exports = (app, passport) => {
   app.get('/orders/', authenticated, orderController.getOrders)
   app.get('/orders/:orderId', authenticated, orderController.getOrder)
   app.post('/order', authenticated, orderController.createOrder)
-  app.get('/order/shipping-info', authenticated, orderController.getOrderShippingInfo)
+  app.get(
+    '/order/shipping-info',
+    authenticated,
+    orderController.getOrderShippingInfo
+  )
   // 直接購買(query string)
   app.post('/buynow', cartController.buyNow)
   // 出貨資訊
@@ -225,17 +223,22 @@ module.exports = (app, passport) => {
     '/admin/coupons',
     authenticatedAdmin,
     adminCouponController.getCoupons
-  )
-  app.post(
-    '/admin/coupons',
-    authenticatedAdmin,
-    adminCouponController.createCoupon
-  )
-  app.put(
-    '/admin/coupons/:id',
-    authenticatedAdmin,
-    adminCouponController.putCoupon
-  )
+  ),
+    app.post(
+      '/admin/coupons',
+      authenticatedAdmin,
+      adminCouponController.createCoupon
+    ),
+    app.get(
+      '/admin/coupons/:id',
+      authenticatedAdmin,
+      adminCouponController.getCoupon
+    ),
+    app.put(
+      '/admin/coupons/:id',
+      authenticatedAdmin,
+      adminCouponController.putCoupon
+    )
   app.delete(
     '/admin/coupons/:id',
     authenticatedAdmin,
@@ -306,4 +309,9 @@ module.exports = (app, passport) => {
     authenticatedAdmin,
     adminCategoryController.deleteCategory
   )
+
+  // 最後無法批配的，全部導向404畫面
+  app.get('*', function(req, res) {
+    res.send('what???', 404)
+  })
 }
