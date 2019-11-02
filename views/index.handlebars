@@ -110,7 +110,15 @@
                 <a href="/product/{{this.id}}">
                   <img src={{this.image}} class="card-img-top" alt="{{this.name}}">
                 </a>
-                <button class="btn btn-danger float-left ml-1 mt-2" style="width: 48%">喜歡</button>
+                {{#if this.isWished}}
+                <form action="/product/{{this.id}}/unwish" method="POST">
+                  <button class="btn btn-danger float-left ml-1 mt-2" style="width: 48%">不喜歡</button>
+                </form>
+                {{else}}
+                <form action="/product/{{this.id}}" method="POST">
+                  <button class="btn btn-danger float-left ml-1 mt-2" style="width: 48%">喜歡</button>
+                </form>
+                {{/if}}
                 <form action="/cart" method="POST">
                   <input type="hidden" name="sugar" value="正常甜">
                   <input type="hidden" name="ice" value="正常">

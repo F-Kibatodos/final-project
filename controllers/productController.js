@@ -11,6 +11,11 @@ const productController = {
     const ice = ['去冰', '少冰']
     const rank = [1, 2, 3, 4, 5]
     Product.findByPk(req.params.id, { include: [Category] }).then(product => {
+      const isLiked = req.user
+        ? req.user.WishProducts
+          ? req.user.WishProducts.map(d => d.id).includes(product.id)
+          : req.user.WishProducts
+        : false
       Comment.findAll({
         where: { ProductId: req.params.id },
         include: [User, { model: Reply, include: [User] }]
@@ -19,7 +24,6 @@ const productController = {
           ...comment.dataValues,
           ranking: (comment.dataValues.ranking / 5) * 100
         }))
-
         res.render('product', {
           product,
           rank,
@@ -27,7 +31,8 @@ const productController = {
           js: 'product.js',
           modComments,
           sugar,
-          ice
+          ice,
+          isLiked
         })
       })
     })

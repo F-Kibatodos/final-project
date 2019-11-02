@@ -8,7 +8,15 @@
           <div class="full_star" style="width: 83%">★★★★★</div>
         </div>
         <button class="btn btn-primary">分享</button>
-        <button class="btn btn-danger">喜歡</button>
+        {{#if isLiked}}
+        <form action="/product/{{product.id}}/unwish" method="POST">
+          <button class="btn btn-danger" style="height: 100%">不喜歡</button>
+        </form>
+        {{else}}
+        <form action="/product/{{product.id}}" method="POST">
+          <button class="btn btn-danger" style="height: 100%">喜歡</button>
+        </form>
+        {{/if}}
       </div>
     </div>
     <div class="col-md-7">

@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs')
 const db = require('../models')
 const User = db.User
+const WishItem = db.WishItem
 
 const userController = {
   signUpPage: (req, res) => {
@@ -49,6 +50,9 @@ const userController = {
   },
   // ========使用者========
   getUser: (req, res) => {
+    if (Number(req.params.id) !== req.user.id) {
+      return res.redirect(`/user/${req.user.id}`)
+    }
     User.findByPk(req.params.id).then(profile => {
       res.render('profile', { profile })
     })
@@ -106,10 +110,23 @@ const userController = {
     // 更改願望清單
   },
   addWish: (req, res) => {
-    // 新增願望清單品項
+    WishItem.create({
+      UserId: req.user.id,
+      ProductId: req.params.id
+    }).then(wishItem => {
+      req.flash('success_messages', '已加至願望清單')
+      res.redirect('back')
+    })
   },
   removeWish: (req, res) => {
-    // 移除願望清單品項
+    WishItem.findOne({
+      where: { UserId: req.user.id, ProductId: req.params.id }
+    }).then(wishItem => {
+      wishItem.destroy().then(deletedItem => {
+        req.flash('success_messages', '已從願望清單移除')
+        res.redirect('back')
+      })
+    })
   }
 }
 
