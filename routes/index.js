@@ -55,11 +55,11 @@ module.exports = (app, passport) => {
   // 首頁
   app.get('/', (req, res) => {
     const priceRange = [
-      { forQuery: [0, 30], forOption: '30元以下' },
-      { forQuery: [31, 40], forOption: '31-40元' },
-      { forQuery: [41, 50], forOption: '41-50元' },
-      { forQuery: [51, 60], forOption: '51-60元' },
-      { forQuery: [61, 100], forOption: '60元以上' }
+      { forQuery: '0,30', forOption: '30元以下' },
+      { forQuery: '31,40', forOption: '31-40元' },
+      { forQuery: '41,50', forOption: '41-50元' },
+      { forQuery: '51,60', forOption: '51-60元' },
+      { forQuery: '61,100', forOption: '60元以上' }
     ]
     let sortKey = req.query.sortKey || 'price'
     let sortValue = req.query.sortValue || 'DESC'
