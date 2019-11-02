@@ -67,7 +67,11 @@
         {{#ifCond order.shipping_method "自取"}}
         <span class="pl-2">{{order.shipping_method}}</span>
         {{else}}
-        <span class="pl-2">{{order.shipping_method}} 至 {{order.address}}</span>
+        <ul>
+          <li>{{order.shipping_method}} 至 {{order.address}}</li>
+          <li>收件人 : {{order.name}}</li>
+          <li>電話 : {{order.phone}}</li>
+        </ul>
         {{/ifCond}}
       </div>
     </div>
