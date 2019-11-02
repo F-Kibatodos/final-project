@@ -61,8 +61,7 @@ const userController = {
   },
   editUser: (req, res) => {
     if (Number(req.params.id) !== req.user.id) {
-      req.flash('error_messages', '您無權編輯他人檔案')
-      return res.redirect(`/user/${req.params.id}`)
+      return res.redirect(`/user/${req.user.id}/edit`)
     } else {
       return User.findByPk(req.params.id).then(user => {
         return res.render('edit-profile')
@@ -106,6 +105,9 @@ const userController = {
   },
   // ========願望清單========
   getWishlist: (req, res) => {
+    if (Number(req.params.userId) !== req.user.id) {
+      return res.redirect(`/wishlist/${req.user.id}`)
+    }
     WishItem.findAll({
       include: [Product, { model: Product, include: [Category] }],
       where: { UserId: req.params.userId }
