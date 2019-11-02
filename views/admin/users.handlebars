@@ -30,6 +30,7 @@
   </li>
 </ul>
 <br />
+<div id="loginUser" style="display:none">{{loginUser}}</div>
 <table class="table row mx-0 table-hover">
   <thead class="thead-dark w-100">
     <tr class="row mx-0">
@@ -48,8 +49,9 @@
       <td class="col-4">{{this.email}}</td>
       {{#if this.role}}
       <td class="col-2">管理員</td>
-      <td class="col-3">
-        <form action="/admin/users/{{this.id}}?_method=PUT" method="POST" style="display: inline;">
+      <td class="col-3 ">
+        <div class="user" style="display:none">{{this.id}}</div>
+        <form id="{{this.id}}" action="/admin/users/{{this.id}}?_method=PUT" method="POST" style="display: inline;">
           <button type="submit" class="btn btn-outline-secondary">一般用戶</button>
         </form>
       </td>

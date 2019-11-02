@@ -89,7 +89,6 @@ module.exports = (app, passport) => {
       }))
       Category.findAll().then(category => {
         res.render('index', {
-          js: 'index.js',
           drinks,
           category,
           price,
@@ -97,7 +96,8 @@ module.exports = (app, passport) => {
           priceRange,
           search,
           categoryFilterMenu: categoryFilterMenu || '所有分類',
-          priceFilterMenu: priceFilterMenu || '所有價格'
+          priceFilterMenu: priceFilterMenu || '所有價格',
+          js: 'indexPage.js'
         })
       })
     })
@@ -223,17 +223,22 @@ module.exports = (app, passport) => {
     '/admin/coupons',
     authenticatedAdmin,
     adminCouponController.getCoupons
-  )
-  app.post(
-    '/admin/coupons',
-    authenticatedAdmin,
-    adminCouponController.createCoupon
-  )
-  app.put(
-    '/admin/coupons/:id',
-    authenticatedAdmin,
-    adminCouponController.putCoupon
-  )
+  ),
+    app.post(
+      '/admin/coupons',
+      authenticatedAdmin,
+      adminCouponController.createCoupon
+    ),
+    app.get(
+      '/admin/coupons/:id',
+      authenticatedAdmin,
+      adminCouponController.getCoupon
+    ),
+    app.put(
+      '/admin/coupons/:id',
+      authenticatedAdmin,
+      adminCouponController.putCoupon
+    )
   app.delete(
     '/admin/coupons/:id',
     authenticatedAdmin,
@@ -304,4 +309,9 @@ module.exports = (app, passport) => {
     authenticatedAdmin,
     adminCategoryController.deleteCategory
   )
+
+  // 最後無法批配的，全部導向404畫面
+  app.get('*', function(req, res) {
+    res.send('what???', 404)
+  })
 }

@@ -3,13 +3,12 @@ const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const flash = require('connect-flash')
 const session = require('express-session')
-const passport = require('./config/passport')
 const methodOverride = require('method-override')
 const app = express()
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
-
+const passport = require('./config/passport')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('public'))
 app.engine(
@@ -41,4 +40,5 @@ app.use((req, res, next) => {
 })
 
 require('./routes')(app, passport)
+require('./routes/authsFB')(app)
 app.listen(3000)
