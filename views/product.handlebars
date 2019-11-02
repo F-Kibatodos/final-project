@@ -78,7 +78,17 @@
       <div class="empty_star" style="font-size: 20px">★★★★★</div>
       <div class="full_star" style="width: {{this.ranking}}%; font-size: 20px">★★★★★</div>
     </div>
-    <p class="text">{{this.content}}</p>
+    <form action="/comments/{{this.id}}?_method=PUT" method="POST">
+      <div class="comment-wrapper">
+        <p class="custom-comment">{{this.content}}</p>
+      </div>
+      <input type="hidden" name="commentId" value="{{this.id}}">
+      {{#ifCond this.User.id ../user.id}}
+      <button type="button" class="edit-comment btn btn-sm btn-primary">編輯</button>
+      <button type="submit" class="update-comment btn btn-sm btn-primary d-none">更新</button>
+      {{/ifCond}}
+      <input type="hidden" name="productId" value="{{../product.id}}">
+    </form>
     {{#each this.Replies}}
     <div class="pl-4">
       <a href="">#{{this.User.name}}</a>
