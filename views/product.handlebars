@@ -93,11 +93,16 @@
     {{#each this.Replies}}
     <div class="pl-4">
       <a href="">#{{this.User.name}}</a>
-      <p>{{this.content}}</p>
-      {{#if ../../user.role}}
       <form action="/admin/replies/{{this.id}}?_method=PUT" method="POST">
+        <div>
+          <p>{{this.content}}</p>
+        </div>
+        {{#if ../../user.role}}
+        <button type="button" class="edit-reply btn btn-info btn-sm">編輯</button>
+        <button type="submit" class="update-reply btn btn-sm btn-primary d-none">更新</button>
+        <button type="button" class="cancel-update-reply btn btn-sm btn-primary d-none">取消</button>
         <input type="hidden" name="productId" value="{{../../product.id}}" />
-        <button class="btn btn-info btn-sm" type="submit">修改</button>
+        <input type="hidden" name="replyId" value="{{this.id}}">
       </form>
       <form action="/admin/replies/{{this.id}}?_method=DELETE" method="POST">
         <input type="hidden" name="productId" value="{{../../product.id}}" />

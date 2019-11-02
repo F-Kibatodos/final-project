@@ -55,3 +55,29 @@ for (let cancelUpdate of cancelUpdates) {
     cancelUpdate.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.innerHTML = `<p>${originalText}</p>`
   })
 }
+
+const editRelpies = document.getElementsByClassName('edit-reply')
+const cancelUpdateReplies = document.getElementsByClassName(
+  'cancel-update-reply'
+)
+let originalReplyText
+for (let editReply of editRelpies) {
+  editReply.addEventListener('click', e => {
+    originalReplyText =
+      editReply.previousElementSibling.firstElementChild.innerText
+    editReply.previousElementSibling.innerHTML = `<input name="content" class="reply-content form-control" type="text" value=${originalReplyText}>`
+    editReply.classList.add('d-none')
+    editReply.nextElementSibling.classList.remove('d-none')
+    editReply.nextElementSibling.nextElementSibling.classList.remove('d-none')
+  })
+}
+for (let cancelUpdateReply of cancelUpdateReplies) {
+  cancelUpdateReply.addEventListener('click', e => {
+    cancelUpdateReply.classList.add('d-none')
+    cancelUpdateReply.previousElementSibling.classList.add('d-none')
+    cancelUpdateReply.previousElementSibling.previousElementSibling.classList.remove(
+      'd-none'
+    )
+    cancelUpdateReply.previousElementSibling.previousElementSibling.previousElementSibling.innerHTML = `<p>${originalReplyText}</p>`
+  })
+}
