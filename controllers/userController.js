@@ -1,7 +1,9 @@
 const bcrypt = require('bcryptjs')
 const db = require('../models')
 const User = db.User
+const Product = db.Product
 const WishItem = db.WishItem
+const Category = db.Category
 
 const userController = {
   signUpPage: (req, res) => {
@@ -104,7 +106,12 @@ const userController = {
   },
   // ========願望清單========
   getWishlist: (req, res) => {
-    res.render('wishlist')
+    WishItem.findAll({
+      include: [Product, { model: Product, include: [Category] }],
+      where: { UserId: req.params.userId }
+    }).then(wishItems => {
+      res.render('wishlist', { wishItems })
+    })
   },
   putWishlist: (req, res) => {
     // 更改願望清單
