@@ -86,6 +86,7 @@
       {{#ifCond this.User.id ../user.id}}
       <button type="button" class="edit-comment btn btn-sm btn-primary">編輯</button>
       <button type="submit" class="update-comment btn btn-sm btn-primary d-none">更新</button>
+      <button type="button" class="cancel-update btn btn-sm btn-primary d-none">取消</button>
       {{/ifCond}}
       <input type="hidden" name="productId" value="{{../product.id}}">
     </form>

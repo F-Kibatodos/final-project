@@ -30,11 +30,28 @@ buy.addEventListener('mouseover', function(e) {
 const customComments = document.getElementsByClassName('custom-comment')
 const editComments = document.getElementsByClassName('edit-comment')
 const commentWrappers = document.getElementsByClassName('comment-wrapper')
+const cancelUpdates = document.getElementsByClassName('cancel-update')
+let originalText
 
 for (let editComment of editComments) {
   editComment.addEventListener('click', e => {
-    editComment.previousElementSibling.previousElementSibling.innerHTML = `<input name="content" class="content form-control" type="text" value=${editComment.previousElementSibling.previousElementSibling.firstElementChild.innerHTML}>`
+    originalText =
+      editComment.previousElementSibling.previousElementSibling
+        .firstElementChild.innerHTML
+    editComment.previousElementSibling.previousElementSibling.innerHTML = `<input name="content" class="content form-control" type="text" value=${originalText}>`
     editComment.classList.add('d-none')
     editComment.nextElementSibling.classList.remove('d-none')
+    editComment.nextElementSibling.nextElementSibling.classList.remove('d-none')
+  })
+}
+
+for (let cancelUpdate of cancelUpdates) {
+  cancelUpdate.addEventListener('click', e => {
+    cancelUpdate.classList.add('d-none')
+    cancelUpdate.previousElementSibling.classList.add('d-none')
+    cancelUpdate.previousElementSibling.previousElementSibling.classList.remove(
+      'd-none'
+    )
+    cancelUpdate.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.innerHTML = `<p>${originalText}</p>`
   })
 }

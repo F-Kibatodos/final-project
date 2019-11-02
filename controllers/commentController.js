@@ -13,7 +13,15 @@ const commentController = {
     })
   },
   putComment: (req, res) => {
-    // 修改評論
+    Comment.findByPk(req.body.commentId).then(comment => {
+      comment
+        .update({
+          content: req.body.content
+        })
+        .then(comment => {
+          res.redirect(`/product/${req.body.productId}`)
+        })
+    })
   }
 }
 
