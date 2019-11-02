@@ -92,7 +92,7 @@
     </form>
     {{#each this.Replies}}
     <div class="pl-4">
-      <a href="">#{{this.User.name}}</a>
+      <p>{{this.User.name}}</p>
       <form action="/admin/replies/{{this.id}}?_method=PUT" method="POST">
         <div>
           <p>{{this.content}}</p>
