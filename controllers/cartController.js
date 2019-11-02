@@ -32,6 +32,10 @@ const cartController = {
   },
 
   postCart: (req, res) => {
+    if (req.body.amount <= 0) {
+      req.flash('error_messages', '至少需買一杯')
+      return res.redirect('back')
+    }
     return Cart.findOrCreate({
       where: {
         id: req.session.cartId || 0,
@@ -46,20 +50,20 @@ const cartController = {
           CartId: cart.id,
           ProductId: req.body.productId,
           ice: req.body.ice,
-          sugar: req.body.sugar,
-          quantity: req.body.amount
+          sugar: req.body.sugar
         },
         default: {
           CartId: cart.id,
           ProductId: req.body.productId,
           ice: req.body.ice,
-          sugar: req.body.sugar,
-          quantity: req.body.amount
+          sugar: req.body.sugar
         }
       }).spread(function(cartItem, created) {
         return cartItem
           .update({
-            quantity: Number(cartItem.quantity) || 1
+            quantity: cartItem.quantity
+              ? Number(cartItem.quantity) + Number(req.body.amount) || 1
+              : Number(req.body.amount)
           })
           .then(cartItem => {
             req.session.cartId = cart.id
@@ -100,6 +104,10 @@ const cartController = {
     })
   },
   buyNow: (req, res) => {
+    if (req.body.amount <= 0) {
+      req.flash('error_messages', '至少需買一杯')
+      return res.redirect('back')
+    }
     return Cart.findOrCreate({
       where: {
         id: req.session.cartId || 0,
@@ -115,20 +123,20 @@ const cartController = {
           CartId: cart.id,
           ProductId: req.body.productId,
           ice: req.body.ice,
-          sugar: req.body.sugar,
-          quantity: req.body.amount
+          sugar: req.body.sugar
         },
         default: {
           CartId: cart.id,
           ProductId: req.body.productId,
           ice: req.body.ice,
-          sugar: req.body.sugar,
-          quantity: req.body.amount
+          sugar: req.body.sugar
         }
       }).spread(function(cartItem, created) {
         return cartItem
           .update({
-            quantity: Number(cartItem.quantity) || 1
+            quantity: cartItem.quantity
+              ? Number(cartItem.quantity) + Number(req.body.amount)
+              : Number(req.body.amount)
           })
           .then(cartItem => {
             req.session.cartId = cart.id
