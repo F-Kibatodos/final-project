@@ -111,7 +111,13 @@
                   <img src={{this.image}} class="card-img-top" alt="{{this.name}}">
                 </a>
                 <button class="btn btn-danger float-left ml-1 mt-2" style="width: 48%">喜歡</button>
-                <button class="btn btn-danger float-right mr-1 mt-2" style="width: 48%">加入購物車</button>
+                <form action="/cart" method="POST">
+                  <input type="hidden" name="sugar" value="正常甜">
+                  <input type="hidden" name="ice" value="正常">
+                  <input type="hidden" name="amount" value="1">
+                  <input type="hidden" name="productId" value="{{this.id}}">
+                  <button type="submit" class="btn btn-danger float-right mr-1 mt-2" style="width: 48%">加入購物車</button>
+                </form>
               </div>
               <div class="card-body">
                 <h5 class="card-title">{{this.name}}</h5>
