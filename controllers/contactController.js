@@ -9,7 +9,7 @@ const contactController = {
           ...branch.dataValues
         }
       })
-      res.render('contact', { style: 'contact.css', branches: data })
+      res.render('contact', { style: 'contact.css', branches: data, js: "contact.js" })
     })
   }
 }

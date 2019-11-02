@@ -29,6 +29,7 @@
         {{#if user.role}}
         <a href="/admin/products" style="color: white;margin-right: 10px;">Admin 後台</a>
         {{/if}}
+        <a href="/contact" style="color: white;margin-right: 10px;">聯絡我們</a>
         {{#if user}}
         <span style="color: white;margin-right: 10px;">Hi, {{user.name}}</span>
         <a href="/user/{{user.id}}" style="color: white;margin-right: 10px;">Profile</a>
@@ -70,7 +71,6 @@
   integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
   integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-
 {{#if js}}
 <script type="text/javascript" src="/javascripts/{{js}}"></script>
 {{/if}}

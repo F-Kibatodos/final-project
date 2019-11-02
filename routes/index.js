@@ -204,7 +204,7 @@ module.exports = (app, passport) => {
   )
   // 聯絡資訊
   app.put(
-    '/admin/contact',
+    '/admin/contact/edit/:id',
     authenticatedAdmin,
     adminContactController.putContact
   )
@@ -311,7 +311,7 @@ module.exports = (app, passport) => {
   )
 
   // 最後無法批配的，全部導向404畫面
-  app.get('*', function(req, res) {
+  app.get('*', function (req, res) {
     res.send('what???', 404)
   })
 }
