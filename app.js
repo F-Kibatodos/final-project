@@ -50,4 +50,4 @@ app.use((req, res, next) => {
 
 require('./routes/authsFB')(app)
 require('./routes')(app, passport)
-app.listen(3000)
+app.listen(process.env.PORT || 3000)
