@@ -34,11 +34,16 @@
                         <form action="/cartItem/{{this.id}}?_method=DELETE" method="POST" style="display: inline">
                           <button type="submit" class="btn" name="id" id="delete">Delete</button>
                         </form>
-
-                        <a href="/product/{{this.Product.id}}/wish">
-                          <button type="button" class="btn" name="wish" id="wish"><i
+                        {{#if this.Product.isWished}}
+                        <form action="/product/{{this.Product.id}}/unwish" method="POST">
+                          <button type="submit" class="btn"><i class="fa fa-heart mr-2"></i>移出願望清單</button>
+                        </form>
+                        {{else}}
+                        <form action="/product/{{this.Product.id}}" method="POST">
+                          <button type="submit" class="btn" name="wish" id="wish"><i
                               class="fa fa-heart mr-2"></i>加入願望清單</button>
-                        </a>
+                        </form>
+                        {{/if}}
                       </div>
                     </div>
                   </div>
