@@ -16,8 +16,7 @@ const productController = {
           }
         })
         return res.render('admin/products', { products: data })
-      }
-    )
+      })
   },
   createProducts: (req, res) => {
     Category.findAll().then(categories => {
@@ -25,7 +24,7 @@ const productController = {
     })
   },
   editProduct: (req, res) => {
-    return Product.findByPk(req.params.id).then(product => {
+    return Product.findByPk(req.query.productId).then(product => {
       Category.findAll().then(categories => {
         return res.render('admin/createProducts', {
           categories,
