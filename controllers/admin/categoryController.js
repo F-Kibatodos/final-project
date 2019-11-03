@@ -21,7 +21,7 @@ const categoryController = {
     const categoryList = await temp.map(item => {
       return Object.values(item)[0]
     })
-    if (!req.body.name) {
+    if (!/^[^\s]+(\s+[^\s]+)*$/g.test(req.body.name)) {
       req.flash('error_messages', '請輸入新名稱')
       return res.redirect('back')
     } else if (categoryList.includes(req.body.name)) {
@@ -37,7 +37,7 @@ const categoryController = {
     }
   },
   putCategory: (req, res) => {
-    if (!req.body.name) {
+    if (!/^[^\s]+(\s+[^\s]+)*$/g.test(req.body.name)) {
       req.flash('error_messages', '請輸入新名稱')
       return res.redirect('back')
     } else {

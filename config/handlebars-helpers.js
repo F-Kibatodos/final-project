@@ -16,6 +16,9 @@ module.exports = {
   moment: function (time) {
     return moment(time).format('YYYY-MM-DD, HH:mm')
   },
+  momentCoupons: function (time) {
+    return moment(time).format('YYYY-MM-DD')
+  },
   birthday: function (time) {
     return moment(time).format('YYYY-MM-DD')
   },
