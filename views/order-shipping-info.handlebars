@@ -12,27 +12,27 @@
       <div class="card">
         <form action="/order" method="POST" class="mb-3">
           <div class="form-check form-check-inline m-2">
-            <input class="form-check-input" type="radio" name="shipping_method" id="shipping1" value="外送">
+            <input class="form-check-input" type="radio" name="shipping_method" id="shipping1" value="外送" required>
             <label class="form-check-label" for="shipping1">外送</label>
           </div>
           <div class="form-check form-check-inline m-2">
-            <input class="form-check-input" type="radio" name="shipping_method" id="shipping2" value="自取">
+            <input class="form-check-input" type="radio" name="shipping_method" id="shipping2" value="自取" required>
             <label class="form-check-label" for="shipping1">自取</label>
           </div>
           <div class="form-group m-2">
             <label for="name">姓名</label>
             <input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp"
-              placeholder="請輸入收件人姓名">
+              placeholder="請輸入收件人姓名" required>
           </div>
           <div class="form-group m-2">
             <label for="phone">電話</label>
             <input type="text" class="form-control" id="phone" name="phone" aria-describedby="phoneHelp"
-              placeholder="請輸入收件人電話">
+              placeholder="請輸入收件人電話" required>
           </div>
           <div class="form-group m-2">
             <label for="address">地址</label>
             <input type="text" class="form-control" id="address" name="address" aria-describedby="addressHelp"
-              placeholder="請輸入收件人地址">
+              placeholder="請輸入收件人地址" required>
           </div>
       </div>
     </div>
@@ -44,6 +44,10 @@
           <h4>Order Summary</h4>
           <hr style="border: 1px solid #023B4F; margin: 5px 0px">
           <hr style="border: 5px solid #023B4F; margin-top: 1px">
+          <div>
+            <span>總共: </span><span id="total-quantity">{{totalQuantity}} 杯</span>
+          </div>
+          <hr>
           <div>
             <span>訂購價格: </span><span id="total-price">{{totalPrice}}</span>
           </div>

@@ -8,15 +8,15 @@ const Op = Sequelize.Op
 
 const productController = {
   getProducts: (req, res) => {
-    Product.findAll({ include: [Category], order: [['name', 'ASC']] })
-      .then((products) => {
+    Product.findAll({ include: [Category], order: [['name', 'ASC']] }).then(
+      products => {
         const data = products.map(product => {
           return {
             ...product.dataValues
           }
         })
         return res.render('admin/products', { products: data })
-    })
+      })
   },
   createProducts: (req, res) => {
     Category.findAll().then(categories => {
@@ -24,7 +24,7 @@ const productController = {
     })
   },
   editProduct: (req, res) => {
-    return Product.findByPk(req.params.id).then(product => {
+    return Product.findByPk(req.query.productId).then(product => {
       Category.findAll().then(categories => {
         return res.render('admin/createProducts', {
           categories,
@@ -49,7 +49,9 @@ const productController = {
           description: description,
           price: price,
           CategoryId: categoryId,
-          image: file ? img.data.link : null
+          image: file ? img.data.link : null,
+          rating: 0,
+          available: req.body.available
         })
           .then(product => {
             console.log(categoryId)
@@ -66,7 +68,9 @@ const productController = {
         description: description,
         price: price,
         CategoryId: categoryId,
-        image: null
+        image: null,
+        rating: 0,
+        available: req.body.available
       })
         .then(product => {
           console.log(categoryId)
@@ -95,7 +99,8 @@ const productController = {
               description: description,
               price: price,
               CategoryId: categoryId,
-              image: file ? img.data.link : product.image
+              image: file ? img.data.link : product.image,
+              available: Number(req.body.available)
             })
             .then(product => {
               req.flash(
@@ -114,7 +119,8 @@ const productController = {
             description: description,
             price: price,
             CategoryId: categoryId,
-            image: product.image
+            image: product.image,
+            available: Number(req.body.available)
           })
           .then(product => {
             req.flash('success_messages', 'product was successfully to update')
@@ -131,10 +137,8 @@ const productController = {
       order: [['name', 'ASC']],
       where: {
         [Op.or]: {
-          name:
-            { [Op.like]: '%' + req.query.q + '%' },
-          '$Category.name$':
-            { [Op.like]: '%' + req.query.q + '%' }
+          name: { [Op.like]: '%' + req.query.q + '%' },
+          '$Category.name$': { [Op.like]: '%' + req.query.q + '%' }
         }
       }
     }).then(products => {

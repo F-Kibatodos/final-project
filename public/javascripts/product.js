@@ -16,7 +16,6 @@ const cancelUpdateReplies = document.getElementsByClassName(
   'cancel-update-reply'
 )
 let originalReplyText
-
 for (i = 0; i < len; i++) {
   star_li[i].index = i
 
@@ -27,7 +26,6 @@ for (i = 0; i < len; i++) {
     }
   }
 }
-
 buy.addEventListener('mouseover', function(e) {
   if (e.target === toCart) buy.setAttribute('action', '/cart')
   if (e.target === buyNow) buy.setAttribute('action', '/buynow')
