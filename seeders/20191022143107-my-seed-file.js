@@ -56,7 +56,9 @@ module.exports = {
         stock: faker.random.number(),
         stock_warning: faker.random.number(),
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        available: '1',
+        rating: 0
       })),
       {}
     )
