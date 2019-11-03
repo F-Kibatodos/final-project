@@ -77,7 +77,7 @@ module.exports = {
         code: faker.lorem.word(),
         start_date: faker.date.past(),
         end_date: faker.date.future(),
-        discountId: 1,
+        DiscountId: 1,
         createdAt: new Date(),
         updatedAt: new Date()
       })),
@@ -88,6 +88,8 @@ module.exports = {
       [
         {
           description: '% off',
+          limit: 40,
+          figure: 40,
           createdAt: new Date(),
           updatedAt: new Date()
         }
