@@ -1,11 +1,7 @@
 $(function () {
-  let rows = $('.col-md-12 .row').map(function () {
-    return $.trim($(this).text())
-  }).get()
-  for (let i = 0; i < rows.length; i++) {
-    if (rows[i] === '') {
-      selectorName = '#' + (i + 1) + ''
-      $(selectorName).remove()
+  $('.col-md-12 .row').each(function () {
+    if ($(this).children().length === 0) {
+      $(this).parent().remove()
     }
-  }
+  })
 })

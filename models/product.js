@@ -9,7 +9,9 @@ module.exports = (sequelize, DataTypes) => {
       image: DataTypes.STRING,
       CategoryId: DataTypes.INTEGER,
       stock: DataTypes.INTEGER,
-      stock_warning: DataTypes.INTEGER
+      stock_warning: DataTypes.INTEGER,
+      rating: DataTypes.FLOAT,
+      available: DataTypes.BOOLEAN
     },
     {}
   )

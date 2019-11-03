@@ -11,7 +11,15 @@ const replyController = {
     res.redirect(`/product/${req.body.productId}`)
   },
   putReply: (req, res) => {
-    // 修改回應
+    Reply.findByPk(Number(req.body.replyId)).then(reply => {
+      reply
+        .update({
+          content: req.body.content
+        })
+        .then(reply => {
+          res.redirect('back')
+        })
+    })
   },
   deleteReply: (req, res) => {
     Reply.destroy({ where: { id: req.params.id } }).then(reply => {
