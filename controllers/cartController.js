@@ -14,6 +14,15 @@ const cartController = {
         items.length > 0
           ? items.map(d => d.Product.price * d.quantity).reduce((a, b) => a + b)
           : 0
+      if (items.length > 0) {
+        items.map(item => {
+          item.Product.isWished = req.user
+            ? req.user.WishProducts
+              ? req.user.WishProducts.map(d => d.id).includes(item.Product.id)
+              : req.user.WishProducts
+            : false
+        })
+      }
       CartItem.sum('quantity', {
         where: { CartId: req.session.cartId || 0 }
       }).then(totalQuantity => {
