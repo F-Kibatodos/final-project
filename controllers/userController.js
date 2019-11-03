@@ -38,12 +38,14 @@ const userController = {
     }
   },
   signInPage: (req, res) => {
+    const originURL = req.header('Referer')
+    req.session.originURL = originURL
     return res.render('signin')
   },
 
   signIn: (req, res) => {
     req.flash('success_messages', '成功登入！')
-    res.redirect('/')
+    res.redirect(req.session.originURL)
   },
   logout: (req, res) => {
     req.flash('success_messages', '登出成功！')
