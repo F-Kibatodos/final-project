@@ -18,6 +18,7 @@ const contactController = require('../controllers/contactController')
 const db = require('../models')
 const Category = db.Category
 const Product = db.Product
+const User = db.User
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const multer = require('multer')
@@ -77,7 +78,7 @@ module.exports = (app, passport) => {
     let categoryFilterMenu = displayCategory(categoryFilter)
     const rating = 90
     Product.findAll({
-      include: [Category],
+      include: [Category, { model: User, as: 'WishedUsers' }],
       order: [[sortKey, sortValue]],
       where
     }).then(products => {
@@ -85,7 +86,12 @@ module.exports = (app, passport) => {
         ...drink.dataValues,
         description: drink.dataValues.description
           ? drink.dataValues.description.substring(0, 50)
-          : ''
+          : '',
+        isWished: req.user
+          ? req.user.WishProducts
+            ? req.user.WishProducts.map(d => d.id).includes(drink.id)
+            : req.user.WishProducts
+          : false
       }))
       Category.findAll().then(category => {
         res.render('index', {
@@ -150,7 +156,7 @@ module.exports = (app, passport) => {
   //願望清單
   app.get('/wishlist/:userId', authenticated, userController.getWishlist)
   // app.put('/wishlist/:userId', userController.putWishlist)
-  app.post('/product/:id/wish', authenticated, userController.addWish)
+  app.post('/product/:id', authenticated, userController.addWish)
   app.post('/product/:id/unwish', authenticated, userController.removeWish)
 
   app.get('/contact', authenticated, contactController.getContact)

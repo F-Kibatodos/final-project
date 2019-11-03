@@ -1,1 +1,28 @@
-<h2>願望清單</h2>
+<div class="row justify-content-between">
+  <h2>願望清單</h2>
+</div>
+<br>
+<table class="table table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">商品名稱</th>
+      <th scope="col">種類</th>
+      <th scope="col">單價</th>
+      <th scope="col">操作選項</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each wishItems}}
+    <tr>
+      <td>{{this.Product.name}}</td>
+      <td>{{this.Product.Category.name}}</td>
+      <td>{{this.Product.price}}</td>
+      <td>
+        <form action="/product/{{this.Product.id}}/unwish" method="POST">
+          <button type="submit" class="btn btn-outline-danger">移除</button>
+        </form>
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>

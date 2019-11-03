@@ -40,9 +40,9 @@
         <a class="dropdown-item"
           href="/?category={{categoryFilter}}&priceRange={{price}}&sortKey=price&sortValue=ASC">價格(低到高)</a>
         <a class="dropdown-item"
-          href="/?category={{categoryFilter}}&priceRange={{price}}&sortKey=rating&sortValue=-1">評價(高到低))</a>
+          href="/?category={{categoryFilter}}&priceRange={{price}}&sortKey=rating&sortValue=DESC">評價(高到低))</a>
         <a class="dropdown-item"
-          href="/?category={{categoryFilter}}&priceRange={{price}}&sortKey=rating&sortValue=1">評價(低到高)</a>
+          href="/?category={{categoryFilter}}&priceRange={{price}}&sortKey=rating&sortValue=ASC">評價(低到高)</a>
       </div>
     </div>
     <div class="row" id="search-bar">
@@ -110,8 +110,16 @@
                 <a href="/product/{{this.id}}">
                   <img src={{this.image}} class="card-img-top" alt="{{this.name}}">
                 </a>
-                {{#if this.available}}
-                <button class="btn btn-danger float-left ml-1 mt-2" style="width: 48%">喜歡</button>
+{{#if this.available}}
+                {{#if this.isWished}}
+                <form action="/product/{{this.id}}/unwish" method="POST">
+                  <button class="btn btn-danger float-left ml-1 mt-2" style="width: 48%">不喜歡</button>
+                </form>
+                {{else}}
+                <form action="/product/{{this.id}}" method="POST">
+                  <button class="btn btn-danger float-left ml-1 mt-2" style="width: 48%">喜歡</button>
+                </form>
+                {{/if}}
                 <form action="/cart" method="POST">
                   <input type="hidden" name="sugar" value="正常甜">
                   <input type="hidden" name="ice" value="正常">

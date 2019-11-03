@@ -1,25 +1,41 @@
 <div class="container">
-  <ul class="list-group mt-3">
-    <li class="list-group-item">
-      <h3>名稱: {{profile.name}}</h3>
-    </li>
-    <li class="list-group-item">
-      <h3>生日: {{birthday profile.birthday}}</h3>
-    </li>
-    <li class="list-group-item">
-      <h3>E-mail: {{profile.email}}</h3>
-    </li>
-    <li class="list-group-item">
-      <h3>電話: {{profile.phone}}</h3>
-    </li>
-    <li class="list-group-item">
-      <h3>聯絡地址: {{profile.address}}</h3>
-    </li>
-  </ul>
-  <div class="buttons d-flex justify-content-around mt-3">
-    {{#ifCond profile.id user.id}}
-    <a href="/user/{{profile.id}}/edit" class="btn btn-primary">編輯</a>
-    <a href="/" class="btn btn-primary">上一頁</a>
-    {{/ifCond}}
+  <div class="row">
+    <div class="col-md-6">
+      <ul class="list-group mt-3">
+        <li class="list-group-item">
+          <h3>名稱: {{profile.name}}</h3>
+        </li>
+        <li class="list-group-item">
+          <h3>生日: {{#if profile.birthday}}{{birthday profile.birthday}} {{else}}{{/if}}</h3>
+        </li>
+        <li class="list-group-item">
+          <h3>E-mail: {{profile.email}}</h3>
+        </li>
+        <li class="list-group-item">
+          <h3>電話: {{profile.phone}}</h3>
+        </li>
+        <li class="list-group-item">
+          <h3>聯絡地址: {{profile.address}}</h3>
+        </li>
+        <li class="list-group-item">
+          <div class="buttons d-flex justify-content-around mt-3">
+            {{#ifCond profile.id user.id}}
+            <a href="/user/{{profile.id}}/edit" class="btn btn-primary">編輯</a>
+            <a href="/" class="btn btn-primary">上一頁</a>
+            {{/ifCond}}
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-6">
+      <ul class="list-group mt-3">
+        <li class="list-group-item">
+          <h3><a href="/wishlist/{{profile.id}}">我的願望清單</a></h3>
+        </li>
+        <li class="list-group-item">
+          <h3><a href="">我的訂單</a></h3>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
