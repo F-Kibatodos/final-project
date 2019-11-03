@@ -5,6 +5,7 @@ const Product = db.Product
 const crypto = require("crypto")
 const Order = db.Order
 const OrderItem = db.OrderItem
+const Op = db.Sequelize.Op
 
 
 // 第三方支付所需資料
@@ -122,7 +123,7 @@ const orderController = {
     )
   },
   createOrder: (req, res) => {
-    return CartItem.findAll({ where: { CartId: req.body.cartId || 0 }, include: 'Product' }).then(items => {
+    return CartItem.findAll({ where: { [Op.and]: [{ wantToCheckOut: true }, { CartId: req.session.cartId }] }, include: 'Product' }).then(items => {
       return Order.create({
         name: req.body.name,
         address: req.body.address,
@@ -182,16 +183,31 @@ const orderController = {
     // 確認折扣券是否符合
   },
   getOrderShippingInfo: (req, res) => {
-    return CartItem.findAll({ where: { CartId: req.session.cartId || 0 }, include: [{ model: Product }] }).then(items => {
-      let totalPrice = items.length > 0 ? items.map(d => d.Product.price * d.quantity).reduce((a, b) => a + b) : 0
-      CartItem.sum('quantity', { where: { CartId: req.session.cartId || 0 } }).then(totalQuantity => {
-        totalQuantity = totalQuantity || 0
-        return res.render('order-shipping-info', {
-          cartId: req.session.cartId,
-          items,
-          totalPrice,
-          totalQuantity,
-          js: 'order-shipping-info.js',
+    const itemIds = Object.keys(req.query)
+    if (itemIds.length === 0) {
+      req.flash('error_messages', '請至少選擇一項結帳商品')
+      return res.redirect('/cart')
+    }
+    let itemIdSet = []
+    for (let i = 0; i < itemIds.length; i++) {
+      let item = { id: Number(itemIds[i]) }
+      itemIdSet.push(item)
+    }
+    CartItem.update({ wantToCheckOut: false }, { where: { CartId: req.session.cartId } }).then(() => {
+
+      return CartItem.findAll({ where: { [Op.and]: [{ [Op.or]: itemIdSet }, { CartId: req.session.cartId }] }, include: [{ model: Product }] }).then(items => {
+        let totalPrice = items.length > 0 ? items.map(d => d.Product.price * d.quantity).reduce((a, b) => a + b) : 0
+        let totalQuantity = items.length > 0 ? items.map(d => d.quantity).reduce((a, b) => a + b) : 0
+        CartItem.update({
+          wantToCheckOut: true
+        }, { where: { [Op.and]: [{ [Op.or]: itemIdSet }, { CartId: req.session.cartId }] } }).then(() => {
+          return res.render('order-shipping-info', {
+            cartId: req.session.cartId,
+            items,
+            totalPrice,
+            totalQuantity,
+            js: 'order-shipping-info.js',
+          })
         })
       })
     })
@@ -217,6 +233,7 @@ const orderController = {
         ...req.body,
         payment_status: 1,
       }).then(order => {
+        CartItem.destroy({ where: { [Op.and]: [{ wantToCheckOut: true }, { CartId: req.session.cartId }] }, include: 'Product' })
         return res.redirect(`/orders/${order.id}`)
       })
     })

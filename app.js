@@ -8,6 +8,9 @@ const app = express()
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
+
+const db = require('./models')
+const CartItem = db.CartItem
 const passport = require('./config/passport')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('public'))
@@ -36,9 +39,15 @@ app.use((req, res, next) => {
   res.locals.success_messages = req.flash('success_messages')
   res.locals.error_messages = req.flash('error_messages')
   res.locals.user = req.user
+  CartItem.sum('quantity', { where: { CartId: req.session.cartId || 0 } }).then(
+    quantity => {
+      quantity = quantity || 0
+      res.locals.cart_number = quantity || 0
+    }
+  )
   next()
 })
 
-require('./routes')(app, passport)
 require('./routes/authsFB')(app)
+require('./routes')(app, passport)
 app.listen(3000)
