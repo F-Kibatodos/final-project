@@ -24,7 +24,7 @@ const productController = {
     })
   },
   editProduct: (req, res) => {
-    return Product.findByPk(req.query.productId).then(product => {
+    return Product.findByPk(req.params.id).then(product => {
       Category.findAll().then(categories => {
         return res.render('admin/createProducts', {
           categories,

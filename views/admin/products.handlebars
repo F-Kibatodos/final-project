@@ -7,7 +7,12 @@
     </div>
   </form>
 </div>
-
+<br />
+<div class="row justify-content-center">
+  <a href="/admin/products/create">
+    <button type="submit" class="btn btn-outline-primary">新增商品</button>
+  </a>
+</div>
 <br />
 <ul class="nav nav-tabs nav-fill">
   <li class="nav-item">
@@ -48,8 +53,7 @@
       <td>{{this.price}}</td>
       <td>{{this.stock}}</td>
       <td>
-        <form action="/admin/products/edit" style="display:inline;">
-          <input type="hidden" name="productId" value="{{this.id}}">
+        <form action="/admin/products/{{this.id}}/edit" style="display:inline;">
           <button type="submit" class="btn btn-outline-secondary">詳情</button>
         </form>
         <!--Button trigger modal start-->
