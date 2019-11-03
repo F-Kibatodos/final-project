@@ -3,7 +3,7 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.addColumn('Products', 'available', {
       type: Sequelize.BOOLEAN,
-      defaultValue: false
+      defaultValue: '1'
     })
   },
   down: (queryInterface, Sequelize) => {

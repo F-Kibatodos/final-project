@@ -3,7 +3,7 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.addColumn('Products', 'rating', {
       type: Sequelize.FLOAT,
-      defaultValue: false
+      defaultValue: 0
     })
   },
   down: (queryInterface, Sequelize) => {
