@@ -1,0 +1,20 @@
+.fa-stack[data-count]:after{
+  position:absolute;
+  right:-10%;
+  top:-30%;
+  content: attr(data-count);
+  font-size:40%;
+  padding:.4em;
+  border-radius:999px;
+  line-height:.75em;
+  color: #bc955c;
+  text-align:center;
+  min-width:2em;
+  font-weight:bold;
+  background: #013b4f;
+  border-style:solid;
+}
+
+.cart {
+	color: #bc955c;
+}

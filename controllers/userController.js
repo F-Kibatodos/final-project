@@ -1,6 +1,9 @@
 const bcrypt = require('bcryptjs')
 const db = require('../models')
 const User = db.User
+const Product = db.Product
+const WishItem = db.WishItem
+const Category = db.Category
 
 const userController = {
   signUpPage: (req, res) => {
@@ -49,14 +52,16 @@ const userController = {
   },
   // ========使用者========
   getUser: (req, res) => {
+    if (Number(req.params.id) !== req.user.id) {
+      return res.redirect(`/user/${req.user.id}`)
+    }
     User.findByPk(req.params.id).then(profile => {
       res.render('profile', { profile })
     })
   },
   editUser: (req, res) => {
     if (Number(req.params.id) !== req.user.id) {
-      req.flash('error_messages', '您無權編輯他人檔案')
-      return res.redirect(`/user/${req.params.id}`)
+      return res.redirect(`/user/${req.user.id}/edit`)
     } else {
       return User.findByPk(req.params.id).then(user => {
         return res.render('edit-profile')
@@ -100,16 +105,37 @@ const userController = {
   },
   // ========願望清單========
   getWishlist: (req, res) => {
-    res.render('wishlist')
+    if (Number(req.params.userId) !== req.user.id) {
+      return res.redirect(`/wishlist/${req.user.id}`)
+    }
+    WishItem.findAll({
+      include: [Product, { model: Product, include: [Category] }],
+      where: { UserId: req.params.userId }
+    }).then(wishItems => {
+      res.render('wishlist', { wishItems })
+    })
   },
   putWishlist: (req, res) => {
     // 更改願望清單
   },
   addWish: (req, res) => {
-    // 新增願望清單品項
+    WishItem.create({
+      UserId: req.user.id,
+      ProductId: req.params.id
+    }).then(wishItem => {
+      req.flash('success_messages', '已加至願望清單')
+      res.redirect('back')
+    })
   },
   removeWish: (req, res) => {
-    // 移除願望清單品項
+    WishItem.findOne({
+      where: { UserId: req.user.id, ProductId: req.params.id }
+    }).then(wishItem => {
+      wishItem.destroy().then(deletedItem => {
+        req.flash('success_messages', '已從願望清單移除')
+        res.redirect('back')
+      })
+    })
   }
 }
 

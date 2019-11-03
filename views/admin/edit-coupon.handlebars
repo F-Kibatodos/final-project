@@ -1,5 +1,5 @@
-<h3>編輯 Coupon</h3>
-<form action="/admin/coupons/:id?_method=PUT" method="POST">
+{{#if coupon}}
+<form action="/admin/coupons/{{coupon.id}}?_method=PUT" method="POST">
   <div class="form-group">
     <label for="code">折扣碼代號</label>
     <input type="text" class="form-control" name="code" id="code" placeholder="Enter code" value="{{coupon.code}}"
@@ -16,6 +16,18 @@
   </div>
 
   <div class="form-group">
+    <label for="date">起始日期</label>
+    <input type="date" class="form-control" id="startDate" name="startDate" placeholder="請輸入起始日期"
+      value="{{{momentCoupons coupon.start_date}}}">
+  </div>
+
+  <div class="form-group">
+    <label for="date">終止日期</label>
+    <input type="date" class="form-control" id="endDate" name="endDate" placeholder="請輸入終止日期"
+      value="{{{momentCoupons coupon.end_date}}}">
+  </div>
+
+  <div class="form-group">
     <label for="limit">最低啟用條件</label>
     <input type="number" class="form-control" name="limit" id="limit" placeholder="請輸入大於0的整數"
       value="{{coupon.Discount.limit}}" required autofocus>
@@ -27,5 +39,53 @@
       value="{{coupon.Discount.figure}}" required autofocus>
   </div>
 
-  <button type="submit" class="btn btn-primary">修改</button>
+  <div class="row justify-content-center">
+    <button type="submit" class="btn-outline-primary">更新</button>
+    <a href="/admin/coupons">
+      <button type="button" class="btn btn-outline-secondary">回折扣券總覽</button>
+    </a>
+  </div>
 </form>
+{{else}}
+<form action="/admin/coupons" method="POST">
+  <div class="form-group">
+    <label for="code">折扣碼代號</label>
+    <input type="text" class="form-control" name="code" id="code" placeholder="Enter code" required autofocus>
+  </div>
+
+  <div class="form-group">
+    <label for="description">折扣類型</label>
+    <select class="custom-select" id="description" name="description">
+      <option value="% off">打折</option>
+      <option value="minus">滿額折價</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="date">起始日期</label>
+    <input type="date" class="form-control" id="startDate" name="startDate" placeholder="請輸入起始日期">
+  </div>
+
+  <div class="form-group">
+    <label for="date">終止日期</label>
+    <input type="date" class="form-control" id="endDate" name="endDate" placeholder="請輸入終止日期">
+  </div>
+
+  <div class="form-group">
+    <label for="limit">最低啟用條件</label>
+    <input type="number" class="form-control" name="limit" id="limit" placeholder="請輸入大於0的整數" required autofocus>
+  </div>
+
+  <div class="form-group">
+    <label for="figure">折扣％或折扣金額</label>
+    <input type="number" class="form-control" name="figure" id="figure" placeholder="請輸入大於0的整數" required autofocus>
+  </div>
+
+  <div class="row justify-content-center">
+    <button type="submit" class="btn btn-outline-primary">新增</button>
+    <a href="/admin/coupons">
+      <button type="button" class="btn btn-outline-secondary">回折扣券總覽</button>
+    </a>
+  </div>
+</form>
+{{/if}}

@@ -35,6 +35,18 @@
         <input type="file" class="form-control-file" id="image" name="image">
       </div>
 
+      <div class="form-group">
+        <p>是否能被購買</p>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" id="yes" name="available" class="custom-control-input" value="1" checked="checked">
+          <label class="custom-control-label" for="yes">是</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" id="no" name="available" class="custom-control-input">
+          <label class="custom-control-label" for="no" value="0">否</label>
+        </div>
+      </div>
+
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>

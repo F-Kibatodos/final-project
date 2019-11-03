@@ -5,10 +5,18 @@
       <div class="buttons-and-rating d-flex justify-content-between mt-3" style="width: 80%">
         <div class="ratings">
           <div class="empty_star">★★★★★</div>
-          <div class="full_star" style="width: 83%">★★★★★</div>
+          <div class="full_star" style="width: {{product.rating}}%">★★★★★</div>
         </div>
         <button class="btn btn-primary">分享</button>
-        <button class="btn btn-danger">喜歡</button>
+        {{#if isLiked}}
+        <form action="/product/{{product.id}}/unwish" method="POST">
+          <button class="btn btn-danger" style="height: 100%">不喜歡</button>
+        </form>
+        {{else}}
+        <form action="/product/{{product.id}}" method="POST">
+          <button class="btn btn-danger" style="height: 100%">喜歡</button>
+        </form>
+        {{/if}}
       </div>
     </div>
     <div class="col-md-7">
@@ -57,8 +65,12 @@
           </div>
         </div>
         <input type="hidden" name="productId" value="{{product.id}}" />
+        {{#if product.available}}
         <button type="submit" class="btn btn-info to-cart">加入購物車</button>
         <button type="submit" class="btn btn-info buy-now">直接購買</button>
+        {{else}}
+        <p>目前無法購買</p>
+        {{/if}}
       </form>
     </div>
   </div>
@@ -78,15 +90,31 @@
       <div class="empty_star" style="font-size: 20px">★★★★★</div>
       <div class="full_star" style="width: {{this.ranking}}%; font-size: 20px">★★★★★</div>
     </div>
-    <p class="text">{{this.content}}</p>
+    <form action="/comments/{{this.id}}?_method=PUT" method="POST">
+      <div class="comment-wrapper">
+        <p class="custom-comment">{{this.content}}</p>
+      </div>
+      <input type="hidden" name="commentId" value="{{this.id}}">
+      {{#ifCond this.User.id ../user.id}}
+      <button type="button" class="edit-comment btn btn-sm btn-primary">編輯</button>
+      <button type="submit" class="update-comment btn btn-sm btn-primary d-none">更新</button>
+      <button type="button" class="cancel-update btn btn-sm btn-primary d-none">取消</button>
+      {{/ifCond}}
+      <input type="hidden" name="productId" value="{{../product.id}}">
+    </form>
     {{#each this.Replies}}
     <div class="pl-4">
-      <a href="">#{{this.User.name}}</a>
-      <p>{{this.content}}</p>
-      {{#if ../../user.role}}
+      <p>{{this.User.name}}</p>
       <form action="/admin/replies/{{this.id}}?_method=PUT" method="POST">
+        <div>
+          <p>{{this.content}}</p>
+        </div>
+        {{#if ../../user.role}}
+        <button type="button" class="edit-reply btn btn-info btn-sm">編輯</button>
+        <button type="submit" class="update-reply btn btn-sm btn-primary d-none">更新</button>
+        <button type="button" class="cancel-update-reply btn btn-sm btn-primary d-none">取消</button>
         <input type="hidden" name="productId" value="{{../../product.id}}" />
-        <button class="btn btn-info btn-sm" type="submit">修改</button>
+        <input type="hidden" name="replyId" value="{{this.id}}">
       </form>
       <form action="/admin/replies/{{this.id}}?_method=DELETE" method="POST">
         <input type="hidden" name="productId" value="{{../../product.id}}" />

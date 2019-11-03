@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
     ice: DataTypes.STRING,
     sugar: DataTypes.STRING,
     CartId: DataTypes.INTEGER,
-    ProductId: DataTypes.INTEGER
+    ProductId: DataTypes.INTEGER,
+    wantToCheckOut: DataTypes.BOOLEAN
   }, {});
   CartItem.associate = function (models) {
     CartItem.belongsTo(models.Product)
