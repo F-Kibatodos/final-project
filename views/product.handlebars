@@ -5,7 +5,7 @@
       <div class="buttons-and-rating d-flex justify-content-between mt-3" style="width: 80%">
         <div class="ratings">
           <div class="empty_star">★★★★★</div>
-          <div class="full_star" style="width: 83%">★★★★★</div>
+          <div class="full_star" style="width: {{product.rating}}%">★★★★★</div>
         </div>
         <button class="btn btn-primary">分享</button>
         <button class="btn btn-danger">喜歡</button>
@@ -57,8 +57,12 @@
           </div>
         </div>
         <input type="hidden" name="productId" value="{{product.id}}" />
+        {{#if product.available}}
         <button type="submit" class="btn btn-info to-cart">加入購物車</button>
         <button type="submit" class="btn btn-info buy-now">直接購買</button>
+        {{else}}
+        <p>目前無法購買</p>
+        {{/if}}
       </form>
     </div>
   </div>
