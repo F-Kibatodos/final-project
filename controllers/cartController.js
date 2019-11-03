@@ -5,7 +5,6 @@ const Product = db.Product
 
 const cartController = {
   getCart: (req, res) => {
-    req.session.cartId = 7
     let buyNowItem = Number(req.query.item) || 'all'
     return CartItem.findAll({
       where: { CartId: req.session.cartId || 0 },

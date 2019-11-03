@@ -187,7 +187,6 @@ const orderController = {
     // 確認折扣券是否符合
   },
   getOrderShippingInfo: (req, res) => {
-    const itemIds = Object.keys(req.query)
     if (itemIds.length === 0) {
       req.flash('error_messages', '請至少選擇一項結帳商品')
       return res.redirect('/cart')
