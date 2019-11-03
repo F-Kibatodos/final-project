@@ -159,7 +159,7 @@ module.exports = (app, passport) => {
   app.post('/product/:id', authenticated, userController.addWish)
   app.post('/product/:id/unwish', authenticated, userController.removeWish)
 
-  app.get('/contact', authenticated, contactController.getContact)
+  app.get('/contact', contactController.getContact)
   // 使用折扣券
   app.post('/check-coupon', authenticated, orderController.checkCoupon)
   // 後台
@@ -206,8 +206,16 @@ module.exports = (app, passport) => {
   // 移除不當評論
   app.put('/admin/comments/:id', authenticatedAdmin, adminCommentController.putComment)
   // 聯絡資訊
-  app.put('/admin/contact', authenticatedAdmin, adminContactController.putContact)
-  app.get('/admin/contact/edit', authenticatedAdmin, adminContactController.editContact)
+  app.put(
+    '/admin/contact/edit/:id',
+    authenticatedAdmin,
+    adminContactController.putContact
+  )
+  app.get(
+    '/admin/contact/edit',
+    authenticatedAdmin,
+    adminContactController.editContact
+  )
   // 後台折價券
   app.get('/admin/coupons/search', authenticatedAdmin, adminCouponController.searchCoupons)
   app.get('/admin/coupons', authenticatedAdmin, adminCouponController.getCoupons)
