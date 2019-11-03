@@ -2,7 +2,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.addColumn('Products', 'rating', {
-      type: Sequelize.FLOAT
+      type: Sequelize.REAL(5, 2)
     })
   },
   down: (queryInterface, Sequelize) => {
