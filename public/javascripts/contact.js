@@ -19,17 +19,18 @@ function initialize() {
 
   // Multiple Markers
   let markers = []
-  let address = ''
+  let addresses = $('.card-body .text-center').map(function () {
+    return $.trim($(this).text())
+  }).get()
+  let places = $('.card-body .card-title').map(function () {
+    return $.trim($(this).text())
+  }).get()
 
   for (let i = 0; i < $('.card-title').length; i++) {
-    let place = ''
-    place = $('#a' + (i + 1)).text()
-    address = $('#b' + (i + 1)).text()
-    geocoder.geocode({ 'address': address }, function (results, status) {
+    geocoder.geocode({ 'address': addresses[i] }, function (results, status) {
       if (status == 'OK') {
-        let item = [place, results[0].geometry.location.lat(), results[0].geometry.location.lng()]
+        let item = [places[i], results[0].geometry.location.lat(), results[0].geometry.location.lng()]
         markers.push(item)
-        place = ''
 
         // Display multiple markers on a map
         // Loop through our array of markers & place each one on the map  

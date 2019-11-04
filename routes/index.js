@@ -220,10 +220,13 @@ module.exports = (app, passport) => {
     adminContactController.putContact
   )
   app.get(
-    '/admin/contact/edit',
+    '/admin/contact/edit/:id',
     authenticatedAdmin,
     adminContactController.editContact
   )
+  app.get('/admin/contacts', authenticatedAdmin, adminContactController.getContacts)
+  app.post('/admin/contact/create', authenticatedAdmin, adminContactController.postContact)
+  app.delete('/admin/contacts/:id', authenticatedAdmin, adminContactController.deleteContact)
   // 後台折價券
   app.get(
     '/admin/coupons/search',
@@ -330,7 +333,7 @@ module.exports = (app, passport) => {
   )
 
   // 最後無法批配的，全部導向404畫面
-  app.get('*', function(req, res) {
+  app.get('*', function (req, res) {
     res.send('what???', 404)
   })
 }
