@@ -36,11 +36,11 @@
                           <button type="submit" class="btn" name="id" id="delete">Delete</button>
                         </form>
                         {{#if this.Product.isWished}}
-                        <form action="/product/{{this.Product.id}}/unwish" method="POST">
-                          <button type="submit" class="btn"><i class="fa fa-heart mr-2"></i>移出願望清單</button>
+                        <form action="/product/{{this.Product.id}}/unwish" method="POST" style="display: inline">
+                          <button type="submit" class="btn" id="unwish"><i class="fa fa-heart mr-2"></i>移出願望清單</button>
                         </form>
                         {{else}}
-                        <form action="/product/{{this.Product.id}}" method="POST">
+                        <form action="/product/{{this.Product.id}}" method="POST" style="display: inline">
                           <button type="submit" class="btn" name="wish" id="wish"><i
                               class="fa fa-heart mr-2"></i>加入願望清單</button>
                         </form>
