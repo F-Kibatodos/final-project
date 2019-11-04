@@ -2,24 +2,56 @@ const db = require('../../models')
 const BranchAddress = db.BranchAddress
 
 const contactController = {
-  editContact: (req, res) => {
+  getContacts: (req, res) => {
     BranchAddress.findAll().then(branches => {
       const data = branches.map(branch => {
         return {
           ...branch.dataValues
         }
       })
-      oddOrEven = data.length % 2
-      res.render('admin/edit-contact', { style: "admin_edit-contact.css", branches: data, oddOrEven: oddOrEven })
+      res.render('admin/edit-contact', { style: "admin_edit-contact.css", branches: data })
     })
   },
+  editContact: (req, res) => {
+    BranchAddress.findByPk(req.params.id).then(branch => {
+      res.render('admin/edit-contact', { style: "admin_edit-contact.css", branch: branch })
+    })
+  },
+  postContact: (req, res) => {
+    let { name, phone, address, facebook, line, email } = req.body
+    if (!/^[^\s]+(\s+[^\s]+)*$/g.test(req.body.name)) {
+      req.flash('error_messages', '請輸入新名稱')
+      return res.redirect('back')
+    } else {
+      BranchAddress.create({
+        name: name,
+        phone: phone,
+        address: address,
+        facebook_site: facebook,
+        line_site: line,
+        email_site: email,
+        UserId: req.user.id
+      }).then(branch => {
+        req.flash('success_messages', '已成功新增！')
+        res.redirect('/admin/contacts')
+      })
+    }
+  },
   putContact: (req, res) => {
-    // 修改聯絡資訊
     BranchAddress.findByPk(req.params.id).then((branch) => {
       branch.update(req.body)
         .then(branch => {
           req.flash('success_messages', '已成功更新！')
-          res.redirect('back')
+          res.redirect('/admin/contacts')
+        })
+    })
+  },
+  deleteContact: (req, res) => {
+    BranchAddress.findByPk(req.params.id).then(branch => {
+      branch.destroy()
+        .then(branch => {
+          req.flash('error_messages', `${branch.name} 門市已被刪除`)
+          res.redirect('/admin/contacts')
         })
     })
   }

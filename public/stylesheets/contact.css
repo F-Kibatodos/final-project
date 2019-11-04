@@ -16,16 +16,20 @@ h3{
     height: 100%;
 }
 
+h5,.link{
+  text-align: center;
+}
+
 .address{
   display:flex;
   align-items:center;
   justify-content:center;
-  height:300px;
-  font-size:24px;
+  font-size:1.2rem;
+  width:33%;
 }
 
 .address span .fa-map-marker-alt{
-  font-size:24px;
+  font-size:1.2rem;
   color:#D4AF37;
 }
 
