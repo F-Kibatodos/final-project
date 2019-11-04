@@ -56,7 +56,9 @@ module.exports = {
         stock: faker.random.number(),
         stock_warning: faker.random.number(),
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        available: '1',
+        rating: 0
       })),
       {}
     )
@@ -75,7 +77,7 @@ module.exports = {
         code: faker.lorem.word(),
         start_date: faker.date.past(),
         end_date: faker.date.future(),
-        discountId: 1,
+        DiscountId: 1,
         createdAt: new Date(),
         updatedAt: new Date()
       })),
@@ -86,6 +88,8 @@ module.exports = {
       [
         {
           description: '% off',
+          limit: 40,
+          figure: 40,
           createdAt: new Date(),
           updatedAt: new Date()
         }

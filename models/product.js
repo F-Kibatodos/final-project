@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       CategoryId: DataTypes.INTEGER,
       stock: DataTypes.INTEGER,
       stock_warning: DataTypes.INTEGER,
-      rating: DataTypes.FLOAT,
+      rating: DataTypes.REAL(5, 2),
       available: DataTypes.BOOLEAN
     },
     {}
