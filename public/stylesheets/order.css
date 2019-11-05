@@ -28,3 +28,7 @@
   text-align: center;
   display: none;
 }
+thead {
+  background-color: #013b4f;
+  color: #bc955c
+}

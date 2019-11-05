@@ -11,11 +11,13 @@ $(function () {
     console.log('abc', shippingMethod)
     if (shippingMethod === "自取") {
       $("#shipping-fee").text("0")
-      console.log('1')
+      $("#address").val("無")
+      $("#address").prop('readonly', true)
     }
     if (shippingMethod === "外送") {
       $("#shipping-fee").text("60")
-      console.log('2')
+      $("#address").val("")
+      $("#address").prop('readonly', false)
     }
     calFinalAmount()
   })

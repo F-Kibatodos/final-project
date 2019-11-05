@@ -135,6 +135,10 @@ const orderController = {
     )
   },
   createOrder: (req, res) => {
+    if (!req.body.name || !req.body.phone || !req.body.address) {
+      req.flash('error_messages', '資料皆須填')
+      return res.redirect('back')
+    }
     return CartItem.findAll({ where: { [Op.and]: [{ wantToCheckOut: true }, { CartId: req.session.cartId }] }, include: 'Product' }).then(items => {
       return Order.create({
         name: req.body.name,
