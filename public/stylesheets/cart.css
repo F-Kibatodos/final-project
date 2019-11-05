@@ -22,6 +22,11 @@ button#wish {
   color: white; 
   font-size: small
 }
+button#unwish {
+  background-color:#013b4f; 
+  color: white; 
+  font-size: small
+}
 button.btn {
   background-color: #013b4f; 
   color: white;

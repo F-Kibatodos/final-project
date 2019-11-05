@@ -97,7 +97,11 @@ function getTradeInfo(Amt, Desc, email) {
 
 const orderController = {
   getOrders: (req, res) => {
-    res.render('orders')
+    Order.findAll({ where: { UserId: req.user.id } }).then(orders => {
+      return res.render('orders', {
+        orders
+      })
+    })
   },
   getOrder: (req, res) => {
     Order.findByPk(req.params.orderId).then(
