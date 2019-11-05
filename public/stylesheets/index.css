@@ -1,0 +1,30 @@
+h1 {
+ color: #bc955c
+}
+h2 {
+ color: #bc955c
+}
+h3 {
+ color: #bc955c
+}
+h4 {
+ color: #bc955c
+}
+h5 {
+ color: #bc955c
+}
+h6 {
+ color: #bc955c
+}
+button.btn {
+  background-color: #013b4f; 
+  color: white;
+}
+button.btn:hover {
+color: #fff !important;
+text-decoration: none;
+}
+thead {
+  background-color: #013b4f;
+  color: #bc955c
+}

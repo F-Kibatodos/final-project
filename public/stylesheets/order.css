@@ -1,0 +1,30 @@
+.fas.fa-star {
+  color:#d56a16
+}
+
+#star {
+  overflow: hidden;
+}
+#star li {
+  float: left;
+  width: 20px;
+  height: 20px;
+  margin: 2px;
+  display: inline;
+  color: #999;
+  font: bold 18px arial;
+  cursor: pointer;
+  font-size: 20px;
+}
+#star .act {
+  color: #d56a16;
+}
+#star_word {
+  width: 80px;
+  height: 30px;
+  line-height: 30px;
+  border: 1px solid #ccc;
+  margin: 10px;
+  text-align: center;
+  display: none;
+}
