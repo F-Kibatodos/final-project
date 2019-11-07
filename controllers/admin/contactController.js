@@ -18,15 +18,19 @@ const contactController = {
     })
   },
   postContact: (req, res) => {
-    let { name, phone, address, facebook, line, email } = req.body
+    let { name, phone, county, district, zipcode, address, facebook, line, email } = req.body
     if (!/^[^\s]+(\s+[^\s]+)*$/g.test(req.body.name)) {
       req.flash('error_messages', '請輸入新名稱')
       return res.redirect('back')
     } else {
+      if (!county || !district || !zipcode) {
+        req.flash('error_messages', '請選擇縣市鄉鎮市區')
+        return res.redirect('/admin/contacts')
+      }
       BranchAddress.create({
         name: name,
         phone: phone,
-        address: address,
+        address: zipcode + ' ' + county + district + address,
         facebook_site: facebook,
         line_site: line,
         email_site: email,
@@ -38,13 +42,23 @@ const contactController = {
     }
   },
   putContact: (req, res) => {
-    BranchAddress.findByPk(req.params.id).then((branch) => {
-      branch.update(req.body)
-        .then(branch => {
-          req.flash('success_messages', '已成功更新！')
-          res.redirect('/admin/contacts')
-        })
-    })
+    let { name, phone, address, facebook, line, email } = req.body
+    if (!phone || !address) {
+      req.flash('error_messages', '請輸入電話和地址')
+      return res.redirect('back')
+    }
+    if (!/^[^\s]+(\s+[^\s]+)*$/g.test(name)) {
+      req.flash('error_messages', '請輸入新名稱')
+      return res.redirect('back')
+    } else {
+      BranchAddress.findByPk(req.params.id).then((branch) => {
+        branch.update(req.body)
+          .then(branch => {
+            req.flash('success_messages', '已成功更新！')
+            res.redirect('/admin/contacts')
+          })
+      })
+    }
   },
   deleteContact: (req, res) => {
     BranchAddress.findByPk(req.params.id).then(branch => {

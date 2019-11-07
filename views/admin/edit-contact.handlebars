@@ -149,6 +149,8 @@
     <br />
     <div class="form-label-group">
       <label for="inputAddress">地址</label>
+      <div role="tw-city-selector" class="tw-city-selector" data-has-zipcode>
+      </div>
       <input type="text" name="address" class="form-control" placeholder="address" required>
     </div>
     <br />
@@ -172,3 +174,6 @@
   </form>
 </div>
 {{/if}}
+<script src="https://cdn.jsdelivr.net/npm/tw-city-selector@2.1.0/dist/tw-city-selector.min.js"></script>
+<link rel="stylesheet" href="/stylesheets/twCitySelector.css">
+<script type="text/javascript" src="/javascripts/twCitySelector.js"></script>
