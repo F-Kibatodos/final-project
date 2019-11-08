@@ -1,6 +1,6 @@
 <div class="container mb-3">
-  <div class="search d-flex justify-content-end">
-    <div class="dropdown mr-3 mt-2">
+  <div class="search d-flex justify-content-end" id="filter-and-search">
+    <div class="dropdown mr-3 mt-2 category">
       <a class="btn btn-secondary dropdown-toggle month-sort-menu" href="#" role="button" id="dropdownMenuLink"
         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         {{categoryFilterMenu}}
@@ -15,7 +15,7 @@
       </div>
     </div>
     <!--        價格       -->
-    <div class="dropdown mr-3 mt-2">
+    <div class="dropdown mr-3 mt-2 price">
       <a class="btn btn-secondary dropdown-toggle month-sort-menu" href="#" role="button" id="dropdownMenuLink"
         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         {{priceFilterMenu}}
@@ -29,27 +29,30 @@
         {{/each}}
       </div>
     </div>
-    <div class="dropdown mt-2">排序：
-      <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-        aria-haspopup="true" aria-expanded="false">
-        {{displaySort}}
-      </a>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-        <a class="dropdown-item"
-          href="/?category={{categoryFilter}}&priceRange={{price}}&sortKey=price&sortValue=DESC">價格(高到低)</a>
-        <a class="dropdown-item"
-          href="/?category={{categoryFilter}}&priceRange={{price}}&sortKey=price&sortValue=ASC">價格(低到高)</a>
-        <a class="dropdown-item"
-          href="/?category={{categoryFilter}}&priceRange={{price}}&sortKey=rating&sortValue=DESC">評價(高到低))</a>
-        <a class="dropdown-item"
-          href="/?category={{categoryFilter}}&priceRange={{price}}&sortKey=rating&sortValue=ASC">評價(低到高)</a>
+    <div class="sort">
+      <span>排序：</span>
+      <div class="dropdown mt-2 d-inline-block sort-dropdown">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          {{displaySort}}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <a class="dropdown-item"
+            href="/?category={{categoryFilter}}&priceRange={{price}}&sortKey=price&sortValue=DESC">價格(高到低)</a>
+          <a class="dropdown-item"
+            href="/?category={{categoryFilter}}&priceRange={{price}}&sortKey=price&sortValue=ASC">價格(低到高)</a>
+          <a class="dropdown-item"
+            href="/?category={{categoryFilter}}&priceRange={{price}}&sortKey=rating&sortValue=DESC">評價(高到低))</a>
+          <a class="dropdown-item"
+            href="/?category={{categoryFilter}}&priceRange={{price}}&sortKey=rating&sortValue=ASC">評價(低到高)</a>
+        </div>
       </div>
     </div>
-    <div class="row" id="search-bar">
-      <div class="col-12">
+    <div class="row search-bar" id="search-bar">
+      <div class="col-12 search-flex-wrapper">
         <form action="/">
-          <div class="input-group mt-2 ml-3">
-            <input type="text" name="search" class="form-control" placeholder="請輸入關鍵字" aria-label="drinks"
+          <div class="input-group mt-2 ml-3 search-group">
+            <input type="text" name="search" class="form-control input-search" placeholder="請輸入關鍵字" aria-label="drinks"
               aria-describedby="search-button">
             <div class="input-group-append">
               <button class="btn btn-outline-secondary" type="submit" id="search-button">Search</button>
@@ -104,29 +107,89 @@
         <div class="row">
           {{#each ../drinks}}
           {{#ifCond this.Category.name ../this.name}}
-          <div class="col-md-4 mb-2">
+          <div class="col-sm-6 col-md-4 col-lg-3 mb-2">
             <div class="card">
               <div class="image">
                 <a href="/product/{{this.id}}">
                   <img src={{this.image}} class="card-img-top" alt="{{this.name}}">
                 </a>
                 {{#if this.available}}
-                {{#if this.isWished}}
-                <form action="/product/{{this.id}}/unwish" method="POST">
-                  <button class="btn btn-danger float-left ml-1 mt-2" style="width: 48%">不喜歡</button>
-                </form>
-                {{else}}
-                <form action="/product/{{this.id}}" method="POST">
-                  <button class="btn btn-danger float-left ml-1 mt-2" style="width: 48%">喜歡</button>
-                </form>
-                {{/if}}
-                <form action="/cart" method="POST">
-                  <input type="hidden" name="sugar" value="正常甜">
-                  <input type="hidden" name="ice" value="正常">
-                  <input type="hidden" name="amount" value="1">
-                  <input type="hidden" name="productId" value="{{this.id}}">
-                  <button type="submit" class="btn btn-danger float-right mr-1 mt-2" style="width: 48%">加入購物車</button>
-                </form>
+                <div class="d-flex justify-content-around">
+                  {{#if this.isWished}}
+                  <form action="/product/{{this.id}}/unwish" method="POST" class="submit">
+                    <button class="btn float-left ml-1 mt-2 wishlist"><i class="fas fa-heart"></i></button>
+                  </form>
+                  {{else}}
+                  <form action="/product/{{this.id}}" method="POST" class="submit">
+                    <button class="btn float-left ml-1 mt-2  wishlist"><i class="far fa-heart"></i></button>
+                  </form>
+                  {{/if}}
+                  <div class="submit">
+                    <button type="button" class="btn float-right mr-1 mt-2 cart" data-toggle="modal"
+                      data-target="#to-cart-{{this.id}}"><i class="fas fa-cart-plus"></i></button>
+                  </div>
+                </div>
+                <!-- Modal -->
+                <div class="modal fade" id="to-cart-{{this.id}}" tabindex="-1" role="dialog"
+                  aria-labelledby="a{{this.id}}" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="a{{this.id}}">{{this.name}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <form action="/cart" method="POST" class="buy">
+                          <section class="sugar mb-3">
+                            <h4>甜度</h4>
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                              {{#each ../../sugar}}
+                              <label class="btn btn-outline-info">
+                                <p class="mb-0">{{this}}</p>
+                                <input type="radio" name="sugar" value="{{this}}" style="display: none" />
+                              </label>
+                              {{/each}}
+                              <label class="btn btn-outline-info active">
+                                <p class="mb-0">正常甜</p>
+                                <input type="radio" name="sugar" checked value="正常甜" style="display: none" />
+                              </label>
+                            </div>
+                          </section>
+
+                          <section class="ice mb-3">
+                            <h4>冰塊</h4>
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                              {{#each ../../ice}}
+                              <label class="btn btn-outline-primary">
+                                <p class="mb-0">{{this}}</p>
+                                <input type="radio" name="ice" value="{{this}}" style="display: none" />
+                              </label>
+                              {{/each}}
+                              <label class="btn btn-outline-primary active">
+                                <p class="mb-0">正常</p>
+                                <input type="radio" name="ice" value="正常" checked style="display: none" />
+                              </label>
+                            </div>
+                          </section>
+                          <div class="form-group">
+                            <div style="display: inline-block">
+                              <label for="amount" class="mr-2">
+                                <h4>數量</h4>
+                              </label>
+                            </div>
+                            <div style="display: inline-block; width: 10%">
+                              <input type="number" class="form-control" name="amount" id="amount" value="1" min="1">
+                            </div>
+                          </div>
+                          <input type="hidden" name="productId" value="{{this.id}}" />
+                          <button type="submit" class="btn btn-info to-cart float-right">加入購物車</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 {{else}}
                 <p class="text-danger float-right">此商品現在無法購買</p>
                 {{/if}}
@@ -137,7 +200,8 @@
                   <div class="empty_star">★★★★★</div>
                   <div class="full_star" style="width: {{this.rating}}%">★★★★★</div>
                 </div>
-                <p class="card-text">{{this.description}}</p>
+                <p class="card-text description" style="height: 50px">{{this.description}}<a
+                    href="/product/{{this.id}}"><small>...詳細內容</small></a></p>
                 <p class="float-right">${{this.price}}</p>
               </div>
             </div>
@@ -149,27 +213,3 @@
       {{/each}}
     </div>
   </div>
-  <style>
-    .ratings {
-      position: relative;
-      vertical-align: middle;
-      display: inline-block;
-      color: #ddd;
-      /*背景星星顏色*/
-      overflow: hidden;
-      font-size: 20px;
-      /*調整字體大小可放大縮小星星*/
-      text-shadow: 0px 1px 0 #999;
-    }
-
-    .full_star {
-      /*調整寬度可變更星等*/
-      position: absolute;
-      left: 0;
-      top: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      color: #d56a16;
-      /*前景星星顏色*/
-    }
-  </style>

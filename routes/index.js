@@ -56,6 +56,8 @@ module.exports = (app, passport) => {
   app.get('/logout', userController.logout)
   // 首頁
   app.get('/', (req, res) => {
+    const sugar = ['無糖', '微糖', '半糖', '少糖']
+    const ice = ['去冰', '少冰']
     const priceRange = [
       { forQuery: '0,30', forOption: '30元以下' },
       { forQuery: '31,40', forOption: '31-40元' },
@@ -88,7 +90,7 @@ module.exports = (app, passport) => {
       const drinks = products.map(drink => ({
         ...drink.dataValues,
         description: drink.dataValues.description
-          ? drink.dataValues.description.substring(0, 50)
+          ? drink.dataValues.description.substring(0, 17)
           : '',
         isWished: req.user
           ? req.user.WishProducts
@@ -107,7 +109,10 @@ module.exports = (app, passport) => {
           categoryFilterMenu: categoryFilterMenu || '所有分類',
           priceFilterMenu: priceFilterMenu || '所有價格',
           js: 'indexPage.js',
-          displaySort
+          displaySort,
+          style: 'index.css',
+          sugar,
+          ice
         })
       })
     })
@@ -224,9 +229,21 @@ module.exports = (app, passport) => {
     authenticatedAdmin,
     adminContactController.editContact
   )
-  app.get('/admin/contacts', authenticatedAdmin, adminContactController.getContacts)
-  app.post('/admin/contact/create', authenticatedAdmin, adminContactController.postContact)
-  app.delete('/admin/contacts/:id', authenticatedAdmin, adminContactController.deleteContact)
+  app.get(
+    '/admin/contacts',
+    authenticatedAdmin,
+    adminContactController.getContacts
+  )
+  app.post(
+    '/admin/contact/create',
+    authenticatedAdmin,
+    adminContactController.postContact
+  )
+  app.delete(
+    '/admin/contacts/:id',
+    authenticatedAdmin,
+    adminContactController.deleteContact
+  )
   // 後台折價券
   app.get(
     '/admin/coupons/search',
@@ -333,7 +350,7 @@ module.exports = (app, passport) => {
   )
 
   // 最後無法批配的，全部導向404畫面
-  app.get('*', function (req, res) {
+  app.get('*', function(req, res) {
     res.send('what???', 404)
   })
 }
