@@ -1,3 +1,6 @@
+const price = document.querySelector('.price')
+const total = document.querySelector('.total')
+const number = document.querySelector('#amount')
 var star = document.getElementById('star')
 var star_li = star.getElementsByTagName('li')
 var star_word = document.getElementById('star_word')
@@ -36,7 +39,7 @@ for (let editComment of editComments) {
     originalText =
       editComment.previousElementSibling.previousElementSibling
         .firstElementChild.innerHTML
-    editComment.previousElementSibling.previousElementSibling.innerHTML = `<input name="content" class="content form-control" type="text" value=${originalText}>`
+    editComment.previousElementSibling.previousElementSibling.innerHTML = `<input name="content" class="content form-control mb-2" type="text" value=${originalText}>`
     editComment.classList.add('d-none')
     editComment.nextElementSibling.classList.remove('d-none')
     editComment.nextElementSibling.nextElementSibling.classList.remove('d-none')
@@ -58,7 +61,7 @@ for (let editReply of editRelpies) {
   editReply.addEventListener('click', e => {
     originalReplyText =
       editReply.previousElementSibling.firstElementChild.innerText
-    editReply.previousElementSibling.innerHTML = `<input name="content" class="reply-content form-control" type="text" value=${originalReplyText}>`
+    editReply.previousElementSibling.innerHTML = `<input name="content" class="reply-content form-control" type="text mb-2" value=${originalReplyText}>`
     editReply.classList.add('d-none')
     editReply.nextElementSibling.classList.remove('d-none')
     editReply.nextElementSibling.nextElementSibling.classList.remove('d-none')
@@ -74,3 +77,7 @@ for (let cancelUpdateReply of cancelUpdateReplies) {
     cancelUpdateReply.previousElementSibling.previousElementSibling.previousElementSibling.innerHTML = `<p>${originalReplyText}</p>`
   })
 }
+number.addEventListener('input', e => {
+  total.innerHTML = `總價: <span>${number.value *
+    Number(price.innerHTML)}</span>`
+})

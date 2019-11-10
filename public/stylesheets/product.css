@@ -1,3 +1,12 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #bc955c;
+}
+
 .wrapper {
   width: 300px;
   margin: 10px auto;
@@ -29,4 +38,70 @@
   margin: 10px;
   text-align: center;
   display: none;
+}
+
+.reply {
+  display: flex;
+  justify-content: start;
+  flex-wrap: wrap;
+}
+
+.reply h5 {
+  width: 100%;
+}
+
+.form-reply {
+  display: flex;
+  width: 90%;
+  justify-content: space-between;
+}
+
+.form-reply div {
+  flex-basis: 80%;
+}
+
+.reply-remove {
+  float: right;
+}
+
+.reply-remove-btn {
+  height: 100%;
+}
+
+button {
+  background-color: #013b4f !important;
+  color: #bc955c !important;
+}
+
+.btn-outline-info,
+.btn-outline-primary {
+  color: black;
+  border-color: #013b4f;
+}
+
+.btn-outline-info:hover,
+.btn-outline-primary:hover {
+  background-color: #013b4f;
+  color: white;
+  border-color: #013b4f;
+}
+
+.btn-outline-info:not(:disabled):not(.disabled).active,
+.btn-outline-info:not(:disabled):not(.disabled):active,
+.show > .btn-outline-info.dropdown-toggle,
+.btn-outline-primary:not(:disabled):not(.disabled).active,
+.btn-outline-primary:not(:disabled):not(.disabled):active,
+.show > .btn-outline-primary.dropdown-toggle {
+  background-color: #013b4f;
+  color: white;
+  border-color: #013b4f;
+}
+
+span {
+  color: black;
+  font-size: 16px;
+}
+
+.fb_iframe_widget {
+  height: 100%;
 }
