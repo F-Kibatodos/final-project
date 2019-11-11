@@ -18,3 +18,24 @@
 .cart {
 	color: #bc955c;
 }
+
+.navLink a:hover{
+  font-weight: bold;
+}
+
+/*RWD*/
+@media screen and (min-width:992px) {
+  #cartAll{
+    display: flex;
+    justify-content: flex-end;
+    width:40%;
+  }
+}
+
+@media screen and (min-width:1040px) {
+  #cartAll{
+    display: flex;
+    justify-content: flex-end;
+    width:45%;
+  }
+}

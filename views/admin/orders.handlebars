@@ -34,7 +34,8 @@
   <thead class="thead-dark w-100">
     <tr class="row mx-0">
       <th class="col-4" scope="col">訂單編號</th>
-      <th class="col-2" scope="col">狀態</th>
+      <th class="col-1" scope="col">運輸狀態</th>
+      <th class="col-1" scope="col">付款狀態</th>
       <th class="col-2" scope="col">訂購者</th>
       <th class="col-2" scope="col">總金額</th>
       <th class="col-2" scope="col">操作選項</th>
@@ -44,12 +45,20 @@
     {{#each orders}}
     <tr class="row mx-0">
       <th class="col-4" scope="row">{{this.sn}}</th>
-      <td class="col-2">{{this.shipping_status}}</td>
+      {{#ifCond this.shipping_status '0'}}
+      <td class="col-1 shippingStatus">運輸中</td>
+      {{else}}
+      <td class="col-1 shippingStatus">已送達</td>
+      {{/ifCond}}
+      {{#ifCond this.payment_status '0'}}
+      <td class="col-1 paymentStatus">未付款</td>
+      {{else}}
+      <td class="col-1 paymentStatus">已付款</td>
+      {{/ifCond}}
       <td class="col-2">{{this.User.name}}</td>
       <td class="col-2">{{this.amount}}</td>
       <td class="col-2">
         <form action="/orders/{{this.id}}" style="display:inline;">
-          <!--<input type="hidden" name="orderId" value="{{this.id}}">-->
           <button type="submit" class="btn btn-outline-secondary">詳情</button>
         </form>
         <!--Button trigger modal start-->

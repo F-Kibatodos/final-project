@@ -24,6 +24,14 @@ const orderController = {
   },
   deleteOrder: (req, res) => {
     // 刪除訂單
+    return Order.findByPk(req.params.id)
+      .then(order => {
+        order.destroy()
+          .then(order => {
+            req.flash('error_messages', `${order.name} 已被刪除`)
+            res.redirect('/admin/orders')
+          })
+      })
   },
   searchOrders: (req, res) => {
     Order.findAll({
