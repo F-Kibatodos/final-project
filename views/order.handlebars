@@ -125,6 +125,9 @@
     <hr style="border: 1px solid #023B4F;">
     <div class=" text-center mt-3">
       <a href="/orders"><button class="btn" style="background-color: #023B4F; color: white;">回去所有訂單</button></a>
+      {{#if user.role}}
+      <a href="/admin/orders"><button class="btn btn-info">管理員定訂單頁面</button></a>
+      {{/if}}
     </div>
   </div>
   <nav class="col-md-3 bg-light sidebar">
