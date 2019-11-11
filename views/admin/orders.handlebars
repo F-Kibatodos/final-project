@@ -33,18 +33,18 @@
 <table class="table row mx-0 table-hover">
   <thead class="thead-dark w-100">
     <tr class="row mx-0">
-      <th class="col-4" scope="col">訂單編號</th>
+      <th class="col-3" scope="col">訂單編號</th>
       <th class="col-1" scope="col">運輸狀態</th>
       <th class="col-1" scope="col">付款狀態</th>
       <th class="col-2" scope="col">訂購者</th>
       <th class="col-2" scope="col">總金額</th>
-      <th class="col-2" scope="col">操作選項</th>
+      <th class="col-3" scope="col">操作選項</th>
     </tr>
   </thead>
   <tbody class="w-100">
     {{#each orders}}
     <tr class="row mx-0">
-      <th class="col-4" scope="row">{{this.sn}}</th>
+      <th class="col-3" scope="row">{{this.sn}}</th>
       {{#ifCond this.shipping_status '0'}}
       <td class="col-1 shippingStatus">運輸中</td>
       {{else}}
@@ -57,9 +57,12 @@
       {{/ifCond}}
       <td class="col-2">{{this.User.name}}</td>
       <td class="col-2">{{this.amount}}</td>
-      <td class="col-2">
+      <td class="col-3">
         <form action="/orders/{{this.id}}" style="display:inline;">
           <button type="submit" class="btn btn-outline-secondary">詳情</button>
+        </form>
+        <form action="/admin/orders/edit/{{this.id}}" style="display:inline;">
+          <button type="submit" class="btn btn-outline-primary">編輯</button>
         </form>
         <!--Button trigger modal start-->
         <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#a{{this.id}}">刪除</button>
