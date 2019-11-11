@@ -6,6 +6,10 @@ const crypto = require("crypto")
 const Order = db.Order
 const OrderItem = db.OrderItem
 const Op = db.Sequelize.Op
+const UserCoupon = db.UserCoupon
+const User = db.User
+const Coupon = db.Coupon
+const Discount = db.Discount
 
 
 // 第三方支付所需資料
@@ -197,6 +201,26 @@ const orderController = {
   },
   checkCoupon: (req, res) => {
     // 確認折扣券是否符合
+    User.findByPk(req.user.id, { include: [{ model: Coupon, as: 'OwnCoupons', include: [Discount] }] })
+      .then(user => {
+        let couponCode = Array.from(user.OwnCoupons, coupon => { return coupon.code })
+        console.log('==qqq==', req.query.coupon)
+        couponIndex = couponCode.indexOf(req.query.coupon)
+        let data = {}
+        if (couponIndex < 0) {
+          data.checkResult = 'invalid'
+        }
+        else {
+          const discountType = user.OwnCoupons[couponIndex].Discount.description
+          data.checkResult = 'valid'
+          data.description = discountType
+          data.limit = user.OwnCoupons[couponIndex].Discount.limit
+          data.figure = user.OwnCoupons[couponIndex].Discount.figure
+        }
+        console.log('=====', couponCode)
+        console.log('=====aa', data)
+        return res.json(data)
+      })
   },
   getOrderShippingInfo: (req, res) => {
     const itemIds = Object.keys(req.query)

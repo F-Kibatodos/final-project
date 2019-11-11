@@ -91,6 +91,25 @@
         </div>
       </form>
     </div>
+    <nav class="col-md-3 bg-light sidebar">
+      <div class="sidebar-sticky">
+        <div>
+          <hr style="border: 5px solid #023B4F; margin-bottom: 1px">
+          <hr style="border: 1px solid #023B4F; margin: 5px 0px">
+          <h4>使用折價券</h4>
+          <hr style="border: 1px solid #023B4F; margin: 5px 0px">
+          <hr style="border: 5px solid #023B4F; margin-top: 1px">
+        </div>
+        <div>
+          <input type="text" name="coupon-code" id="coupon-code" placeholder="請輸入折價券碼" style="display: inline">
+          <button type="button" class="btn btn-info" id="check-coupon">使用</button>
+          <small id="coupon-result"></small>
+        </div>
+        <hr>
+      </div>
+    </nav>
   </div>
+
   <div id="all" class={{buyNowItem}}></div>
+  <div id="user" style="display: none"></div>
 </div>

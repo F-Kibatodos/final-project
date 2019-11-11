@@ -170,7 +170,7 @@ module.exports = (app, passport) => {
 
   app.get('/contact', contactController.getContact)
   // 使用折扣券
-  app.post('/check-coupon', authenticated, orderController.checkCoupon)
+  app.get('/check-coupon/api', authenticated, orderController.checkCoupon)
   // 後台
   app.get(
     '/admin/users/search',
