@@ -1,3 +1,7 @@
+body{
+  background-color: #f8f9fa;
+}
+
 .fa-stack[data-count]:after{
   position:absolute;
   right:-10%;
