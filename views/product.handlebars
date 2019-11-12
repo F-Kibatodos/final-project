@@ -1,3 +1,6 @@
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous"
+  src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v5.0&appId=2535029479899081&autoLogAppEvents=1"></script>
 <div class="container">
   <div class="row mt-3">
     <div class="image col-md-5">
@@ -7,22 +10,25 @@
           <div class="empty_star">★★★★★</div>
           <div class="full_star" style="width: {{product.rating}}%">★★★★★</div>
         </div>
-        <button class="btn btn-primary">分享</button>
+        <div class="fb-share-button" data-href="https://damp-cliffs-89201.herokuapp.com/product/{{product.id}}"
+          data-layout="button" data-size="large">
+          <a target="_blank"
+            href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A3000%2Fproduct%2F4&amp;src=sdkpreparse"
+            class="fb-xfbml-parse-ignore">分享</a></div>
         {{#if isLiked}}
         <form action="/product/{{product.id}}/unwish" method="POST">
-          <button class="btn btn-danger" style="height: 100%">不喜歡</button>
+          <button class="btn" style="height: 100%">不喜歡</button>
         </form>
         {{else}}
         <form action="/product/{{product.id}}" method="POST">
-          <button class="btn btn-danger" style="height: 100%">喜歡</button>
+          <button class="btn" style="height: 100%">喜歡</button>
         </form>
         {{/if}}
       </div>
     </div>
     <div class="col-md-7">
       <form action="/buynow" method="POST" class="buy">
-        <h3 class="my-3">{{product.name}}</h3>
-        <h4 style="color: rgb(202, 128, 31)">價格: {{product.price}}</h4>
+        <h2 class="my-3">{{product.name}}</h2>
         <section class="sugar mb-3">
           <h4>甜度</h4>
           <div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -57,12 +63,14 @@
         <div class="form-group">
           <div style="display: inline-block">
             <label for="amount" class="mr-2">
-              <h4>數量</h4>
+              <h5>數量</h5>
             </label>
           </div>
-          <div style="display: inline-block; width: 10%">
+          <div style="display: inline-block; width: 12%" class="mr-2">
             <input type="number" class="form-control" name="amount" id="amount" value="1" min="1">
           </div>
+          <h5 class="d-inline-block mr-2">價格: <span class="price">{{product.price}}</span></h5>
+          <h5 class="d-inline-block total"></h5>
         </div>
         <input type="hidden" name="productId" value="{{product.id}}" />
         {{#if product.available}}
@@ -90,7 +98,7 @@
       <div class="empty_star" style="font-size: 20px">★★★★★</div>
       <div class="full_star" style="width: {{this.ranking}}%; font-size: 20px">★★★★★</div>
     </div>
-    <form action="/comments/{{this.id}}?_method=PUT" method="POST">
+    <form action="/comments/{{this.id}}?_method=PUT" method="POST" class="mb-4">
       <div class="comment-wrapper">
         <p class="custom-comment">{{this.content}}</p>
       </div>
@@ -103,35 +111,38 @@
       <input type="hidden" name="productId" value="{{../product.id}}">
     </form>
     {{#each this.Replies}}
-    <div class="pl-4">
-      <p>{{this.User.name}}</p>
-      <form action="/admin/replies/{{this.id}}?_method=PUT" method="POST">
+    <div class="pl-4 d-flex reply">
+      <h5>{{this.User.name}}</h5>
+      <form action="/admin/replies/{{this.id}}?_method=PUT" method="POST" class="form-reply">
         <div>
           <p>{{this.content}}</p>
         </div>
         {{#if ../../user.role}}
-        <button type="button" class="edit-reply btn btn-info btn-sm">編輯</button>
-        <button type="submit" class="update-reply btn btn-sm btn-primary d-none">更新</button>
-        <button type="button" class="cancel-update-reply btn btn-sm btn-primary d-none">取消</button>
+        <button type="button" class="edit-reply btn btn-sm mr-2">編輯</button>
+        <button type="submit" class="update-reply btn btn-sm d-none mx-2">更新</button>
+        <button type="button" class="cancel-update-reply btn btn-sm d-none mr-2">取消</button>
         <input type="hidden" name="productId" value="{{../../product.id}}" />
         <input type="hidden" name="replyId" value="{{this.id}}">
       </form>
-      <form action="/admin/replies/{{this.id}}?_method=DELETE" method="POST">
+      <form action="/admin/replies/{{this.id}}?_method=DELETE" method="POST" class="reply-remove">
         <input type="hidden" name="productId" value="{{../../product.id}}" />
-        <button class="btn btn-danger btn-sm" type="submit">刪除</button>
+        <button class="btn btn-sm reply-remove-btn" type="submit">刪除</button>
       </form>
       {{/if}}
     </div>
     {{/each}}
     {{#if ../user.role}}
+    <h4>回應</h4>
+    <hr>
     <form action="/admin/reply" method="POST" class="mb-2">
-      <div class="form-group">
+      <div class="form-group mb-2">
         <textarea class="form-control" id="adminReply" name="adminReply" rows="3"></textarea>
       </div>
       <input type="hidden" name="commentId" value="{{this.id}}">
       <input type="hidden" name="productId" value="{{../product.id}}" />
       <button class="btn btn-primary">送出</button>
     </form>
+    <hr>
     {{/if}}
     {{/each}}
   </div>

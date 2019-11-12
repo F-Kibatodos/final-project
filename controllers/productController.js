@@ -11,6 +11,7 @@ const productController = {
     const ice = ['去冰', '少冰']
     const rank = [1, 2, 3, 4, 5]
     Product.findByPk(req.params.id, { include: [Category] }).then(product => {
+      const amount = product.price * req.body.amount
       const isLiked = req.user
         ? req.user.WishProducts
           ? req.user.WishProducts.map(d => d.id).includes(product.id)
