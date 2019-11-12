@@ -97,16 +97,21 @@ function getTradeInfo(Amt, Desc, email) {
 
 const orderController = {
   getOrders: (req, res) => {
-    Order.findAll({ where: { UserId: req.user.id } }).then(orders => {
+    Order.findAll({ where: { UserId: req.user.id, payment_status: '1' } }).then(orders => {
       return res.render('orders', {
         orders
       })
     })
   },
   getOrder: (req, res) => {
+    const rank = [1, 2, 3, 4, 5]
     Order.findByPk(req.params.orderId).then(
       order => {
-        if (order.UserId !== req.user.id) {
+        if (!req.user.role && order.UserId !== req.user.id) {
+          req.flash('error_messages', '無權限查看')
+          return res.redirect('/')
+        }
+        if (!req.user.role && order.payment_status !== '1') {
           req.flash('error_messages', '無權限查看')
           return res.redirect('/')
         }
@@ -118,7 +123,10 @@ const orderController = {
               totalPrice,
               items,
               order,
-              totalQuantity
+              totalQuantity,
+              rank,
+              style: 'order.css',
+              js: 'comment.js',
             }
             )
           })
@@ -127,6 +135,10 @@ const orderController = {
     )
   },
   createOrder: (req, res) => {
+    if (!req.body.name || !req.body.phone || !req.body.address) {
+      req.flash('error_messages', '資料皆須填')
+      return res.redirect('back')
+    }
     return CartItem.findAll({ where: { [Op.and]: [{ wantToCheckOut: true }, { CartId: req.session.cartId }] }, include: 'Product' }).then(items => {
       return Order.create({
         name: req.body.name,
@@ -235,7 +247,7 @@ const orderController = {
     return Order.findOne({ where: { sn: data['Result']['MerchantOrderNo'] } }).then(order => {
       order.update({
         ...req.body,
-        payment_status: 1,
+        payment_status: '1',
       }).then(order => {
         CartItem.destroy({ where: { [Op.and]: [{ wantToCheckOut: true }, { CartId: req.session.cartId }] }, include: 'Product' })
         return res.redirect(`/orders/${order.id}`)

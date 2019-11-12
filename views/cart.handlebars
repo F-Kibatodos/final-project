@@ -24,9 +24,13 @@
                 </td>
                 <td>
                   <div class="row">
-                    <div class="col-3"><img src={{this.Product.image}} class="img-thumbnail img-sm"></div>
+                    <div class="col-3"><a href="/product/{{this.Product.id}}" class="no-decoration"><img
+                          src={{this.Product.image}} class="img-thumbnail img-sm"></a>
+                    </div>
                     <div class="col-9">
-                      <h4 class="title text-truncate">{{this.Product.name}}</h4>
+                      <h4 class="title text-truncate"><a href="/product/{{this.Product.id}}"
+                          class="no-decoration">{{this.Product.name}}</a>
+                      </h4>
                       <div>
                         <span>{{this.sugar}}、{{this.ice}}</span>
                       </div>
