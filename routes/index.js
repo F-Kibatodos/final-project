@@ -288,11 +288,12 @@ module.exports = (app, passport) => {
     adminOrderController.searchOrders
   )
   app.get('/admin/orders', authenticatedAdmin, adminOrderController.getOrders)
-  app.post(
+  app.get('/admin/orders/edit/:id', authenticatedAdmin, adminOrderController.editOrder)
+  /*app.post(
     '/admin/orders',
     authenticatedAdmin,
     adminOrderController.createOrder
-  )
+  )*/
   app.put(
     '/admin/orders/:id',
     authenticatedAdmin,

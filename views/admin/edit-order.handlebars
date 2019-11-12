@@ -1,0 +1,34 @@
+<div class="d-flex justify-content-center">
+  <h3>請重新選擇訂單號 {{order.sn}} 的細項</h3>
+</div>
+<br>
+<form action="/admin/orders/{{order.id}}?_method=PUT" method="POST">
+  {{#each items}}
+  <h4>品名：{{this.Product.name}}</h4>
+  <div class="form-group">
+    <label for="name">冰塊</label>
+    <select class="custom-select" id="ice{{this.id}}" name="ice{{this.id}}">
+      <option value="去冰">去冰</option>
+      <option value="少冰">少冰</option>
+      <option value="正常">正常</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="name">甜度</label>
+    <select class="custom-select" id="sugar{{this.id}}" name="sugar{{this.id}}">
+      <option value="無糖">無糖</option>
+      <option value="微糖">微糖</option>
+      <option value="半糖">半糖</option>
+      <option value="少糖">少糖</option>
+      <option value="正常甜">正常糖</option>
+    </select>
+  </div>
+  {{/each}}
+  <div class="row justify-content-center">
+    <button type="submit" class="btn btn-outline-primary">修改</button>
+    <a href="/admin/orders">
+      <button type="button" class="btn btn-outline-secondary">回訂單總覽</button>
+    </a>
+  </div>
+</form>
