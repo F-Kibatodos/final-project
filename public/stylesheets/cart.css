@@ -4,9 +4,6 @@
 .container{
   margin-bottom: 10px
 }
-h2 {
-  color: #023B4F
-}
 thead {
   background-color: #013b4f;
   color: #bc955c
@@ -30,4 +27,23 @@ button#unwish {
 button.btn {
   background-color: #013b4f; 
   color: white;
+}
+
+button.btn:hover {
+color: #fff !important;
+text-decoration: none;
+}
+a.no-decoration{
+  color: #bc955c
+}
+a.no-decoration:hover{
+  text-decoration: none;
+}
+.fas.fa-dollar-sign{
+  width: 30px;
+  text-align: center;
+  color:#013b4f
+}
+.fas.fa-coffee{
+  color:#013b4f
 }
