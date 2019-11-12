@@ -29,34 +29,31 @@ $(function () {
         $("#coupon-result").text("此折價券可用").removeClass("text-danger").addClass("text-success")
         let totalPrice = Number($("#total-price").attr("data-totalPrice"))
         let discountPrice
-        if (data.description === "% off") {
-          if (totalPrice >= data.limit) {
-            discountPrice = Math.round(totalPrice * (1 - (data.figure / 100)))
-            $("#discount-price").removeClass("text-danger").addClass("text-success")
-            $("#discount-price").html(`<i class="fas fa-tags"></i> 折價後: ${discountPrice}元`)
-            $("#use-coupon").val(couponCode)
-          }
-          else {
-            $("#discount-price").removeClass("text-success").addClass("text-danger")
-            $("#discount-price").text(`未達折扣門檻，還差${data.limit - totalPrice}元`)
-          }
+        if (totalPrice < data.limit) {
+          $("#discount-price").removeClass("text-success").addClass("text-danger")
+          $("#discount-price").text(`未達折扣門檻，還差${data.limit - totalPrice}元`)
         }
-        if (data.description === "minus") {
-          if (totalPrice >= data.limit) {
-            discountPrice = totalPrice - data.figure
-            $("#discount-price").removeClass("text-danger").addClass("text-success")
-            $("#discount-price").html(`<i class="fas fa-tags"></i> 折價後: ${discountPrice}元`)
-            $("#use-coupon").val(couponCode)
+        else {
+          if (data.description === "% off") {
+            if (totalPrice >= data.limit) {
+              discountPrice = Math.round(totalPrice * (1 - (data.figure / 100)))
+              $("#discount-price").removeClass("text-danger").addClass("text-success")
+              $("#discount-price").html(`<i class="fas fa-tags"></i> 折扣後: ${discountPrice}元`)
+              $("#use-coupon").val(couponCode)
+            }
           }
-          else {
-            $("#discount-price").removeClass("text-success").addClass("text-danger")
-            $("#discount-price").text(`未達折扣門檻，還差${data.limit - totalPrice}元`)
+          if (data.description === "minus") {
+            if (totalPrice >= data.limit) {
+              discountPrice = totalPrice - data.figure
+              $("#discount-price").removeClass("text-danger").addClass("text-success")
+              $("#discount-price").html(`<i class="fas fa-tags"></i> 折價後: ${discountPrice}元`)
+              $("#use-coupon").val(couponCode)
+            }
           }
         }
       }
     })
   }
-
   $(".check").change(calPrice
   )
   $(".check").change(checkCoupon

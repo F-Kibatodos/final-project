@@ -139,21 +139,22 @@ const orderController = {
     )
   },
   createOrder: (req, res) => {
-    if (!req.body.name || !req.body.phone || !req.body.address) {
-      req.flash('error_messages', '資料皆須填')
+    let { name, phone, county, district, zipcode, address, shipping_status, shipping_method, payment_status, amount, couponId } = req.body
+    if (!name || !phone || !address || !county || !district || !zipcode) {
+      req.flash('error_messages', '所有欄位皆須填')
       return res.redirect('back')
     }
     return CartItem.findAll({ where: { [Op.and]: [{ wantToCheckOut: true }, { CartId: req.session.cartId }] }, include: 'Product' }).then(items => {
       return Order.create({
-        name: req.body.name,
-        address: req.body.address,
-        phone: req.body.phone,
-        shipping_status: req.body.shipping_status,
-        shipping_method: req.body.shipping_method,
-        payment_status: req.body.payment_status,
-        amount: req.body.amount,
+        name: name,
+        address: zipcode + ' ' + county + district + address,
+        phone: phone,
+        shipping_status: shipping_status,
+        shipping_method: shipping_method,
+        payment_status: payment_status,
+        amount: amount,
         UserId: req.user.id,
-        CouponId: req.body.couponId
+        CouponId: couponId
       }).then(order => {
         var results = [];
         for (var i = 0; i < items.length; i++) {

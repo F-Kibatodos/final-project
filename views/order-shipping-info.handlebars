@@ -29,11 +29,17 @@
             <input type="text" class="form-control" id="phone" name="phone" aria-describedby="phoneHelp"
               placeholder="請輸入收件人電話" required>
           </div>
-          <div class="form-group m-2">
+          <div class="form-label-group m-2">
+            <label for="inputAddress">地址</label>
+            <div role="tw-city-selector" class="tw-city-selector" data-has-zipcode>
+            </div>
+            <input type="text" name="address" class="form-control" placeholder="address" required>
+          </div>
+          {{!-- <div class="form-group m-2">
             <label for="address">地址</label>
             <input type="text" class="form-control" id="address" name="address" aria-describedby="addressHelp"
               placeholder="請輸入收件人地址" required>
-          </div>
+          </div> --}}
       </div>
     </div>
     <nav class="col-md-3 bg-light sidebar">
@@ -81,3 +87,7 @@
     {{/if}}>
   </form>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/tw-city-selector@2.1.0/dist/tw-city-selector.min.js"></script>
+<link rel="stylesheet" href="/stylesheets/twCitySelector.css">
+<script type="text/javascript" src="/javascripts/twCitySelector.js"></script>
