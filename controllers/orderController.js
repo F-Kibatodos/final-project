@@ -203,22 +203,38 @@ const orderController = {
   },
   checkCoupon: (req, res) => {
     // 確認折扣券是否符合
-    User.findByPk(req.user.id, { include: [{ model: Coupon, as: 'OwnCoupons', include: [Discount] }] })
-      .then(user => {
-        let couponCode = Array.from(user.OwnCoupons, coupon => { return coupon.code })
-        couponIndex = couponCode.indexOf(req.query.coupon)
-        let data = {}
-        if (couponIndex < 0) {
+    return Coupon.findOne({ where: { code: req.query.coupon }, include: [Discount, { model: User, as: 'CouponUsers' }] }).then(coupon => {
+      let data = {}
+      today = Date.now()
+      if (!coupon || coupon.start_date > today || coupon.end_date < today) {
+        data.checkResult = 'invalid'
+        return res.json(data)
+      }
+      if (coupon.CouponUsers.length > 0) {
+        let couponUserIds = Array.from(coupon.CouponUsers, user => { return user.id })
+        if (couponUserIds.indexOf(req.user.id) < 0) {
           data.checkResult = 'invalid'
+          return res.json(data)
         }
         else {
           data.checkResult = 'valid'
-          data.description = user.OwnCoupons[couponIndex].Discount.description
-          data.limit = user.OwnCoupons[couponIndex].Discount.limit
-          data.figure = user.OwnCoupons[couponIndex].Discount.figure
+          data.description = coupon.Discount.description
+          data.limit = coupon.Discount.limit
+          data.figure = coupon.Discount.figure
+          return res.json(data)
         }
+      }
+      else {
+
+        data.checkResult = 'valid'
+        data.description = coupon.Discount.description
+        data.limit = coupon.Discount.limit
+        data.figure = coupon.Discount.figure
         return res.json(data)
-      })
+      }
+    })
+
+
   },
   getOrderShippingInfo: (req, res) => {
     let coupon
@@ -236,7 +252,6 @@ const orderController = {
     }
     const itemIds = Object.keys(req.query)
     itemIds.splice(itemIds.indexOf('useCoupon'), 1)
-    console.log('==========ee=====', itemIds)
     if (itemIds.length === 0) {
       req.flash('error_messages', '請至少選擇一項結帳商品')
       return res.redirect('/cart')
@@ -255,12 +270,11 @@ const orderController = {
           wantToCheckOut: true
         }, { where: { [Op.and]: [{ [Op.or]: itemIdSet }, { CartId: req.session.cartId }] } }).then(() => {
           if (coupon) {
-            console.log("---coupon---", coupon)
             if (totalPrice >= coupon.limit) {
               if (coupon.description === "% off") {
                 discountPrice = Math.round(totalPrice * (1 - (coupon.figure / 100)))
               }
-              else if (coupon.description === "滿折") {
+              else if (coupon.description === "minus") {
                 discountPrice = totalPrice - coupon.figure
               }
             }

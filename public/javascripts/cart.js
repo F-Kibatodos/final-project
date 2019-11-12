@@ -33,7 +33,7 @@ $(function () {
           if (totalPrice >= data.limit) {
             discountPrice = Math.round(totalPrice * (1 - (data.figure / 100)))
             $("#discount-price").removeClass("text-danger").addClass("text-success")
-            $("#discount-price").text(`折價後: ${discountPrice}元`)
+            $("#discount-price").html(`<i class="fas fa-tags"></i> 折價後: ${discountPrice}元`)
             $("#use-coupon").val(couponCode)
           }
           else {
@@ -41,11 +41,11 @@ $(function () {
             $("#discount-price").text(`未達折扣門檻，還差${data.limit - totalPrice}元`)
           }
         }
-        if (data.description === "滿折") {
+        if (data.description === "minus") {
           if (totalPrice >= data.limit) {
             discountPrice = totalPrice - data.figure
             $("#discount-price").removeClass("text-danger").addClass("text-success")
-            $("#discount-price").text(`折價後: ${discountPrice}元`)
+            $("#discount-price").html(`<i class="fas fa-tags"></i> 折價後: ${discountPrice}元`)
             $("#use-coupon").val(couponCode)
           }
           else {
@@ -53,7 +53,6 @@ $(function () {
             $("#discount-price").text(`未達折扣門檻，還差${data.limit - totalPrice}元`)
           }
         }
-        console.log('===how===', discountPrice)
       }
     })
   }
