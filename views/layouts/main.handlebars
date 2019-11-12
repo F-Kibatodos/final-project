@@ -24,17 +24,23 @@
   {{!-- Navbar --}}
   <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
     <a class="navbar-brand" href="/">AC Drinks</a>
+
+    <div id="cartAll">
+      <div>
+        <span class="fa-stack fa-1x mr-2" data-count={{#if cart_number}}{{cart_number}}{{else}}0{{/if}}>
+          <a href="/cart"><i style="" class="fas fa-shopping-cart fa-stack-2x cart"></i></a></span>
+      </div>
+    </div>
+
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
       aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="navbar-collapse collapse" id="navbarNavAltMarkup">
       <ul class="navbar-nav mr-auto">
       </ul>
-      <div>
-        <span class="fa-stack fa-1x mr-2" data-count={{#if cart_number}}{{cart_number}}{{else}}0{{/if}}>
-          <a href="/cart"><i style="" class="fas fa-shopping-cart fa-stack-2x cart"></i></a>
-        </span>
+      <div class="navLink">
         {{#if user.role}}
         <a href="/admin/products" style="color: white;margin-right: 10px;">Admin 後台</a>
         {{/if}}
@@ -42,13 +48,14 @@
         {{#if user}}
         <span style="color: white;margin-right: 10px;">Hi, {{user.name}}</span>
         <a href="/user/{{user.id}}" style="color: white;margin-right: 10px;">Profile</a>
-        <a href="/logout"><button class="btn btn-outline-success my-2 my-sm-0">LogOut</button></a>
+        <a href="/logout"><button class="btn btn-danger my-2 my-sm-0">LogOut</button></a>
         {{else}}
-        <a href="/signin"><button class="btn btn-outline-success my-2 my-sm-0">LogIn</button></a>
+        <a href="/signin"><button class="btn btn-success my-2 my-sm-0">LogIn</button></a>
         {{/if}}
       </div>
     </div>
   </nav>
+
   <br />
   <main role="main">
     <div class="album py-5 bg-light">

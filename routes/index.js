@@ -350,7 +350,7 @@ module.exports = (app, passport) => {
   )
 
   // 最後無法批配的，全部導向404畫面
-  app.get('*', function(req, res) {
-    res.send('what???', 404)
+  app.get('*', function (req, res) {
+    res.render('404', { style: '404.css', js: 'refresh-to-index.js' })
   })
 }
