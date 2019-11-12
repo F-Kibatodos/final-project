@@ -26,6 +26,7 @@ const upload = multer({ dest: 'temp/' })
 const displayCategory = require('../config/displayCategories')
 const displayPriceMenu = require('../config/displayPriceMenu')
 const displaySorMenu = require('../config/displaySort')
+const { registerValidator } = require('../config/validator.js')
 
 module.exports = (app, passport) => {
   const authenticated = (req, res, next) => {
@@ -44,7 +45,7 @@ module.exports = (app, passport) => {
     res.redirect('/signin')
   }
   app.get('/signup', userController.signUpPage)
-  app.post('/signup', userController.signUp)
+  app.post('/signup', registerValidator, userController.signUp)
   app.post(
     '/signin',
     passport.authenticate('local', {
