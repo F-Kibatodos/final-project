@@ -144,19 +144,11 @@
       </div>
       <hr>
       <div>
-        <span>訂購價格: </span><span id="total-price">{{totalPrice}}</span>
+        <span>{{order.shipping_method}}</span>
       </div>
       <hr>
       <div>
-        {{#ifCond order.shipping_method '自取'}}
-        運費: 0
-        {{else}}
-        運費: 60
-        {{/ifCond}}
-      </div>
-      <hr>
-      <div>
-        總價: {{order.amount}}
+        付款: {{order.amount}} 元
       </div>
     </div>
   </nav>

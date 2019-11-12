@@ -15,53 +15,58 @@ $(function () {
     })
     $("#total-quantity").html(`<i class="fas fa-coffee"></i> 總共 ${totalQuantity} 杯`)
   }
+  function checkCoupon() {
+    $("#use-coupon").val("")
+    $("#discount-price").text("")
+    let couponCode = $("#coupon-code").val()
+    fetch(`/check-coupon/api/?coupon=${couponCode}`).then(response => {
+      return response.json()
+    }).then(data => {
+      if (data.checkResult === "invalid") {
+        $("#coupon-result").text("此折價券無效").removeClass("text-success").addClass("text-danger")
+      }
+      if (data.checkResult === "valid") {
+        $("#coupon-result").text("此折價券可用").removeClass("text-danger").addClass("text-success")
+        let totalPrice = Number($("#total-price").attr("data-totalPrice"))
+        let discountPrice
+        if (data.description === "% off") {
+          if (totalPrice >= data.limit) {
+            discountPrice = Math.round(totalPrice * (1 - (data.figure / 100)))
+            $("#discount-price").removeClass("text-danger").addClass("text-success")
+            $("#discount-price").text(`折價後: ${discountPrice}元`)
+            $("#use-coupon").val(couponCode)
+          }
+          else {
+            $("#discount-price").removeClass("text-success").addClass("text-danger")
+            $("#discount-price").text(`未達折扣門檻，還差${data.limit - totalPrice}元`)
+          }
+        }
+        if (data.description === "滿折") {
+          if (totalPrice >= data.limit) {
+            discountPrice = totalPrice - data.figure
+            $("#discount-price").removeClass("text-danger").addClass("text-success")
+            $("#discount-price").text(`折價後: ${discountPrice}元`)
+            $("#use-coupon").val(couponCode)
+          }
+          else {
+            $("#discount-price").removeClass("text-success").addClass("text-danger")
+            $("#discount-price").text(`未達折扣門檻，還差${data.limit - totalPrice}元`)
+          }
+        }
+        console.log('===how===', discountPrice)
+      }
+    })
+  }
 
   $(".check").change(calPrice
+  )
+  $(".check").change(checkCoupon
   )
   $(".check").change(calQuantity
   )
   $("#check-coupon").click(
-    function () {
-      let couponCode = $("#coupon-code").val()
-      fetch(`/check-coupon/api/?coupon=${couponCode}`).then(response => {
-        return response.json()
-      }).then(data => {
-        console.log('===abc===', typeof (data), data)
-        if (data.checkResult === "invalid") {
-          $("#coupon-result").text("此折價券無效")
-        }
-        if (data.checkResult === "valid") {
-          $("#coupon-result").text("此折價券有效")
-          let totalPrice = Number($("#total-price").attr("data-totalPrice"))
-          let finalPrice
-          if (data.description === "% off") {
-            if (totalPrice >= data.limit) {
-              finalPrice = Math.round(totalPrice * (1 - (data.figure / 100)))
-              $("#coupon-result").text("此折價券有效")
-            }
-            else {
-              $("#coupon-result").text("未達折扣門檻")
-            }
-          }
-          if (data.description === "滿折") {
-            if (totalPrice >= data.limit) {
-              finalPrice = totalPrice - data.figure
-              $("#coupon-result").text("此折價券有效")
-            }
-            else {
-              $("#coupon-result").text("未達折扣門檻")
-            }
-          }
-          console.log('===how===', finalPrice)
-        }
-      })
-      // if (coupons.includes(couponCode)) {
-      //   $("#coupon-result").text("This coupon is valid")
-      //   localStorage.setItem('use-coupon', JSON.stringify(couponCode))
-      // }
-    }
+    checkCoupon
   )
-  // if()
   calPrice()
   calQuantity()
 })

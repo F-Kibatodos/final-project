@@ -83,12 +83,14 @@
           <div class="card-footer">
             <h4 id="total-quantity"></h4>
             <h4 id="total-price"></h4>
+            <h4 id="discount-price"></h4>
           </div>
 
         </div>
         <div style="text-align:right" class="mt-2">
           <button type="submit" class="btn">下一步</button>
         </div>
+        <input type="hidden" id="use-coupon" name="useCoupon">
       </form>
     </div>
     <nav class="col-md-3 bg-light sidebar">
@@ -102,8 +104,14 @@
         </div>
         <div>
           <input type="text" name="coupon-code" id="coupon-code" placeholder="請輸入折價券碼" style="display: inline">
+          {{#if user}}
           <button type="button" class="btn btn-info" id="check-coupon">使用</button>
           <small id="coupon-result"></small>
+          {{else}}
+          <a href="/signin">
+            <button type="button" class="btn btn-info" id="check-coupon-login">使用</button>
+          </a>
+          {{/if}}
         </div>
         <hr>
       </div>

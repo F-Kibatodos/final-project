@@ -88,6 +88,12 @@
         <div>
           <span>訂購價格: </span><span id="total-price">{{totalPrice}}</span>
         </div>
+        {{#if discountPrice}}
+        <hr>
+        <div>
+          <span>折扣後價格: </span><span id="discount-price">{{discountPrice}}</span>
+        </div>
+        {{/if}}
         <hr>
         <div>
           {{#ifCond order.shipping_method '自取'}}

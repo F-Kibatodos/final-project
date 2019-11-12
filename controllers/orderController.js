@@ -152,7 +152,8 @@ const orderController = {
         shipping_method: req.body.shipping_method,
         payment_status: req.body.payment_status,
         amount: req.body.amount,
-        UserId: req.user.id
+        UserId: req.user.id,
+        CouponId: req.body.couponId
       }).then(order => {
         var results = [];
         for (var i = 0; i < items.length; i++) {
@@ -188,6 +189,7 @@ const orderController = {
                     order,
                     tradeInfo,
                     totalQuantity,
+                    discountPrice: req.body.discountPrice === "no-discount" ? false : req.body.discountPrice
                   }
                   )
                 })
@@ -204,26 +206,37 @@ const orderController = {
     User.findByPk(req.user.id, { include: [{ model: Coupon, as: 'OwnCoupons', include: [Discount] }] })
       .then(user => {
         let couponCode = Array.from(user.OwnCoupons, coupon => { return coupon.code })
-        console.log('==qqq==', req.query.coupon)
         couponIndex = couponCode.indexOf(req.query.coupon)
         let data = {}
         if (couponIndex < 0) {
           data.checkResult = 'invalid'
         }
         else {
-          const discountType = user.OwnCoupons[couponIndex].Discount.description
           data.checkResult = 'valid'
-          data.description = discountType
+          data.description = user.OwnCoupons[couponIndex].Discount.description
           data.limit = user.OwnCoupons[couponIndex].Discount.limit
           data.figure = user.OwnCoupons[couponIndex].Discount.figure
         }
-        console.log('=====', couponCode)
-        console.log('=====aa', data)
         return res.json(data)
       })
   },
   getOrderShippingInfo: (req, res) => {
+    let coupon
+    let discountPrice = false
+    const useCouponCode = req.query.useCoupon
+    if (useCouponCode) {
+      User.findByPk(req.user.id, { include: [{ model: Coupon, as: 'OwnCoupons', include: [Discount] }] })
+        .then(user => {
+          let couponCode = Array.from(user.OwnCoupons, coupon => { return coupon.code })
+          couponIndex = couponCode.indexOf(useCouponCode)
+          if (couponIndex > -1) {
+            coupon = user.OwnCoupons[couponIndex].Discount || false
+          }
+        })
+    }
     const itemIds = Object.keys(req.query)
+    itemIds.splice(itemIds.indexOf('useCoupon'), 1)
+    console.log('==========ee=====', itemIds)
     if (itemIds.length === 0) {
       req.flash('error_messages', '請至少選擇一項結帳商品')
       return res.redirect('/cart')
@@ -241,11 +254,24 @@ const orderController = {
         CartItem.update({
           wantToCheckOut: true
         }, { where: { [Op.and]: [{ [Op.or]: itemIdSet }, { CartId: req.session.cartId }] } }).then(() => {
+          if (coupon) {
+            console.log("---coupon---", coupon)
+            if (totalPrice >= coupon.limit) {
+              if (coupon.description === "% off") {
+                discountPrice = Math.round(totalPrice * (1 - (coupon.figure / 100)))
+              }
+              else if (coupon.description === "滿折") {
+                discountPrice = totalPrice - coupon.figure
+              }
+            }
+          }
           return res.render('order-shipping-info', {
             cartId: req.session.cartId,
             items,
             totalPrice,
             totalQuantity,
+            discountPrice,
+            coupon,
             js: 'order-shipping-info.js',
           })
         })

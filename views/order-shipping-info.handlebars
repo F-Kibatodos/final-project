@@ -51,6 +51,12 @@
           <div>
             <span>訂購價格: </span><span id="total-price">{{totalPrice}}</span>
           </div>
+          {{#if discountPrice}}
+          <hr>
+          <div>
+            <span>折扣後價格: </span><span id="discount-price">{{discountPrice}}</span>
+          </div>
+          {{/if}}
           <hr>
           <div>
             <span>運費: </span><span id="shipping-fee">0</span>
@@ -67,8 +73,11 @@
     </button>
   </div>
   <input type="hidden" name="cartId" value="{{cartId}}">
-  <input type="hidden" name="amount" value="{{totalAmount}}">
+  <input type="hidden" name="amount">
   <input type="hidden" name="shipping_status" value="0">
   <input type="hidden" name="payment_status" value="0">
+  <input type="hidden" name="couponId" value={{#if coupon}} {{coupon.id}} {{else}}0{{/if}}>
+  <input type="hidden" name="discountPrice" value={{#if discountPrice}} {{discountPrice}} {{else}} "no-discount"
+    {{/if}}>
   </form>
 </div>

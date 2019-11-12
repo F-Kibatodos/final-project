@@ -1,7 +1,8 @@
 $(function () {
   function calFinalAmount() {
-    // $("input[name=shipping_method]").prop("checked", false)
-    const finalAmount = Number($("#total-price").text()) + Number($("#shipping-fee").text())
+    console.log('====discount====', $("#discount-price").text())
+
+    const finalAmount = $('#discount-price').length > 0 ? Number($("#discount-price").text()) + Number($("#shipping-fee").text()) : Number($("#total-price").text()) + Number($("#shipping-fee").text())
     console.log(finalAmount)
     $("#final-amount").text(finalAmount)
     $("input[name=amount]").val(finalAmount)
