@@ -31,7 +31,7 @@ $(function () {
         let discountPrice
         if (totalPrice < data.limit) {
           $("#discount-price").removeClass("text-success").addClass("text-danger")
-          $("#discount-price").text(`未達折扣門檻，還差${data.limit - totalPrice}元`)
+          $("#discount-price").text(`還差${data.limit - totalPrice}元達折扣門檻`)
         }
         else {
           if (data.description === "% off") {
@@ -46,7 +46,7 @@ $(function () {
             if (totalPrice >= data.limit) {
               discountPrice = totalPrice - data.figure
               $("#discount-price").removeClass("text-danger").addClass("text-success")
-              $("#discount-price").html(`<i class="fas fa-tags"></i> 折價後: ${discountPrice}元`)
+              $("#discount-price").html(`<i class="fas fa-tags"></i> 折扣後: ${discountPrice}元`)
               $("#use-coupon").val(couponCode)
             }
           }

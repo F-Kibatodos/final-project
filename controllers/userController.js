@@ -51,13 +51,14 @@ const userController = {
   },
 
   signIn: (req, res) => {
+    console.log("======", req.session.originURL)
     req.flash('success_messages', '成功登入！')
-    console.log("----URL----", req.session.originURL)
-    res.redirect(req.session.originURL)
+    res.redirect(req.session.originURL ? req.session.originURL.includes('/signin') ? '/' : req.session.originURL : '/')
   },
   logout: (req, res) => {
     req.flash('success_messages', '登出成功！')
     req.logout()
+    req.session.destroy()
     res.redirect('back')
   },
   // ========使用者========

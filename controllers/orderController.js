@@ -140,6 +140,11 @@ const orderController = {
   },
   createOrder: (req, res) => {
     let { name, phone, county, district, zipcode, address, shipping_status, shipping_method, payment_status, amount, couponId } = req.body
+    if (shipping_method === '自取') {
+      county = "無"
+      district = "無"
+      zipcode = "無"
+    }
     if (!name || !phone || !address || !county || !district || !zipcode) {
       req.flash('error_messages', '所有欄位皆須填')
       return res.redirect('back')
@@ -147,7 +152,7 @@ const orderController = {
     return CartItem.findAll({ where: { [Op.and]: [{ wantToCheckOut: true }, { CartId: req.session.cartId }] }, include: 'Product' }).then(items => {
       return Order.create({
         name: name,
-        address: zipcode + ' ' + county + district + address,
+        address: zipcode + county + district + address,
         phone: phone,
         shipping_status: shipping_status,
         shipping_method: shipping_method,
@@ -226,7 +231,6 @@ const orderController = {
         }
       }
       else {
-
         data.checkResult = 'valid'
         data.description = coupon.Discount.description
         data.limit = coupon.Discount.limit
