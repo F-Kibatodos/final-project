@@ -152,7 +152,7 @@ const orderController = {
     return CartItem.findAll({ where: { [Op.and]: [{ wantToCheckOut: true }, { CartId: req.session.cartId }] }, include: 'Product' }).then(items => {
       return Order.create({
         name: name,
-        address: zipcode + county + district + address,
+        address: address === "無" ? address : zipcode + county + district + address,
         phone: phone,
         shipping_status: shipping_status,
         shipping_method: shipping_method,
@@ -238,22 +238,30 @@ const orderController = {
         return res.json(data)
       }
     })
-
-
   },
   getOrderShippingInfo: (req, res) => {
-    let coupon
+    let couponContent
     let discountPrice = false
     const useCouponCode = req.query.useCoupon
     if (useCouponCode) {
-      User.findByPk(req.user.id, { include: [{ model: Coupon, as: 'OwnCoupons', include: [Discount] }] })
-        .then(user => {
-          let couponCode = Array.from(user.OwnCoupons, coupon => { return coupon.code })
-          couponIndex = couponCode.indexOf(useCouponCode)
-          if (couponIndex > -1) {
-            coupon = user.OwnCoupons[couponIndex].Discount || false
+      Coupon.findOne({ where: { code: useCouponCode }, include: [Discount, { model: User, as: 'CouponUsers' }] }).then(coupon => {
+        today = Date.now()
+        if (!coupon || coupon.start_date > today || coupon.end_date < today) {
+          couponContent = false
+        }
+        if (coupon.CouponUsers.length > 0) {
+          let couponUserIds = Array.from(coupon.CouponUsers, user => { return user.id })
+          if (couponUserIds.indexOf(req.user.id) < 0) {
+            couponContent = false
           }
-        })
+          else {
+            couponContent = coupon.Discount
+          }
+        }
+        else {
+          couponContent = coupon.Discount
+        }
+      })
     }
     const itemIds = Object.keys(req.query)
     itemIds.splice(itemIds.indexOf('useCoupon'), 1)
@@ -274,13 +282,13 @@ const orderController = {
         CartItem.update({
           wantToCheckOut: true
         }, { where: { [Op.and]: [{ [Op.or]: itemIdSet }, { CartId: req.session.cartId }] } }).then(() => {
-          if (coupon) {
-            if (totalPrice >= coupon.limit) {
-              if (coupon.description === "% off") {
-                discountPrice = Math.round(totalPrice * (1 - (coupon.figure / 100)))
+          if (couponContent) {
+            if (totalPrice >= couponContent.limit) {
+              if (couponContent.description === "% off") {
+                discountPrice = Math.round(totalPrice * (1 - (couponContent.figure / 100)))
               }
-              else if (coupon.description === "minus") {
-                discountPrice = totalPrice - coupon.figure
+              else if (couponContent.description === "minus") {
+                discountPrice = totalPrice - couponContent.figure
               }
             }
           }
@@ -290,7 +298,7 @@ const orderController = {
             totalPrice,
             totalQuantity,
             discountPrice,
-            coupon,
+            coupon: couponContent,
             js: 'order-shipping-info.js',
           })
         })

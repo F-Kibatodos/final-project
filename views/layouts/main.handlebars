@@ -25,12 +25,12 @@
   <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
     <a class="navbar-brand" href="/">AC Drinks</a>
 
-    {{!-- <div id="cartAll"> --}}
-    <div>
-      <span class="fa-stack fa-1x mr-2" data-count={{#if cart_number}}{{cart_number}}{{else}}0{{/if}}>
-        <a href="/cart"><i style="" class="fas fa-shopping-cart fa-stack-2x cart"></i></a></span>
+    <div id="cartAll">
+      <div>
+        <span class="fa-stack fa-1x mr-2" data-count={{#if cart_number}}{{cart_number}}{{else}}0{{/if}}>
+          <a href="/cart"><i style="" class="fas fa-shopping-cart fa-stack-2x cart"></i></a></span>
+      </div>
     </div>
-    {{!-- </div> --}}
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
       aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
