@@ -2,6 +2,28 @@ body{
   background-color: #f8f9fa;
 }
 
+/*bootstrap 按鈕配色統一微調*/
+.btn-outline-primary, .btn-primary{
+  color:#87CEFF;
+}
+
+.btn-outline-secondary, .btn-secondary{
+  color:#bc955c;
+}
+
+.btn-outline-danger, .btn-danger{
+  color:#FF4500;
+}
+
+.btn-outline-success, .btn-success{
+  color:#adff2f;
+}
+
+.btn-outline-info, .btn-info{
+  color:#d4f5fa
+}
+
+
 .fa-stack[data-count]:after{
   position:absolute;
   right:-10%;
