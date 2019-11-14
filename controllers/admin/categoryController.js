@@ -44,6 +44,7 @@ const categoryController = {
       Category.findByPk(req.params.id)
         .then(category => {
           category.update(req.body).then(category => {
+            req.flash('success_messages', `${category.name} 已更新`)
             res.redirect('/admin/categories')
           })
         })
