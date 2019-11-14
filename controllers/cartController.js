@@ -77,6 +77,7 @@ const cartController = {
             req.session.cartId = cart.id
             return req.session
               .save(() => {
+                req.flash('success_messages', '已加入購物車')
                 return res.redirect('back')
               })
 
@@ -84,10 +85,7 @@ const cartController = {
                 totalQuantity = totalQuantity || 0
                 req.session.cartId = cart.id
                 req.session.cart_number = totalQuantity
-                return req.session.save(() => {
-                  req.flash('success_messages', '已加入購物車')
-                  return res.redirect('back')
-                })
+                return req.session.save(() => {})
               })
           })
       })

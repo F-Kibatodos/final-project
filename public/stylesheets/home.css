@@ -160,3 +160,33 @@ img:hover {
   opacity: 0.6;
   transition: 600ms;
 }
+
+.btn-outline-info,
+.btn-outline-primary {
+  color: black;
+  border-color: #013b4f;
+}
+
+.btn-outline-info:hover,
+.btn-outline-primary:hover {
+  background-color: #013b4f;
+  color: white;
+  border-color: #013b4f;
+}
+
+.btn-outline-info:not(:disabled):not(.disabled).active,
+.btn-outline-info:not(:disabled):not(.disabled):active,
+.show > .btn-outline-info.dropdown-toggle,
+.btn-outline-primary:not(:disabled):not(.disabled).active,
+.btn-outline-primary:not(:disabled):not(.disabled):active,
+.show > .btn-outline-primary.dropdown-toggle {
+  background-color: #013b4f;
+  color: white;
+  border-color: #013b4f;
+}
+
+.cart-modal,
+.cart-modal:hover {
+  background-color: #013b4f;
+  color: #bc955c;
+}
