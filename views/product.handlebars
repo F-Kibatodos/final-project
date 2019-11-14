@@ -15,11 +15,11 @@
             class="fb-xfbml-parse-ignore">分享</a></div>
         {{#if isLiked}}
         <form action="/product/{{product.id}}/unwish" method="POST">
-          <button class="btn" style="height: 100%">不喜歡</button>
+          <button class="btn button-style" style="height: 100%"><i class="fas fa-heart"></i></button></button>
         </form>
         {{else}}
         <form action="/product/{{product.id}}" method="POST">
-          <button class="btn" style="height: 100%">喜歡</button>
+          <button class="btn button-style" style="height: 100%"><i class="far fa-heart"></i></button>
         </form>
         {{/if}}
       </div>
@@ -72,8 +72,8 @@
         </div>
         <input type="hidden" name="productId" value="{{product.id}}" />
         {{#if product.available}}
-        <button type="submit" class="btn btn-info to-cart">加入購物車</button>
-        <button type="submit" class="btn btn-info buy-now">直接購買</button>
+        <button type="submit" class="btn btn-info to-cart button-style">加入購物車</button>
+        <button type="submit" class="btn btn-info buy-now button-style">直接購買</button>
         {{else}}
         <p>目前無法購買</p>
         {{/if}}
@@ -102,9 +102,9 @@
       </div>
       <input type="hidden" name="commentId" value="{{this.id}}">
       {{#ifCond this.User.id ../user.id}}
-      <button type="button" class="edit-comment btn btn-sm btn-primary">編輯</button>
-      <button type="submit" class="update-comment btn btn-sm btn-primary d-none">更新</button>
-      <button type="button" class="cancel-update btn btn-sm btn-primary d-none">取消</button>
+      <button type="button" class="edit-comment btn btn-sm  button-style">編輯</button>
+      <button type="submit" class="update-comment btn btn-sm  d-none button-style">更新</button>
+      <button type="button" class="cancel-update btn btn-sm  d-none button-style">取消</button>
       {{/ifCond}}
       <input type="hidden" name="productId" value="{{../product.id}}">
     </form>
@@ -116,34 +116,34 @@
           <p>{{this.content}}</p>
         </div>
         {{#if ../../user.role}}
-        <button type="button" class="edit-reply btn btn-sm mr-2">編輯</button>
-        <button type="submit" class="update-reply btn btn-sm d-none mx-2">更新</button>
-        <button type="button" class="cancel-update-reply btn btn-sm d-none mr-2">取消</button>
+        <button type="button" class="edit-reply btn btn-sm mr-2 button-style">編輯</button>
+        <button type="submit" class="update-reply btn btn-sm d-none mx-2 button-style">更新</button>
+        <button type="button" class="cancel-update-reply btn btn-sm d-none mr-2 button-style">取消</button>
         <input type="hidden" name="productId" value="{{../../product.id}}" />
         <input type="hidden" name="replyId" value="{{this.id}}">
       </form>
       <form action="/admin/replies/{{this.id}}?_method=DELETE" method="POST" class="reply-remove">
         <input type="hidden" name="productId" value="{{../../product.id}}" />
-        <button class="btn btn-sm reply-remove-btn" type="submit">刪除</button>
+        <button class="btn btn-sm reply-remove-btn button-style" type="submit">刪除</button>
       </form>
       {{/if}}
     </div>
     {{/each}}
     {{#if ../user.role}}
     <h4>回應</h4>
-    <hr>
     <form action="/admin/reply" method="POST" class="mb-2">
       <div class="form-group mb-2">
         <textarea class="form-control" id="adminReply" name="adminReply" rows="3"></textarea>
       </div>
       <input type="hidden" name="commentId" value="{{this.id}}">
       <input type="hidden" name="productId" value="{{../product.id}}" />
-      <button class="btn btn-primary">送出</button>
+      <button class="btn  button-style button-style">送出</button>
     </form>
     <hr>
     {{/if}}
     {{/each}}
   </div>
+  <!--
   <div class="write-comment">
     <h2>留下評論</h2>
     <hr>
@@ -163,32 +163,7 @@
         <textarea class="form-control" id="content" name="content" rows="3"></textarea>
       </div>
       <input type="hidden" name="productId" value="{{product.id}}" />
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn ">Submit</button>
     </form>
   </div>
-</div>
-
-<style>
-  .ratings {
-    position: relative;
-    vertical-align: middle;
-    display: inline-block;
-    color: #ddd;
-    /*背景星星顏色*/
-    overflow: hidden;
-    font-size: 30px;
-    /*調整字體大小可放大縮小星星*/
-    text-shadow: 0px 1px 0 #999;
-  }
-
-  .full_star {
-    /*調整寬度可變更星等*/
-    position: absolute;
-    left: 0;
-    top: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    color: #d56a16;
-    /*前景星星顏色*/
-  }
-</style>
+</div> -->

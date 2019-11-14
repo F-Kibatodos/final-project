@@ -53,7 +53,7 @@ const cartController = {
         name: 'cart'
       }
     })
-      .spread(function (cart, created) {
+      .spread(function(cart, created) {
         return CartItem.findOrCreate({
           where: {
             CartId: cart.id,
@@ -68,7 +68,7 @@ const cartController = {
             sugar: req.body.sugar
           }
         })
-          .spread(function (cartItem, created) {
+          .spread(function(cartItem, created) {
             return cartItem
               .update({
                 quantity: cartItem.quantity
@@ -80,6 +80,19 @@ const cartController = {
                 return req.session.save(() => {
                   return res.redirect('back')
                 })
+
+                  .then(totalQuantity => {
+                    totalQuantity = totalQuantity || 0
+                    req.session.cartId = cart.id
+                    req.session.cart_number = totalQuantity
+                    return req.session.save(() => {
+                      req.flash('success_messages', '已加入購物車')
+                      return res.redirect('back')
+                    })
+                  })
+                  .catch(err => {
+                    console.log(err)
+                  })
               })
               .catch(err => {
                 console.log(err)
@@ -135,7 +148,7 @@ const cartController = {
       default: {
         name: 'cart'
       }
-    }).spread(function (cart, created) {
+    }).spread(function(cart, created) {
       console.log(req.body.amount)
       return CartItem.findOrCreate({
         where: {
@@ -150,7 +163,7 @@ const cartController = {
           ice: req.body.ice,
           sugar: req.body.sugar
         }
-      }).spread(function (cartItem, created) {
+      }).spread(function(cartItem, created) {
         return cartItem
           .update({
             quantity: cartItem.quantity

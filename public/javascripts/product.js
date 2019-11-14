@@ -1,13 +1,13 @@
 const price = document.querySelector('.price')
 const total = document.querySelector('.total')
 const number = document.querySelector('#amount')
-var star = document.getElementById('star')
+/*var star = document.getElementById('star')
 var star_li = star.getElementsByTagName('li')
 var star_word = document.getElementById('star_word')
 var result = document.getElementById('result')
 var i = 0
 var j = 0
-var len = star_li.length
+var len = star_li.length*/
 const buy = document.querySelector('.buy')
 const toCart = document.querySelector('.to-cart')
 const buyNow = document.querySelector('.buy-now')
@@ -19,7 +19,7 @@ const cancelUpdateReplies = document.getElementsByClassName(
   'cancel-update-reply'
 )
 let originalReplyText
-for (i = 0; i < len; i++) {
+/*for (i = 0; i < len; i++) {
   star_li[i].index = i
 
   star_li[i].onclick = function() {
@@ -28,7 +28,7 @@ for (i = 0; i < len; i++) {
       else star_li[i].classList.remove('act')
     }
   }
-}
+}*/
 buy.addEventListener('mouseover', function(e) {
   if (e.target === toCart) buy.setAttribute('action', '/cart')
   if (e.target === buyNow) buy.setAttribute('action', '/buynow')

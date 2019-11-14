@@ -13,15 +13,15 @@
           <input type="email" class="form-control form-control-lg" name="email" id="email" value="{{user.email}}">
         </div>
         <div class="form-group">
-          <input type="birthday" class="form-control form-control-lg" name="birthday" id="birthday" placeholder="生日"
+          <input type="date" class="form-control form-control-lg" name="birthday" id="birthday" placeholder="生日"
             value="{{#if user.birthday}}{{birthday user.birthday}}{{else}}{{/if}}">
         </div>
         <div class="form-group">
-          <input type="phone" class="form-control form-control-lg" name="phone" id="phone" placeholder="電話"
+          <input type="tel" class="form-control form-control-lg" name="phone" id="phone" placeholder="電話"
             value="{{user.phone}}">
         </div>
         <div class="form-group">
-          <input type="address" class="form-control form-control-lg" name="address" id="address" placeholder="地址"
+          <input type="text" class="form-control form-control-lg" name="address" id="address" placeholder="地址"
             value="{{user.address}}">
         </div>
         <button type="submit" class="btn btn-primary float-right">更新</button>

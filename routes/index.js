@@ -15,18 +15,14 @@ const orderController = require('../controllers/orderController')
 const commentController = require('../controllers/commentController')
 const productController = require('../controllers/productController')
 const contactController = require('../controllers/contactController')
-const db = require('../models')
-const Category = db.Category
-const Product = db.Product
-const User = db.User
-const Sequelize = require('sequelize')
-const Op = Sequelize.Op
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
+const { check, validationResult } = require('express-validator')
 const displayCategory = require('../config/displayCategories')
 const displayPriceMenu = require('../config/displayPriceMenu')
 const displaySorMenu = require('../config/displaySort')
 const { registerValidator } = require('../config/validator.js')
+
 
 module.exports = (app, passport) => {
   const authenticated = (req, res, next) => {
@@ -56,73 +52,27 @@ module.exports = (app, passport) => {
   )
   app.get('/logout', userController.logout)
   // 首頁
-  app.get('/', (req, res) => {
-    const sugar = ['無糖', '微糖', '半糖', '少糖']
-    const ice = ['去冰', '少冰']
-    const priceRange = [
-      { forQuery: '0,30', forOption: '30元以下' },
-      { forQuery: '31,40', forOption: '31-40元' },
-      { forQuery: '41,50', forOption: '41-50元' },
-      { forQuery: '51,60', forOption: '51-60元' },
-      { forQuery: '61,100', forOption: '60元以上' }
-    ]
-    let sortKey = req.query.sortKey || 'price'
-    let sortValue = req.query.sortValue || 'DESC'
-    let sortOption
-    let displaySort = displaySorMenu(sortKey, sortValue, sortOption)
-    let categoryFilter = req.query.category
-    let where = {}
-    if (categoryFilter) where.CategoryId = categoryFilter
-    let price = req.query.priceRange
-    let priceFilterMenu = displayPriceMenu(price)
-    if (price) {
-      price = JSON.parse('[' + price + ']')
-      where.price = { [Op.between]: price }
-    }
-    let search = req.query.search
-    if (search) where.name = { [Op.like]: '%' + search + '%' }
-    let categoryFilterMenu = displayCategory(categoryFilter)
-    const rating = 90
-    Product.findAll({
-      include: [Category, { model: User, as: 'WishedUsers' }],
-      order: [[sortKey, sortValue]],
-      where
-    }).then(products => {
-      const drinks = products.map(drink => ({
-        ...drink.dataValues,
-        description: drink.dataValues.description
-          ? drink.dataValues.description.substring(0, 17)
-          : '',
-        isWished: req.user
-          ? req.user.WishProducts
-            ? req.user.WishProducts.map(d => d.id).includes(drink.id)
-            : req.user.WishProducts
-          : false
-      }))
-      Category.findAll().then(category => {
-        res.render('index', {
-          drinks,
-          category,
-          price,
-          categoryFilter,
-          priceRange,
-          search,
-          categoryFilterMenu: categoryFilterMenu || '所有分類',
-          priceFilterMenu: priceFilterMenu || '所有價格',
-          js: 'indexPage.js',
-          displaySort,
-          style: 'index.css',
-          sugar,
-          ice
-        })
-      })
-    })
-  })
+  app.get('/', productController.getIndex)
   app.get('/signin', userController.signInPage)
   // 使用者
   app.get('/user/:id', authenticated, userController.getUser)
   app.get('/user/:id/edit', authenticated, userController.editUser)
-  app.put('/user/:id', authenticated, userController.putUser)
+  app.put(
+    '/user/:id',
+    [
+      check('email')
+        .isEmail()
+        .withMessage('請輸入正確信箱格式'),
+      check('birthday')
+        .isISO8601()
+        .withMessage('請依照預設格式輸入生日'),
+      check('phone')
+        .isMobilePhone()
+        .withMessage('請輸入正確電話格式')
+    ],
+    authenticated,
+    userController.putUser
+  )
   // 單一商品詳情
   app.get('/product/:id', productController.getProduct)
   // 評論
@@ -283,6 +233,16 @@ module.exports = (app, passport) => {
     adminOrderController.searchOrders
   )
   app.get('/admin/orders', authenticatedAdmin, adminOrderController.getOrders)
+  app.get(
+    '/admin/orders/edit/:id',
+    authenticatedAdmin,
+    adminOrderController.editOrder
+  )
+  app.post(
+    '/admin/orders',
+    authenticatedAdmin,
+    adminOrderController.createOrder
+  )
   app.get('/admin/orders/edit/:id', authenticatedAdmin, adminOrderController.editOrder)
   app.put('/admin/orders/change-shipping-status/:id', authenticatedAdmin, adminOrderController.changeShippingStatus)
   app.put(
@@ -352,7 +312,7 @@ module.exports = (app, passport) => {
   )
 
   // 最後無法批配的，全部導向404畫面
-  app.get('*', function (req, res) {
+  app.get('*', function(req, res) {
     res.render('404', { style: '404.css', js: 'refresh-to-index.js' })
   })
 }

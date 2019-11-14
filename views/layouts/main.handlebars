@@ -22,7 +22,7 @@
 
 <body>
   {{!-- Navbar --}}
-  <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg fixed-top navbar-dark" style="background-color: #013b4f">
     <a class="navbar-brand" href="/">AC Drinks</a>
 
     <div id="cartAll">
@@ -42,15 +42,15 @@
       </ul>
       <div class="navLink">
         {{#if user.role}}
-        <a href="/admin/users" style="color: white;margin-right: 10px;">Admin 後台</a>
+        <a href="/admin/products" style="margin-right: 10px;">Admin 後台</a>
         {{/if}}
-        <a href="/contact" style="color: white;margin-right: 10px;">聯絡我們</a>
+        <a href="/contact" style="margin-right: 10px;">聯絡我們</a>
         {{#if user}}
-        <span style="color: white;margin-right: 10px;">Hi, {{user.name}}</span>
-        <a href="/user/{{user.id}}" style="color: white;margin-right: 10px;">Profile</a>
-        <a href="/logout"><button class="btn btn-danger my-2 my-sm-0">LogOut</button></a>
+        <span style="margin-right: 10px;">Hi, {{user.name}}</span>
+        <a href="/user/{{user.id}}" style="margin-right: 10px;">Profile</a>
+        <a href="/logout"><button class="btn my-2 my-sm-0">LogOut</button></a>
         {{else}}
-        <a href="/signin"><button class="btn btn-success my-2 my-sm-0">LogIn</button></a>
+        <a href="/signin"><button class="btn my-2 my-sm-0">LogIn</button></a>
         {{/if}}
       </div>
     </div>
@@ -89,5 +89,7 @@
 {{#if js}}
 <script type="text/javascript" src="/javascripts/{{js}}"></script>
 {{/if}}
+<script async defer crossorigin="anonymous"
+  src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v5.0&appId=2535029479899081&autoLogAppEvents=1"></script>
 
 </html>
