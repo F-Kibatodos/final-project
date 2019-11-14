@@ -1,130 +1,20 @@
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: #bc955c;
-}
-
-#search-button {
-  color: #bc955c;
-}
-#search-button:hover {
-  color: white;
-}
-
-.submit {
-  width: 42%;
-}
-
-.cart,
-.wishlist {
-  width: 100%;
-}
-
-.month-sort-menu,
-.month,
-.month *,
-.sort-dropdown,
-.sort-dropdown * {
-  color: #bc955c;
+nav .btn {
   background-color: #013b4f;
+  color: #bc955c;
+  border-color: #bc955c;
+}
+nav .btn:hover {
+  background-color: #bc955c;
+  color: #013b4f;
 }
 
-.month-sort-menu:hover,
-.sort-dropdown *:hover,
-.month-sort-menu:focus,
-.sort-dropdown:focus {
-  background-color: #013b4f !important;
-}
-
-.month *:hover {
-  background-color: #ddd;
-}
-
-@media screen and (max-width: 991px) {
-  #filter-and-search {
-    justify-content: center;
-  }
-  .search-bar {
-    width: 30%;
-  }
-}
-
-@media screen and (max-width: 767px) {
-  #filter-and-search {
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  .category,
-  .price,
-  .sort,
-  .search-bar {
-    width: 100%;
-    margin-right: 0 !important;
-  }
-
-  .month-sort-menu,
-  .month,
-  .month *,
-  .sort-dropdown,
-  .sort-dropdown * {
-    width: 100%;
-  }
-  .search-bar {
-    float: left;
-  }
-  .search-flex-wrapper {
-    padding: 0;
-  }
-  .search-group {
-    margin: 0 !important;
-    margin-top: 0.5rem !important;
-  }
-}
-
-i {
+nav a,
+nav span,
+.navbar-dark .navbar-brand {
   color: #bc955c;
 }
 
-button.close {
-  background-color: white !important;
-  color: #bc955c;
-}
-
-button {
-  background-color: #013b4f !important;
-}
-
-.ratings {
-  position: relative;
-  vertical-align: middle;
-  display: inline-block;
-  color: #ddd;
-  /*背景星星顏色*/
-  overflow: hidden;
-  font-size: 20px;
-  /*調整字體大小可放大縮小星星*/
-  text-shadow: 0px 1px 0 #999;
-  margin-bottom: 1rem;
-}
-
-.full_star {
-  /*調整寬度可變更星等*/
-  position: absolute;
-  left: 0;
-  top: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  color: #d56a16;
-  /*前景星星顏色*/
-}
-
-.card-title {
-  margin-bottom: 2px !important;
-}
-
-.card {
-  border-color: #013b4f;
+nav a:hover {
+  color: white;
+  text-decoration: none;
 }

@@ -1,41 +1,26 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-6">
-      <ul class="list-group mt-3">
-        <li class="list-group-item">
-          <h3>名稱: {{profile.name}}</h3>
-        </li>
-        <li class="list-group-item">
-          <h3>生日: {{#if profile.birthday}}{{birthday profile.birthday}} {{else}}{{/if}}</h3>
-        </li>
-        <li class="list-group-item">
-          <h3>E-mail: {{profile.email}}</h3>
-        </li>
-        <li class="list-group-item">
-          <h3>電話: {{profile.phone}}</h3>
-        </li>
-        <li class="list-group-item">
-          <h3>聯絡地址: {{profile.address}}</h3>
-        </li>
-        <li class="list-group-item">
-          <div class="buttons d-flex justify-content-around mt-3">
-            {{#ifCond profile.id user.id}}
-            <a href="/user/{{profile.id}}/edit" class="btn btn-primary">編輯</a>
-            <a href="/" class="btn btn-primary">上一頁</a>
-            {{/ifCond}}
-          </div>
-        </li>
-      </ul>
+<h2 class="text-center">個人資料</h2>
+<div class="row">
+  <div class="card col-md-12">
+    <div class="card-header">
+      <span>個人資訊</span><a href="/user/{{profile.id}}/edit" class="btn btn-primary btn-sm float-right edit">編輯</a>
     </div>
-    <div class="col-md-6">
-      <ul class="list-group mt-3">
-        <li class="list-group-item">
-          <h3><a href="/wishlist/{{profile.id}}">我的願望清單</a></h3>
-        </li>
-        <li class="list-group-item">
-          <h3><a href="/orders">我的訂單</a></h3>
-        </li>
-      </ul>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">名稱: {{profile.name}}</li>
+      <li class="list-group-item">生日: {{#if profile.birthday}}{{birthday profile.birthday}} {{else}}{{/if}}</li>
+      <li class="list-group-item">E-mail: {{profile.email}}</li>
+      <li class="list-group-item">電話: {{profile.phone}}</li>
+      <li class="list-group-item">聯絡地址: {{profile.address}}</li>
+    </ul>
+  </div>
+  <div class="d-flex justify-content-between col-md-12">
+    <div class="mt-3 text-center a-button">
+      <a href="/wishlist/{{profile.id}}" class="btn btn-primary link">我的願望清單</a>
     </div>
+    <div class="mt-3 text-center a-button">
+      <a href="/orders" class="btn btn-primary link">我的訂單</a>
+    </div>
+  </div>
+  <div class="d-flex justify-content-end col-md-12">
+    <a href="/" class="btn btn-primary mt-2">上一頁</a>
   </div>
 </div>

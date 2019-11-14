@@ -58,7 +58,7 @@ const userController = {
       return res.redirect(`/user/${req.user.id}`)
     }
     User.findByPk(req.params.id).then(profile => {
-      res.render('profile', { profile })
+      res.render('profile', { profile, style: 'profile.css' })
     })
   },
   editUser: (req, res) => {
@@ -66,17 +66,27 @@ const userController = {
       return res.redirect(`/user/${req.user.id}/edit`)
     } else {
       return User.findByPk(req.params.id).then(user => {
-        return res.render('edit-profile')
+        return res.render('edit-profile', { style: 'profile.css' })
       })
     }
   },
   putUser: (req, res) => {
+    const errors = validationResult(req)
+    let errorMsgs = []
+    if (!errors.isEmpty()) {
+      for (let errormessage of errors.errors) {
+        errorMsgs.push({ message: errormessage.msg })
+      }
+      for (let errorMsg of errorMsgs) {
+        req.flash('error_messages', errorMsg.message)
+      }
+      return res.redirect('back')
+    }
     if (Number(req.params.id) !== Number(req.user.id)) {
-      req.flash('error_messages', '您無權編輯他人檔案')
       return res.redirect(`/user/${req.params.id}`)
     }
     if (!req.body.name) {
-      req.flash('error_messages', "name didn't exist")
+      req.flash('error_messages', '請輸入名稱')
       return res.redirect('back')
     }
     User.findByPk(req.params.id).then(user => {
@@ -90,7 +100,7 @@ const userController = {
           address
         })
         .then(user => {
-          req.flash('success_messages', 'user was successfully to update')
+          req.flash('success_messages', '成功修改個人資訊')
           res.redirect(`/user/${req.params.id}`)
         })
     })
