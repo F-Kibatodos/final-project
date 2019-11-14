@@ -1,4 +1,4 @@
-body{
+body {
   background-color: #f8f9fa;
 }
 
@@ -24,65 +24,81 @@ nav a:hover {
 }
 
 /*bootstrap 按鈕配色統一微調*/
-.btn-outline-primary, .btn-primary{
-  color:rgb(45, 62, 223);
+.btn-outline-primary,
+.btn-primary {
+  color: rgb(45, 62, 223);
 }
 
-.btn-outline-secondary, .btn-secondary{
-  color:#bc955c;
-}
-
-.btn-outline-danger, .btn-danger{
-  color:#FF4500;
-}
-
-.btn-outline-success, .btn-success{
-  color:#8bcf24;
-}
-
-.btn-outline-info{
-  color:#328b99
-}
-
-
-.fa-stack[data-count]:after{
-  position:absolute;
-  right:-10%;
-  top:-30%;
-  content: attr(data-count);
-  font-size:40%;
-  padding:.4em;
-  border-radius:999px;
-  line-height:.75em;
+.btn-outline-secondary,
+.btn-secondary {
   color: #bc955c;
-  text-align:center;
-  min-width:2em;
-  font-weight:bold;
+}
+
+.btn-outline-danger,
+.btn-danger {
+  color: #ff4500;
+}
+
+.btn-outline-success,
+.btn-success {
+  color: #8bcf24;
+}
+
+.btn-outline-info {
+  color: #328b99;
+}
+
+.fa-stack[data-count]:after {
+  position: absolute;
+  right: -10%;
+  top: -30%;
+  content: attr(data-count);
+  font-size: 40%;
+  padding: 0.4em;
+  border-radius: 999px;
+  line-height: 0.75em;
+  color: #bc955c;
+  text-align: center;
+  min-width: 2em;
+  font-weight: bold;
   background: #013b4f;
-  border-style:solid;
+  border-style: solid;
 }
 
 .cart {
-	color: #bc955c;
+  color: #bc955c;
 }
 
-.navLink a:hover{
+.navLink a:hover {
   font-weight: bold;
 }
 
 /*RWD*/
-@media screen and (min-width:992px) {
-  #cartAll{
+@media screen and (min-width: 992px) {
+  #cartAll {
     display: flex;
     justify-content: flex-end;
-    width:40%;
+    width: 40%;
   }
 }
 
-@media screen and (min-width:1040px) {
-  #cartAll{
+@media screen and (min-width: 1040px) {
+  #cartAll {
     display: flex;
     justify-content: flex-end;
-    width:45%;
+    width: 45%;
   }
+}
+.table .thead-dark th {
+  background-color: #013b4f;
+  color: #bc955c;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #bc955c;
 }
