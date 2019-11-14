@@ -27,6 +27,9 @@
       <a class="nav-link" href="/admin/coupons">Coupons 折扣券管理</a>
     </li>
     <li class="nav-item">
+      <a class="nav-link" href="/admin/comments">Comments 評論管理</a>
+    </li>
+    <li class="nav-item">
       <a class="nav-link" href="/admin/contacts">Contacts 編輯店家資訊</a>
     </li>
   </ul>
@@ -59,6 +62,19 @@
         <td class="col-2">{{this.User.name}}</td>
         <td class="col-2">{{this.amount}}</td>
         <td class="col-3">
+          {{#ifCond this.shipping_status '0'}}
+          <form action="/admin/orders/change-shipping-status/{{this.id}}?_method=PUT" style="display:inline;"
+            method="POST">
+            <input type="hidden" name="shippingStatus" value="{{this.shipping_status}}">
+            <button type="submit" class="btn btn-outline-info">已送達</button>
+          </form>
+          {{else}}
+          <form action="/admin/orders/change-shipping-status/{{this.id}}?_method=PUT" style="display:inline;"
+            method="POST">
+            <input type="hidden" name="shippingStatus" value="{{this.shipping_status}}">
+            <button type="submit" class="btn btn-outline-info">運輸中</button>
+          </form>
+          {{/ifCond}}
           <form action="/orders/{{this.id}}" style="display:inline;">
             <button type="submit" class="btn btn-outline-secondary">詳情</button>
           </form>

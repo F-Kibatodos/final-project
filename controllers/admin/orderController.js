@@ -79,6 +79,25 @@ const orderController = {
       })
       return res.render('admin/orders', { orders: data })
     })
+  },
+  changeShippingStatus: (req, res) => {
+    Order.findByPk(req.params.id).then(order => {
+      if (req.body.shippingStatus === '0') {
+        order.update({
+          shipping_status: 1
+        }).then(order => {
+          req.flash('success_messages', `訂單 ${order.sn} 已更新成「已送達」`)
+          res.redirect('/admin/orders')
+        })
+      } else {
+        order.update({
+          shipping_status: 0
+        }).then(order => {
+          req.flash('success_messages', `訂單 ${order.sn} 已更新成「運輸中」`)
+          res.redirect('/admin/orders')
+        })
+      }
+    })
   }
 }
 

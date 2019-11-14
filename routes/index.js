@@ -213,12 +213,6 @@ module.exports = (app, passport) => {
     adminProductController.putProduct
   )
   app.delete('/admin/products/:id', adminProductController.deleteProduct)
-  // 移除不當評論
-  app.put(
-    '/admin/comments/:id',
-    authenticatedAdmin,
-    adminCommentController.putComment
-  )
   // 聯絡資訊
   app.put(
     '/admin/contact/edit/:id',
@@ -290,11 +284,7 @@ module.exports = (app, passport) => {
   )
   app.get('/admin/orders', authenticatedAdmin, adminOrderController.getOrders)
   app.get('/admin/orders/edit/:id', authenticatedAdmin, adminOrderController.editOrder)
-  /*app.post(
-    '/admin/orders',
-    authenticatedAdmin,
-    adminOrderController.createOrder
-  )*/
+  app.put('/admin/orders/change-shipping-status/:id', authenticatedAdmin, adminOrderController.changeShippingStatus)
   app.put(
     '/admin/orders/:id',
     authenticatedAdmin,
@@ -349,6 +339,16 @@ module.exports = (app, passport) => {
     '/admin/categories/:id',
     authenticatedAdmin,
     adminCategoryController.deleteCategory
+  )
+
+  // 後台評論
+  app.get('/admin/comments', authenticatedAdmin, adminCommentController.getComments)
+  app.delete(
+    '/admin/comments/:id',
+    authenticatedAdmin, adminCommentController.deleteComment)
+  app.get(
+    '/admin/comments/search',
+    authenticatedAdmin, adminCommentController.searchComments
   )
 
   // 最後無法批配的，全部導向404畫面
