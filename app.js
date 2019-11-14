@@ -41,11 +41,9 @@ app.use((req, res, next) => {
   res.locals.user = req.user
   CartItem.sum('quantity', { where: { CartId: req.session.cartId || 0 } }).then(
     quantity => {
-      quantity = quantity || 0
       res.locals.cart_number = quantity || 0
-    }
-  )
-  next()
+      next()
+    })
 })
 
 require('./routes/authsFB')(app)
