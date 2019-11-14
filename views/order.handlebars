@@ -1,172 +1,174 @@
-<div class="row">
-  <div class="col-md-9">
-    <hr style="border: 5px solid #023B4F; margin-bottom: 1px">
-    <hr style="border: 1px solid #023B4F; margin: 5px 0px">
-    <h4 class="p-0">訂單資訊</h4>
-    <hr style="border: 1px solid #023B4F; margin: 5px 0px">
-    <hr style="border: 5px solid #023B4F; margin-top: 1px">
-    <div>
-      <span class="badge badge-info">訂單編號 </span>
-      {{order.sn}}
-    </div>
-    <div>
-      <span class="badge badge-info mb-3">訂購日期 </span>
-      {{moment order.createdAt}}
-    </div>
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col" style="width: 30%">商品</th>
-          <th scope="col" style="width: 8%">單價</th>
-          <th scope="col" style="width: 8%">數量</th>
-          <th scope="col" style="width: 9%">總價</th>
-          <th scope="col" style="width: 15%">付款狀態</th>
-          <th scope="col" style="width: 15%">運送狀態</th>
-          <th scope="col" style="width: 15%">#</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each items}}
-        <tr>
-          <td>
-            <div class="row">
-              <div class="col-6"><img src={{this.Product.image}} class="img-thumbnail img-sm"></div>
-              <div class="col-6">
-                <h4 class="title text-truncate">{{this.Product.name}}</h4>
-                <div>
-                  <span>{{this.sugar}}、{{this.ice}}</span>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td>
-            <div>
-              <h6>{{this.price}}</h6>
-            </div>
-          </td>
-          <td>
-            <div style="display: flex;">
-              <span style="margin: 0 20px;">
-                {{this.quantity}}
-              </span>
-            </div>
-          </td>
-          <td>
-            <div>
-              <h6>{{#multiplication this.price this.quantity}}{{/multiplication}}</h6>
-            </div>
-          </td>
-          <td>
-            <div>
-              {{#ifCond ../order.payment_status "1"}}
-              <span class="text-success">已付款</span>
-              {{else}}
-              <span class="text-danger">未付款</span>
-              {{/ifCond}}
-            </div>
-          </td>
-          <td>
-            <div>
-              {{#ifCond ../order.shipping_status "1"}}
-              <span class="text-success">運送/自取完成</span>
-              {{else}}
-              <span class="text-danger">運送/自取尚未完成</span>
-              {{/ifCond}}
-            </div>
-          </td>
-          <td>
-            <div>
-              <button type="button" class="btn btn-sm" style="background-color: #023B4F; color: white;"
-                data-toggle="modal" data-target="#comment" {{#ifCond ../order.payment_status "0"}}disabled{{/ifCond}}><i
-                  class="fas fa-star"></i>
-                給評價</button>
-            </div>
-          </td>
-        </tr>
-        <!-- Comment Modal -->
-        <div class="modal fade" id="comment" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel"
-          aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="commentModalLabel">產品評價</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <form action="/comment" method="POST">
-                <div class="modal-body">
-                  <span>評分</span>
-                  <span id="result">
-                    <ul id="star" class="pl-0">
-                      {{#each ../rank}}
-                      <label>
-                        <li>★</li>
-                        <input type="radio" name="ranking" value='{{this}}' style="display: none">
-                      </label>
-                      {{/each}}
-                    </ul>
-                  </span>
-                  <div class="form-group">
-                    <textarea class="form-control" id="content" name="content" rows="3"></textarea>
-                  </div>
-                  <input type="hidden" name="productId" value="{{this.Product.id}}" />
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-primary">送出評價</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        {{/each}}
-      </tbody>
-    </table>
-    <div class="pb-1">
+<div class="container">
+  <div class="row">
+    <div class="col-md-9">
       <hr style="border: 5px solid #023B4F; margin-bottom: 1px">
       <hr style="border: 1px solid #023B4F; margin: 5px 0px">
-      <h4 class="p-0">收件資訊</h4>
+      <h4 class="p-0">訂單資訊</h4>
       <hr style="border: 1px solid #023B4F; margin: 5px 0px">
       <hr style="border: 5px solid #023B4F; margin-top: 1px">
-      {{#ifCond order.shipping_method "自取"}}
-      <span class="pl-2">{{order.shipping_method}}</span>
-      {{else}}
-      <ul>
-        <li>{{order.shipping_method}} 至 {{order.address}}</li>
-        <li>收件人 : {{order.name}}</li>
-        <li>電話 : {{order.phone}}</li>
-      </ul>
-      {{/ifCond}}
-    </div>
-    <hr style="border: 1px solid #023B4F;">
-    <div class=" text-center mt-3">
-      <a href="/orders"><button class="btn" style="background-color: #023B4F; color: white;">回去所有訂單</button></a>
-      {{#if user.role}}
-      <a href="/admin/orders"><button class="btn btn-info">管理員訂單頁面</button></a>
-      {{/if}}
-    </div>
-  </div>
-  <nav class="col-md-3 bg-light sidebar">
-    <div class="sidebar-sticky">
       <div>
+        <span class="badge badge-info">訂單編號 </span>
+        {{order.sn}}
+      </div>
+      <div>
+        <span class="badge badge-info mb-3">訂購日期 </span>
+        {{moment order.createdAt}}
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col" style="width: 30%">商品</th>
+            <th scope="col" style="width: 8%">單價</th>
+            <th scope="col" style="width: 8%">數量</th>
+            <th scope="col" style="width: 9%">總價</th>
+            <th scope="col" style="width: 15%">付款狀態</th>
+            <th scope="col" style="width: 15%">運送狀態</th>
+            <th scope="col" style="width: 15%">#</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each items}}
+          <tr>
+            <td>
+              <div class="row">
+                <div class="col-6"><img src={{this.Product.image}} class="img-thumbnail img-sm"></div>
+                <div class="col-6">
+                  <h4 class="title text-truncate">{{this.Product.name}}</h4>
+                  <div>
+                    <span>{{this.sugar}}、{{this.ice}}</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div>
+                <h6>{{this.price}}</h6>
+              </div>
+            </td>
+            <td>
+              <div style="display: flex;">
+                <span style="margin: 0 20px;">
+                  {{this.quantity}}
+                </span>
+              </div>
+            </td>
+            <td>
+              <div>
+                <h6>{{#multiplication this.price this.quantity}}{{/multiplication}}</h6>
+              </div>
+            </td>
+            <td>
+              <div>
+                {{#ifCond ../order.payment_status "1"}}
+                <span class="text-success">已付款</span>
+                {{else}}
+                <span class="text-danger">未付款</span>
+                {{/ifCond}}
+              </div>
+            </td>
+            <td>
+              <div>
+                {{#ifCond ../order.shipping_status "1"}}
+                <span class="text-success">運送/自取完成</span>
+                {{else}}
+                <span class="text-danger">運送/自取尚未完成</span>
+                {{/ifCond}}
+              </div>
+            </td>
+            <td>
+              <div>
+                <button type="button" class="btn btn-sm" style="background-color: #023B4F; color: white;"
+                  data-toggle="modal" data-target="#comment"
+                  {{#ifCond ../order.payment_status "0"}}disabled{{/ifCond}}><i class="fas fa-star"></i>
+                  給評價</button>
+              </div>
+            </td>
+          </tr>
+          <!-- Comment Modal -->
+          <div class="modal fade" id="comment" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="commentModalLabel">產品評價</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <form action="/comment" method="POST">
+                  <div class="modal-body">
+                    <span>評分</span>
+                    <span id="result">
+                      <ul id="star" class="pl-0">
+                        {{#each ../rank}}
+                        <label>
+                          <li>★</li>
+                          <input type="radio" name="ranking" value='{{this}}' style="display: none">
+                        </label>
+                        {{/each}}
+                      </ul>
+                    </span>
+                    <div class="form-group">
+                      <textarea class="form-control" id="content" name="content" rows="3"></textarea>
+                    </div>
+                    <input type="hidden" name="productId" value="{{this.Product.id}}" />
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">送出評價</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          {{/each}}
+        </tbody>
+      </table>
+      <div class="pb-1">
         <hr style="border: 5px solid #023B4F; margin-bottom: 1px">
         <hr style="border: 1px solid #023B4F; margin: 5px 0px">
-        <h4>Order Summary</h4>
+        <h4 class="p-0">收件資訊</h4>
         <hr style="border: 1px solid #023B4F; margin: 5px 0px">
         <hr style="border: 5px solid #023B4F; margin-top: 1px">
+        {{#ifCond order.shipping_method "自取"}}
+        <span class="pl-2">{{order.shipping_method}}</span>
+        {{else}}
+        <ul>
+          <li>{{order.shipping_method}} 至 {{order.address}}</li>
+          <li>收件人 : {{order.name}}</li>
+          <li>電話 : {{order.phone}}</li>
+        </ul>
+        {{/ifCond}}
       </div>
-      <div>
-        <span>總共: </span><span id="total-quantity">{{totalQuantity}} 杯</span>
-      </div>
-      <hr>
-      <div>
-        <span>{{order.shipping_method}}</span>
-      </div>
-      <hr>
-      <div>
-        付款: {{order.amount}} 元
+      <hr style="border: 1px solid #023B4F;">
+      <div class=" text-center mt-3">
+        <a href="/orders"><button class="btn" style="background-color: #023B4F; color: white;">回去所有訂單</button></a>
+        {{#if user.role}}
+        <a href="/admin/orders"><button class="btn btn-info">管理員訂單頁面</button></a>
+        {{/if}}
       </div>
     </div>
-  </nav>
+    <nav class="col-md-3 bg-light sidebar">
+      <div class="sidebar-sticky">
+        <div>
+          <hr style="border: 5px solid #023B4F; margin-bottom: 1px">
+          <hr style="border: 1px solid #023B4F; margin: 5px 0px">
+          <h4>Order Summary</h4>
+          <hr style="border: 1px solid #023B4F; margin: 5px 0px">
+          <hr style="border: 5px solid #023B4F; margin-top: 1px">
+        </div>
+        <div>
+          <span>總共: </span><span id="total-quantity">{{totalQuantity}} 杯</span>
+        </div>
+        <hr>
+        <div>
+          <span>{{order.shipping_method}}</span>
+        </div>
+        <hr>
+        <div>
+          付款: {{order.amount}} 元
+        </div>
+      </div>
+    </nav>
+  </div>
 </div>

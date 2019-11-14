@@ -47,7 +47,7 @@ const userController = {
   signInPage: (req, res) => {
     const originURL = req.header('Referer')
     req.session.originURL = originURL
-    return res.render('signin')
+    return res.render('signin', { style: 'signin.css' })
   },
 
   signIn: (req, res) => {
