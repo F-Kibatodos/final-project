@@ -23,7 +23,6 @@ const displayPriceMenu = require('../config/displayPriceMenu')
 const displaySorMenu = require('../config/displaySort')
 const { registerValidator } = require('../config/validator.js')
 
-
 module.exports = (app, passport) => {
   const authenticated = (req, res, next) => {
     if (req.isAuthenticated()) {
@@ -238,13 +237,21 @@ module.exports = (app, passport) => {
     authenticatedAdmin,
     adminOrderController.editOrder
   )
-  app.post(
+  /*app.post(
     '/admin/orders',
     authenticatedAdmin,
     adminOrderController.createOrder
+  )*/
+  app.get(
+    '/admin/orders/edit/:id',
+    authenticatedAdmin,
+    adminOrderController.editOrder
   )
-  app.get('/admin/orders/edit/:id', authenticatedAdmin, adminOrderController.editOrder)
-  app.put('/admin/orders/change-shipping-status/:id', authenticatedAdmin, adminOrderController.changeShippingStatus)
+  app.put(
+    '/admin/orders/change-shipping-status/:id',
+    authenticatedAdmin,
+    adminOrderController.changeShippingStatus
+  )
   app.put(
     '/admin/orders/:id',
     authenticatedAdmin,
@@ -302,13 +309,20 @@ module.exports = (app, passport) => {
   )
 
   // 後台評論
-  app.get('/admin/comments', authenticatedAdmin, adminCommentController.getComments)
+  app.get(
+    '/admin/comments',
+    authenticatedAdmin,
+    adminCommentController.getComments
+  )
   app.delete(
     '/admin/comments/:id',
-    authenticatedAdmin, adminCommentController.deleteComment)
+    authenticatedAdmin,
+    adminCommentController.deleteComment
+  )
   app.get(
     '/admin/comments/search',
-    authenticatedAdmin, adminCommentController.searchComments
+    authenticatedAdmin,
+    adminCommentController.searchComments
   )
 
   // 最後無法批配的，全部導向404畫面

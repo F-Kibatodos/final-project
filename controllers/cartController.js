@@ -52,59 +52,46 @@ const cartController = {
       default: {
         name: 'cart'
       }
-    })
-      .spread(function(cart, created) {
-        return CartItem.findOrCreate({
-          where: {
-            CartId: cart.id,
-            ProductId: req.body.productId,
-            ice: req.body.ice,
-            sugar: req.body.sugar
-          },
-          default: {
-            CartId: cart.id,
-            ProductId: req.body.productId,
-            ice: req.body.ice,
-            sugar: req.body.sugar
-          }
-        })
-          .spread(function(cartItem, created) {
-            return cartItem
-              .update({
-                quantity: cartItem.quantity
-                  ? Number(cartItem.quantity) + Number(req.body.amount) || 1
-                  : Number(req.body.amount)
+    }).spread(function(cart, created) {
+      return CartItem.findOrCreate({
+        where: {
+          CartId: cart.id,
+          ProductId: req.body.productId,
+          ice: req.body.ice,
+          sugar: req.body.sugar
+        },
+        default: {
+          CartId: cart.id,
+          ProductId: req.body.productId,
+          ice: req.body.ice,
+          sugar: req.body.sugar
+        }
+      }).spread(function(cartItem, created) {
+        return cartItem
+          .update({
+            quantity: cartItem.quantity
+              ? Number(cartItem.quantity) + Number(req.body.amount) || 1
+              : Number(req.body.amount)
+          })
+          .then(cartItem => {
+            req.session.cartId = cart.id
+            return req.session
+              .save(() => {
+                return res.redirect('back')
               })
-              .then(cartItem => {
+
+              .then(totalQuantity => {
+                totalQuantity = totalQuantity || 0
                 req.session.cartId = cart.id
+                req.session.cart_number = totalQuantity
                 return req.session.save(() => {
+                  req.flash('success_messages', '已加入購物車')
                   return res.redirect('back')
                 })
-
-                  .then(totalQuantity => {
-                    totalQuantity = totalQuantity || 0
-                    req.session.cartId = cart.id
-                    req.session.cart_number = totalQuantity
-                    return req.session.save(() => {
-                      req.flash('success_messages', '已加入購物車')
-                      return res.redirect('back')
-                    })
-                  })
-                  .catch(err => {
-                    console.log(err)
-                  })
-              })
-              .catch(err => {
-                console.log(err)
               })
           })
-          .catch(err => {
-            console.log(err)
-          })
       })
-      .catch(err => {
-        console.log(err)
-      })
+    })
   },
   addCartItem: (req, res) => {
     CartItem.findByPk(req.params.id).then(cartItem => {
@@ -182,4 +169,3 @@ const cartController = {
 }
 
 module.exports = cartController
-
