@@ -2,6 +2,27 @@ body{
   background-color: #f8f9fa;
 }
 
+nav .btn {
+  background-color: #013b4f;
+  color: #bc955c;
+  border-color: #bc955c;
+}
+nav .btn:hover {
+  background-color: #bc955c;
+  color: #013b4f;
+}
+
+nav a,
+nav span,
+.navbar-dark .navbar-brand {
+  color: #bc955c;
+}
+
+nav a:hover {
+  color: white;
+  text-decoration: none;
+}
+
 /*bootstrap 按鈕配色統一微調*/
 .btn-outline-primary, .btn-primary{
   color:rgb(45, 62, 223);
