@@ -2,9 +2,30 @@ body{
   background-color: #f8f9fa;
 }
 
+nav .btn {
+  background-color: #013b4f;
+  color: #bc955c;
+  border-color: #bc955c;
+}
+nav .btn:hover {
+  background-color: #bc955c;
+  color: #013b4f;
+}
+
+nav a,
+nav span,
+.navbar-dark .navbar-brand {
+  color: #bc955c;
+}
+
+nav a:hover {
+  color: white;
+  text-decoration: none;
+}
+
 /*bootstrap 按鈕配色統一微調*/
 .btn-outline-primary, .btn-primary{
-  color:#87CEFF;
+  color:rgb(45, 62, 223);
 }
 
 .btn-outline-secondary, .btn-secondary{
@@ -16,11 +37,11 @@ body{
 }
 
 .btn-outline-success, .btn-success{
-  color:#adff2f;
+  color:#8bcf24;
 }
 
-.btn-outline-info, .btn-info{
-  color:#d4f5fa
+.btn-outline-info{
+  color:#328b99
 }
 
 
