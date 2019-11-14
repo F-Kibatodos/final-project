@@ -76,9 +76,11 @@ const cartController = {
                   : Number(req.body.amount)
               })
               .then(cartItem => {
-                CartItem.sum('quantity', {
-                  where: { CartId: req.session.cartId || 0 }
+                req.session.cartId = cart.id
+                return req.session.save(() => {
+                  return res.redirect('back')
                 })
+
                   .then(totalQuantity => {
                     totalQuantity = totalQuantity || 0
                     req.session.cartId = cart.id
@@ -169,15 +171,9 @@ const cartController = {
               : Number(req.body.amount)
           })
           .then(cartItem => {
-            CartItem.sum('quantity', {
-              where: { CartId: req.session.cartId || 0 }
-            }).then(totalQuantity => {
-              totalQuantity = totalQuantity || 0
-              req.session.cartId = cart.id
-              req.session.cart_number = totalQuantity
-              return req.session.save(() => {
-                return res.redirect(`/cart?item=${cartItem.id}`)
-              })
+            req.session.cartId = cart.id
+            return req.session.save(() => {
+              return res.redirect(`/cart?item=${cartItem.id}`)
             })
           })
       })
@@ -186,3 +182,4 @@ const cartController = {
 }
 
 module.exports = cartController
+

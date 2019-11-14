@@ -6,6 +6,10 @@ const crypto = require("crypto")
 const Order = db.Order
 const OrderItem = db.OrderItem
 const Op = db.Sequelize.Op
+const UserCoupon = db.UserCoupon
+const User = db.User
+const Coupon = db.Coupon
+const Discount = db.Discount
 
 
 // 第三方支付所需資料
@@ -135,20 +139,27 @@ const orderController = {
     )
   },
   createOrder: (req, res) => {
-    if (!req.body.name || !req.body.phone || !req.body.address) {
-      req.flash('error_messages', '資料皆須填')
+    let { name, phone, county, district, zipcode, address, shipping_status, shipping_method, payment_status, amount, couponId } = req.body
+    if (shipping_method === '自取') {
+      county = "無"
+      district = "無"
+      zipcode = "無"
+    }
+    if (!name || !phone || !address || !county || !district || !zipcode) {
+      req.flash('error_messages', '所有欄位皆須填')
       return res.redirect('back')
     }
     return CartItem.findAll({ where: { [Op.and]: [{ wantToCheckOut: true }, { CartId: req.session.cartId }] }, include: 'Product' }).then(items => {
       return Order.create({
-        name: req.body.name,
-        address: req.body.address,
-        phone: req.body.phone,
-        shipping_status: req.body.shipping_status,
-        shipping_method: req.body.shipping_method,
-        payment_status: req.body.payment_status,
-        amount: req.body.amount,
-        UserId: req.user.id
+        name: name,
+        address: address === "無" ? address : zipcode + county + district + address,
+        phone: phone,
+        shipping_status: shipping_status,
+        shipping_method: shipping_method,
+        payment_status: payment_status,
+        amount: amount,
+        UserId: req.user.id,
+        CouponId: couponId
       }).then(order => {
         var results = [];
         for (var i = 0; i < items.length; i++) {
@@ -184,6 +195,7 @@ const orderController = {
                     order,
                     tradeInfo,
                     totalQuantity,
+                    discountPrice: req.body.discountPrice === "no-discount" ? false : req.body.discountPrice
                   }
                   )
                 })
@@ -197,9 +209,62 @@ const orderController = {
   },
   checkCoupon: (req, res) => {
     // 確認折扣券是否符合
+    return Coupon.findOne({ where: { code: req.query.coupon }, include: [Discount, { model: User, as: 'CouponUsers' }] }).then(coupon => {
+      let data = {}
+      today = Date.now()
+      if (!coupon || coupon.start_date > today || coupon.end_date < today) {
+        data.checkResult = 'invalid'
+        return res.json(data)
+      }
+      if (coupon.CouponUsers.length > 0) {
+        let couponUserIds = Array.from(coupon.CouponUsers, user => { return user.id })
+        if (couponUserIds.indexOf(req.user.id) < 0) {
+          data.checkResult = 'invalid'
+          return res.json(data)
+        }
+        else {
+          data.checkResult = 'valid'
+          data.description = coupon.Discount.description
+          data.limit = coupon.Discount.limit
+          data.figure = coupon.Discount.figure
+          return res.json(data)
+        }
+      }
+      else {
+        data.checkResult = 'valid'
+        data.description = coupon.Discount.description
+        data.limit = coupon.Discount.limit
+        data.figure = coupon.Discount.figure
+        return res.json(data)
+      }
+    })
   },
   getOrderShippingInfo: (req, res) => {
+    let couponContent
+    let discountPrice = false
+    const useCouponCode = req.query.useCoupon
+    if (useCouponCode) {
+      Coupon.findOne({ where: { code: useCouponCode }, include: [Discount, { model: User, as: 'CouponUsers' }] }).then(coupon => {
+        today = Date.now()
+        if (!coupon || coupon.start_date > today || coupon.end_date < today) {
+          couponContent = false
+        }
+        if (coupon.CouponUsers.length > 0) {
+          let couponUserIds = Array.from(coupon.CouponUsers, user => { return user.id })
+          if (couponUserIds.indexOf(req.user.id) < 0) {
+            couponContent = false
+          }
+          else {
+            couponContent = coupon.Discount
+          }
+        }
+        else {
+          couponContent = coupon.Discount
+        }
+      })
+    }
     const itemIds = Object.keys(req.query)
+    itemIds.splice(itemIds.indexOf('useCoupon'), 1)
     if (itemIds.length === 0) {
       req.flash('error_messages', '請至少選擇一項結帳商品')
       return res.redirect('/cart')
@@ -217,11 +282,23 @@ const orderController = {
         CartItem.update({
           wantToCheckOut: true
         }, { where: { [Op.and]: [{ [Op.or]: itemIdSet }, { CartId: req.session.cartId }] } }).then(() => {
+          if (couponContent) {
+            if (totalPrice >= couponContent.limit) {
+              if (couponContent.description === "% off") {
+                discountPrice = Math.round(totalPrice * (1 - (couponContent.figure / 100)))
+              }
+              else if (couponContent.description === "minus") {
+                discountPrice = totalPrice - couponContent.figure
+              }
+            }
+          }
           return res.render('order-shipping-info', {
             cartId: req.session.cartId,
             items,
             totalPrice,
             totalQuantity,
+            discountPrice,
+            coupon: couponContent,
             js: 'order-shipping-info.js',
           })
         })

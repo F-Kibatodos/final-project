@@ -1,7 +1,8 @@
 $(function () {
   function calFinalAmount() {
-    // $("input[name=shipping_method]").prop("checked", false)
-    const finalAmount = Number($("#total-price").text()) + Number($("#shipping-fee").text())
+    console.log('====discount====', $("#discount-price").text())
+
+    const finalAmount = $('#discount-price').length > 0 ? Number($("#discount-price").text()) + Number($("#shipping-fee").text()) : Number($("#total-price").text()) + Number($("#shipping-fee").text())
     console.log(finalAmount)
     $("#final-amount").text(finalAmount)
     $("input[name=amount]").val(finalAmount)
@@ -11,11 +12,13 @@ $(function () {
     console.log('abc', shippingMethod)
     if (shippingMethod === "自取") {
       $("#shipping-fee").text("0")
-      $("#address").val("無")
-      $("#address").prop('readonly', true)
+      $('.tw-city-selector').hide()
+      $("#address").val("無").prop('readonly', true)
+
     }
     if (shippingMethod === "外送") {
       $("#shipping-fee").text("60")
+      $('.tw-city-selector').show()
       $("#address").val("")
       $("#address").prop('readonly', false)
     }
