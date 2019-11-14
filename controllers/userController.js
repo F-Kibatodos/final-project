@@ -4,12 +4,19 @@ const User = db.User
 const Product = db.Product
 const WishItem = db.WishItem
 const Category = db.Category
+const { validationResult } = require('express-validator')
 
 const userController = {
   signUpPage: (req, res) => {
     return res.render('signup')
   },
   signUp: (req, res) => {
+    // confirm email 
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      req.flash('error_messages', errors.array()[0].msg)
+      return res.redirect('/signup')
+    }
     // confirm password
     if (req.body.passwordCheck !== req.body.password) {
       req.flash('error_messages', '兩次密碼輸入不同！')
@@ -44,12 +51,14 @@ const userController = {
   },
 
   signIn: (req, res) => {
+    console.log("======", req.session.originURL)
     req.flash('success_messages', '成功登入！')
-    res.redirect(req.session.originURL)
+    res.redirect(req.session.originURL ? req.session.originURL.includes('/signin') ? '/' : req.session.originURL : '/')
   },
   logout: (req, res) => {
     req.flash('success_messages', '登出成功！')
     req.logout()
+    req.session.destroy()
     res.redirect('back')
   },
   // ========使用者========
