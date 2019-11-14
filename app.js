@@ -43,10 +43,11 @@ app.use((req, res, next) => {
     quantity => {
       res.locals.cart_number = quantity || 0
       next()
-    })
+    }
+  )
 })
 
 require('./routes/authsFB')(app)
 require('./routes/authsGoogle')(app)
-require('./routes')(app, passport)
+require('./routes/')(app, passport)
 app.listen(process.env.PORT || 3000)

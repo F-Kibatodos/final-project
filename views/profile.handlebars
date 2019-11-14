@@ -1,26 +1,28 @@
-<h2 class="text-center">個人資料</h2>
-<div class="row">
-  <div class="card col-md-12">
-    <div class="card-header">
-      <span>個人資訊</span><a href="/user/{{profile.id}}/edit" class="btn btn-primary btn-sm float-right edit">編輯</a>
+<div class="container">
+  <h2 class="text-center">個人資料</h2>
+  <div class="row">
+    <div class="card col-md-12">
+      <div class="card-header">
+        <span>個人資訊</span><a href="/user/{{profile.id}}/edit" class="btn btn-primary btn-sm float-right edit">編輯</a>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">名稱: {{profile.name}}</li>
+        <li class="list-group-item">生日: {{#if profile.birthday}}{{birthday profile.birthday}} {{else}}{{/if}}</li>
+        <li class="list-group-item">E-mail: {{profile.email}}</li>
+        <li class="list-group-item">電話: {{profile.phone}}</li>
+        <li class="list-group-item">聯絡地址: {{profile.address}}</li>
+      </ul>
     </div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">名稱: {{profile.name}}</li>
-      <li class="list-group-item">生日: {{#if profile.birthday}}{{birthday profile.birthday}} {{else}}{{/if}}</li>
-      <li class="list-group-item">E-mail: {{profile.email}}</li>
-      <li class="list-group-item">電話: {{profile.phone}}</li>
-      <li class="list-group-item">聯絡地址: {{profile.address}}</li>
-    </ul>
-  </div>
-  <div class="d-flex justify-content-between col-md-12">
-    <div class="mt-3 text-center a-button">
-      <a href="/wishlist/{{profile.id}}" class="btn btn-primary link">我的願望清單</a>
+    <div class="d-flex justify-content-between col-md-12">
+      <div class="mt-3 text-center a-button">
+        <a href="/wishlist/{{profile.id}}" class="btn btn-primary link">我的願望清單</a>
+      </div>
+      <div class="mt-3 text-center a-button">
+        <a href="/orders" class="btn btn-primary link">我的訂單</a>
+      </div>
     </div>
-    <div class="mt-3 text-center a-button">
-      <a href="/orders" class="btn btn-primary link">我的訂單</a>
+    <div class="d-flex justify-content-end col-md-12">
+      <a href="/" class="btn btn-primary mt-2">上一頁</a>
     </div>
-  </div>
-  <div class="d-flex justify-content-end col-md-12">
-    <a href="/" class="btn btn-primary mt-2">上一頁</a>
   </div>
 </div>
