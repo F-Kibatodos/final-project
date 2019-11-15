@@ -31,12 +31,12 @@
           <td>
             {{this.amount}}
           </td>
-          <td>
-            {{momentOrders this.createdAt}}
+          <td class="orderDate">
+            {{this.createdAt}}
           </td>
           <td>
             <a href="/orders/{{this.id}}"><button type="button" class="btn"
-                style="background-color: #023B4F; color: white;">訂單內容</button></a>
+                style="background-color: #023B4F; color:#bc955c;">訂單內容</button></a>
           </td>
         </tr>
         {{/each}}

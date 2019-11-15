@@ -96,27 +96,28 @@
         {{/if}}
         <hr>
         <div>
-          {{#ifCond order.shipping_method '自取'}}
-          運費: 0
-          {{else}}
-          運費: 60
-          {{/ifCond}}
+          <span>
+            {{#ifCond order.shipping_method '自取'}}
+            運費: 0
+            {{else}}
+            運費: 60
+            {{/ifCond}}
+          </span>
         </div>
         <hr>
         <div>
-          總價: {{order.amount}}
+          <span>總價: {{order.amount}}</span>
         </div>
       </div>
     </nav>
   </div>
   <div class="m-1" style="text-align: right">
     <form name='Spgateway' action='{{tradeInfo.PayGateWay}}' method="POST">
-      <button type="submit" class="btn" style="background-color: #023B4F; color: white;">結帳去</button>
+      <button type="submit" class="btn" style="background-color: #023B4F; color: #bc955c;">結帳去</button>
       <input type="hidden" name="MerchantID" value="{{tradeInfo.MerchantID}}"><br>
       <input type="hidden" name="TradeInfo" value="{{tradeInfo.TradeInfo}}"><br>
       <input type="hidden" name="TradeSha" value="{{tradeInfo.TradeSha}}"><br>
       <input type="hidden" name="Version" value="{{tradeInfo.Version}}"><br>
-
     </form>
   </div>
 </div>

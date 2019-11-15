@@ -11,7 +11,7 @@ thead {
 
 button#delete {
   background-color: #023B4F; 
-  color: white; 
+  color:#bc955c; 
   font-size: small
 }
 button#wish {
@@ -21,16 +21,16 @@ button#wish {
 }
 button#unwish {
   background-color:#013b4f; 
-  color: white; 
+  color: #bc955c; 
   font-size: small
 }
 button.btn {
   background-color: #013b4f; 
-  color: white;
+  color: #bc955c;
 }
 
 button.btn:hover {
-color: #fff !important;
+color: #bc955c !important;
 text-decoration: none;
 }
 a.no-decoration{
