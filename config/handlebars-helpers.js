@@ -23,7 +23,7 @@ module.exports = {
     return moment
       .utc(time)
       .local()
-      .format('YYYY-MM-DD')
+      .format('YYYY-MM-DD, HH:mm')
   },
   birthday: function(time) {
     return moment(time).format('YYYY-MM-DD')
