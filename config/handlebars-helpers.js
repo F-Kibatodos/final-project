@@ -1,28 +1,34 @@
 const moment = require('moment')
 
 module.exports = {
-  ifCond: function (a, b, options) {
+  ifCond: function(a, b, options) {
     if (a === b) {
       return options.fn(this)
     }
     return options.inverse(this)
   },
-  ifExist: function (a, options) {
+  ifExist: function(a, options) {
     if (!a) {
       return options.fn(this)
     }
     return options.inverse(this)
   },
-  moment: function (time) {
+  moment: function(time) {
     return moment(time).format('YYYY-MM-DD, HH:mm')
   },
-  momentCoupons: function (time) {
+  momentCoupons: function(time) {
     return moment(time).format('YYYY-MM-DD')
   },
-  birthday: function (time) {
+  momentOrders: function(time) {
+    return moment
+      .utc(time)
+      .local()
+      .format('YYYY-MM-DD')
+  },
+  birthday: function(time) {
     return moment(time).format('YYYY-MM-DD')
   },
-  multiplication: function (a, b, options) {
+  multiplication: function(a, b, options) {
     return a * b
   }
 }
