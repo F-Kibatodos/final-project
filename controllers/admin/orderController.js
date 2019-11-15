@@ -65,17 +65,8 @@ const orderController = {
       order: [['sn', 'ASC']],
       where: {
         [Op.or]: [
-          {
-            '$User.name$':
-              { [Op.like]: '%' + req.query.q + '%' }
-          },
-          Sequelize.where(
-            Sequelize.cast(Sequelize.col('sn'), 'char'),
-            { [Op.like]: '%' + req.query.q + '%' }
-          )
-          /*{
-            "sn": { [Op.like]: '%' + req.query.q + '%' }
-          },*/
+          { '$User.name$': { [Op.like]: '%' + req.query.q + '%' } },
+          { 'sn': Number(req.query.q) }
         ]
       }
     }).then(orders => {
