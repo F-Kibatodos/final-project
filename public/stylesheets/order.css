@@ -2,6 +2,11 @@
   color:#d56a16
 }
 
+.table .text-truncate{
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+
 #star {
   overflow: hidden;
 }
