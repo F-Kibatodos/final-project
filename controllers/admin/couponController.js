@@ -22,6 +22,17 @@ const couponController = {
   },
   postCoupon: (req, res) => {
     let { code, description, startDate, endDate, limit, figure } = req.body
+    Coupon.findAll({ where: { code: code } }).then(coupons => {
+      const data = coupons.map(coupon => {
+        return {
+          ...coupon.dataValues
+        }
+      })
+      if (data.length > 0) {
+        req.flash('error_messages', '此代號已被使用，請再命名一個')
+        return res.redirect('back')
+      }
+    })
     if (!/^[^\s]+([^\s]+)*$/g.test(code)) {
       req.flash('error_messages', '請填入折扣碼代號')
       return res.redirect('back')
@@ -78,6 +89,17 @@ const couponController = {
   },
   putCoupon: (req, res) => {
     let { code, description, startDate, endDate, limit, figure } = req.body
+    Coupon.findAll({ where: { code: code } }).then(coupons => {
+      const data = coupons.map(coupon => {
+        return {
+          ...coupon.dataValues
+        }
+      })
+      if (data.length > 0) {
+        req.flash('error_messages', '此代號已被使用，請再命名一個')
+        return res.redirect('back')
+      }
+    })
     if (!/^[^\s]+([^\s]+)*$/g.test(code)) {
       req.flash('error_messages', '請填入折扣碼代號')
       return res.redirect('back')
