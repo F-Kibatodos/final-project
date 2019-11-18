@@ -132,9 +132,10 @@ const couponController = {
   deleteCoupon: (req, res) => {
     return Coupon.findByPk(req.params.id, { include: [Discount] })
       .then(coupon => {
+        let temp = coupon.DiscountId
         coupon.destroy()
           .then(coupon => {
-            Discount.findByPk(coupon.DiscountId).then(discount => {
+            Discount.findByPk(temp).then(discount => {
               discount.destroy()
                 .then(discount => {
                   req.flash('error_messages', '折扣券已成功刪除')
