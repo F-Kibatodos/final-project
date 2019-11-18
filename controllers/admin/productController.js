@@ -51,7 +51,7 @@ const productController = {
           CategoryId: categoryId,
           image: file ? img.data.link : null,
           rating: 0,
-          available: req.body.available
+          available: Number(req.body.available)
         })
           .then(product => {
             console.log(categoryId)
@@ -70,7 +70,7 @@ const productController = {
         CategoryId: categoryId,
         image: null,
         rating: 0,
-        available: req.body.available
+        available: Number(req.body.available)
       })
         .then(product => {
           console.log(categoryId)
@@ -129,7 +129,14 @@ const productController = {
       })
   },
   deleteProduct: (req, res) => {
-    // 刪除商品
+    return Product.findByPk(req.params.id)
+      .then(product => {
+        product.destroy()
+          .then(product => {
+            req.flash('error_messages', `${product.name} 已被刪除`)
+            res.redirect('/admin/products')
+          })
+      })
   },
   searchProducts: (req, res) => {
     Product.findAll({
