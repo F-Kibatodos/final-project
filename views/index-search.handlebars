@@ -35,7 +35,7 @@
           href="/?category=&priceRange={{price}}&sortKey={{sortKey}}&sortValue={{sortValue}}">全部</a>
         {{#each category}}
         <a class="dropdown-item"
-          href="/?category={{this.id}}&priceRange={{../price}}&sortKey={{sortKey}}&sortValue={{sortValue}}">{{this.name}}</a>
+          href="/search?search={{../search}}&category={{this.id}}&priceRange={{../price}}&sortKey={{sortKey}}&sortValue={{sortValue}}">{{this.name}}</a>
         {{/each}}
       </div>
     </div>
@@ -50,7 +50,7 @@
           href="/?category={{categoryFilter}}&priceRange=&sortKey={{sortKey}}&sortValue={{sortValue}}">全部</a>
         {{#each priceRange}}
         <a class="dropdown-item"
-          href="/?category={{../categoryFilter}}&priceRange={{this.forQuery}}&sortKey={{sortKey}}&sortValue={{sortValue}}">{{this.forOption}}</a>
+          href="/search?search={{../search}}&category={{../categoryFilter}}&priceRange={{this.forQuery}}&sortKey={{sortKey}}&sortValue={{sortValue}}">{{this.forOption}}</a>
         {{/each}}
       </div>
     </div>
@@ -63,13 +63,13 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
           <a class="dropdown-item"
-            href="/?category={{categoryFilter}}&priceRange={{price}}&sortKey=price&sortValue=DESC">價格(高到低)</a>
+            href="/?search={{search}}&category={{categoryFilter}}&priceRange={{price}}&sortKey=price&sortValue=DESC">價格(高到低)</a>
           <a class="dropdown-item"
-            href="/?category={{categoryFilter}}&priceRange={{price}}&sortKey=price&sortValue=ASC">價格(低到高)</a>
+            href="/?search={{search}}&category={{categoryFilter}}&priceRange={{price}}&sortKey=price&sortValue=ASC">價格(低到高)</a>
           <a class="dropdown-item"
-            href="/?category={{categoryFilter}}&priceRange={{price}}&sortKey=rating&sortValue=DESC">評價(高到低)</a>
+            href="/?search={{search}}&category={{categoryFilter}}&priceRange={{price}}&sortKey=rating&sortValue=DESC">評價(高到低)</a>
           <a class="dropdown-item"
-            href="/?category={{categoryFilter}}&priceRange={{price}}&sortKey=rating&sortValue=ASC">評價(低到高)</a>
+            href="/?search={{search}}&category={{categoryFilter}}&priceRange={{price}}&sortKey=rating&sortValue=ASC">評價(低到高)</a>
         </div>
       </div>
     </div>
@@ -78,7 +78,7 @@
         <form action="/search">
           <div class="input-group mt-2 ml-3 search-group">
             <input type="text" name="search" class="form-control input-search" placeholder="請輸入關鍵字" aria-label="drinks"
-              aria-describedby="search-button">
+              aria-describedby="search-button" value={{search}}>
             <div class="input-group-append">
               <button class="btn btn-outline-secondary" type="submit" id="search-button">Search</button>
             </div>
