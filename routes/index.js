@@ -72,6 +72,8 @@ module.exports = (app, passport) => {
     authenticated,
     userController.putUser
   )
+  // 搜尋商品
+  app.get('/search', productController.getSearchIndex)
   // 單一商品詳情
   app.get('/product/:id', productController.getProduct)
   // 評論
